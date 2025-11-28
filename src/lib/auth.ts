@@ -16,7 +16,6 @@ export const auth = betterAuth({
         provider: 'pg',
         schema
     }),
-    trustedOrigins: [process.env.VERCEL_URL as string],
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: true,
