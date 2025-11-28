@@ -1,0 +1,576 @@
+.mdx-preview {
+    /* 使用firecode最为代码字体. 无论使用自定义皮肤还是还是prism-themes中的皮肤,这里都可以设置为自己喜欢的代码字体 */
+    code[class*='language-'],
+    pre[class*='language-'] {
+        font-family: var(--font-family-code);
+    }
+
+    /* 代码块基本样式 */
+
+    pre {
+        overflow: auto;
+        max-height: 50rem;
+
+        /* 滚动条样式 */
+        &::-webkit-scrollbar {
+            width: 0.375rem;
+            height: 0.375rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 6px;
+            background-color: rgba(187, 172, 172, 0.651);
+        }
+
+        &::-webkit-scrollbar-track-piece {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        &::-webkit-scrollbar-corner {
+            background-color: transparent;
+        }
+
+        /* 隐藏滚动条按钮和右下角三角形 */
+        &::-webkit-scrollbar-button {
+            width: 0 !important;
+            height: 0 !important;
+            display: none !important;
+        }
+
+        &::-webkit-resizer {
+            display: none !important;
+            background: transparent !important;
+            border: none !important;
+        }
+    }
+
+    pre[class*='language-'] code {
+        padding: 0;
+        display: inline-block;
+        width: fit-content;
+    }
+
+    /* 代码行数显示样式 */
+
+    .code-highlight {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    .code-line {
+        display: block;
+        padding: 0;
+        margin: 0;
+        border: 0;
+    }
+    
+    /* 强制隐藏行号 */
+    .code-line[line]::before,
+    span.line-number::before,
+    .line-numbers-rows {
+        display: none !important;
+        content: none !important;
+    }
+
+    .code-line.inserted {
+        background-color: rgb(16 185 129 / 20%); /* Set inserted line (+) color */
+    }
+
+    .code-line.deleted {
+        background-color: rgb(239 68 68 / 20%); /* Set deleted line (-) color */
+    }
+
+    .highlight-line {
+        margin-right: -16px;
+        margin-left: -16px;
+        background-color: rgb(55 65 81 / 50%); /* Set highlight bg color */
+        border-left: 4px solid rgb(59 130 246); /* Set highlight accent border color */
+    }
+
+    /* 代码高亮 - 浅色主题 */
+    code[class*='language-'],
+    pre[class*='language-'] {
+        line-height: 1.6;
+        color: #24292f;
+        text-align: left;
+        word-spacing: normal;
+        hyphens: none;
+        word-break: normal;
+        tab-size: 2;
+        white-space: pre;
+        text-shadow: none;
+        background: #f0f2f5;
+        direction: ltr;
+        font-size: 0.875rem;
+    }
+    
+    /* 暗色模式 */
+    :is(.dark *) {
+        code[class*='language-'],
+        pre[class*='language-'] {
+            color: #e6edf3 !important;
+            background: #2d2d2d !important;
+        }
+    }
+
+    /* Selection */
+    code[class*='language-']::selection,
+    code[class*='language-'] *::selection,
+    pre[class*='language-'] *::selection {
+        color: inherit;
+        text-shadow: none;
+        background: rgba(175, 184, 193, 0.2);
+    }
+
+    /* Code blocks */
+    pre[class*='language-'] {
+        padding: 1em;
+        margin: 0.5em 0;
+        overflow: auto;
+    }
+
+    /* Inline code */
+    :not(pre) > code[class*='language-'] {
+        padding: 0.2em 0.3em;
+        white-space: normal;
+    }
+
+    /* Print */
+    @media print {
+        code[class*='language-'],
+        pre[class*='language-'] {
+            text-shadow: none;
+        }
+    }
+
+    .token.comment,
+    .token.prolog,
+    .token.cdata {
+        color: #6a737d;
+        font-style: italic;
+    }
+
+    .token.doctype,
+    .token.punctuation,
+    .token.entity {
+        color: #24292f;
+    }
+
+    .token.attr-name,
+    .token.class-name,
+    .token.boolean,
+    .token.constant,
+    .token.number,
+    .token.atrule {
+        color: #0550ae;
+    }
+
+    .token.keyword {
+        color: #cf222e;
+    }
+
+    .token.property,
+    .token.tag,
+    .token.symbol,
+    .token.deleted,
+    .token.important {
+        color: #116329;
+    }
+
+    .token.selector,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted,
+    .token.regex,
+    .token.attr-value,
+    .token.attr-value > .token.punctuation {
+        color: #0a3069;
+    }
+
+    .token.variable,
+    .token.operator,
+    .token.function {
+        color: #8250df;
+    }
+
+    .token.url {
+        color: #0969da;
+    }
+    
+    /* 暗色模式下的语法高亮 */
+    :is(.dark *) {
+        .token.comment,
+        .token.prolog,
+        .token.cdata {
+            color: #8b949e !important;
+        }
+
+        .token.doctype,
+        .token.punctuation,
+        .token.entity {
+            color: #c9d1d9 !important;
+        }
+
+        .token.attr-name,
+        .token.class-name,
+        .token.boolean,
+        .token.constant,
+        .token.number,
+        .token.atrule {
+            color: #79c0ff !important;
+        }
+
+        .token.keyword {
+            color: #ff7b72 !important;
+        }
+
+        .token.property,
+        .token.tag,
+        .token.symbol,
+        .token.deleted,
+        .token.important {
+            color: #7ee787 !important;
+        }
+
+        .token.selector,
+        .token.string,
+        .token.char,
+        .token.builtin,
+        .token.inserted,
+        .token.regex,
+        .token.attr-value,
+        .token.attr-value > .token.punctuation {
+            color: #a5d6ff !important;
+        }
+
+        .token.variable,
+        .token.operator,
+        .token.function {
+            color: #d2a8ff !important;
+        }
+
+        .token.url {
+            color: #79c0ff !important;
+        }
+    }
+
+    /* HTML overrides */
+    .token.attr-value > .token.punctuation.attr-equals,
+    .token.special-attr > .token.attr-value > .token.value.css {
+        color: #24292f;
+    }
+
+    /* CSS overrides */
+    .language-css .token.selector {
+        color: #116329;
+    }
+
+    .language-css .token.property {
+        color: #0550ae;
+    }
+
+    .language-css .token.function,
+    .language-css .token.url > .token.function {
+        color: #8250df;
+    }
+
+    .language-css .token.url > .token.string.url {
+        color: #0a3069;
+    }
+
+    .language-css .token.important,
+    .language-css .token.atrule .token.rule {
+        color: #cf222e;
+    }
+
+    /* JS/TS overrides */
+    .language-javascript .token.operator,
+    .language-typescript .token.operator {
+        color: #cf222e;
+    }
+
+    .language-javascript
+        .token.template-string
+        > .token.interpolation
+        > .token.interpolation-punctuation.punctuation,
+    .language-typescript
+        .token.template-string
+        > .token.interpolation
+        > .token.interpolation-punctuation.punctuation {
+        color: #cf222e;
+    }
+
+    /* JSON overrides */
+    .language-json .token.operator {
+        color: #24292f;
+    }
+
+    .language-json .token.null.keyword {
+        color: #0550ae;
+    }
+
+    /* MD overrides */
+    .language-markdown .token.url,
+    .language-markdown .token.url > .token.operator,
+    .language-markdown .token.url-reference.url > .token.string {
+        color: #24292f;
+    }
+
+    .language-markdown .token.url > .token.content {
+        color: #0550ae;
+    }
+
+    .language-markdown .token.url > .token.url,
+    .language-markdown .token.url-reference.url {
+        color: #0969da;
+    }
+
+    .language-markdown .token.blockquote.punctuation,
+    .language-markdown .token.hr.punctuation {
+        font-style: italic;
+        color: #6a737d;
+    }
+
+    .language-markdown .token.code-snippet {
+        color: #0a3069;
+    }
+
+    .language-markdown .token.bold .token.content {
+        color: #24292f;
+        font-weight: bold;
+    }
+
+    .language-markdown .token.italic .token.content {
+        color: #24292f;
+        font-style: italic;
+    }
+
+    .language-markdown .token.strike .token.content,
+    .language-markdown .token.strike .token.punctuation,
+    .language-markdown .token.list.punctuation,
+    .language-markdown .token.title.important > .token.punctuation {
+        color: #cf222e;
+    }
+
+    /* General */
+    .token.bold {
+        font-weight: bold;
+    }
+
+    .token.comment,
+    .token.italic {
+        font-style: italic;
+    }
+
+    .token.entity {
+        cursor: help;
+    }
+
+    .token.namespace {
+        opacity: 0.8;
+    }
+
+    /* Plugin overrides */
+
+    /* Selectors should have higher specificity than those in the plugins' default stylesheets */
+
+    /* Show Invisibles plugin overrides */
+    .token.token.tab:not(:empty)::before,
+    .token.token.cr::before,
+    .token.token.lf::before,
+    .token.token.space::before {
+        color: hsl(220deg 14% 71% / 15%);
+        text-shadow: none;
+    }
+
+    /* Toolbar plugin overrides */
+
+    /* Space out all buttons and move them away from the right edge of the code block */
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item {
+        margin-right: 0.4em;
+    }
+
+    /* Styling the buttons */
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > button,
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > a,
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > span {
+        padding: 0.1em 0.4em;
+        color: hsl(220deg 9% 55%);
+        background: hsl(220deg 13% 26%);
+        border-radius: 0.3em;
+    }
+
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > button:hover,
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > button:focus,
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > a:hover,
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > a:focus,
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:hover,
+    div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:focus {
+        color: hsl(220deg 14% 71%);
+        background: hsl(220deg 13% 28%);
+    }
+
+    /* Line Highlight plugin overrides */
+
+    /* The highlighted line itself */
+    .line-highlight.line-highlight {
+        background: rgba(175, 184, 193, 0.15);
+    }
+
+    /* Default line numbers in Line Highlight plugin */
+    .line-highlight.line-highlight::before,
+    .line-highlight.line-highlight[data-end]::after {
+        padding: 0.1em 0.6em;
+        color: #24292f;
+        background: #d0d7de;
+        border-radius: 0.3em;
+        box-shadow: 0 2px 0 0 rgb(0 0 0 / 10%);
+    }
+
+    /* Hovering over a linkable line number (in the gutter area) */
+
+    /* Requires Line Numbers plugin as well */
+    pre[id].linkable-line-numbers.linkable-line-numbers
+        span.line-numbers-rows
+        > span:hover::before {
+        background-color: hsl(220deg 100% 80% / 4%);
+    }
+
+    /* Line Numbers and Command Line plugins overrides */
+
+    /* Line separating gutter from coding area */
+    .line-numbers.line-numbers .line-numbers-rows,
+    .command-line .command-line-prompt {
+        border-right-color: hsl(220deg 14% 71% / 15%);
+    }
+
+    /* Stuff in the gutter */
+    .line-numbers .line-numbers-rows > span::before,
+    .command-line .command-line-prompt > span::before {
+        color: hsl(220deg 14% 45%);
+    }
+
+    /* Match Braces plugin overrides */
+
+    /* Note: Outline colour is inherited from the braces */
+    .rainbow-braces .token.token.punctuation.brace-level-1,
+    .rainbow-braces .token.token.punctuation.brace-level-5,
+    .rainbow-braces .token.token.punctuation.brace-level-9 {
+        color: hsl(355deg 65% 65%);
+    }
+
+    .rainbow-braces .token.token.punctuation.brace-level-2,
+    .rainbow-braces .token.token.punctuation.brace-level-6,
+    .rainbow-braces .token.token.punctuation.brace-level-10 {
+        color: hsl(95deg 38% 62%);
+    }
+
+    .rainbow-braces .token.token.punctuation.brace-level-3,
+    .rainbow-braces .token.token.punctuation.brace-level-7,
+    .rainbow-braces .token.token.punctuation.brace-level-11 {
+        color: hsl(207deg 82% 66%);
+    }
+
+    .rainbow-braces .token.token.punctuation.brace-level-4,
+    .rainbow-braces .token.token.punctuation.brace-level-8,
+    .rainbow-braces .token.token.punctuation.brace-level-12 {
+        color: hsl(286deg 60% 67%);
+    }
+
+    /* Diff Highlight plugin overrides */
+
+    /* Taken from https://github.com/atom/github/blob/master/styles/variables.less */
+    pre.diff-highlight > code .token.token.deleted:not(.prefix),
+    pre > code.diff-highlight .token.token.deleted:not(.prefix) {
+        background-color: hsl(353deg 100% 66% / 15%);
+    }
+
+    pre.diff-highlight > code .token.token.deleted:not(.prefix)::selection,
+    pre.diff-highlight > code .token.token.deleted:not(.prefix) *::selection,
+    pre > code.diff-highlight .token.token.deleted:not(.prefix)::selection,
+    pre > code.diff-highlight .token.token.deleted:not(.prefix) *::selection {
+        background-color: hsl(353deg 95% 66% / 25%);
+    }
+
+    pre.diff-highlight > code .token.token.deleted:not(.prefix)::selection,
+    pre.diff-highlight > code .token.token.deleted:not(.prefix) *::selection,
+    pre > code.diff-highlight .token.token.deleted:not(.prefix)::selection,
+    pre > code.diff-highlight .token.token.deleted:not(.prefix) *::selection {
+        background-color: hsl(353deg 95% 66% / 25%);
+    }
+
+    pre.diff-highlight > code .token.token.inserted:not(.prefix),
+    pre > code.diff-highlight .token.token.inserted:not(.prefix) {
+        background-color: hsl(137deg 100% 55% / 15%);
+    }
+
+    pre.diff-highlight > code .token.token.inserted:not(.prefix)::selection,
+    pre.diff-highlight > code .token.token.inserted:not(.prefix) *::selection,
+    pre > code.diff-highlight .token.token.inserted:not(.prefix)::selection,
+    pre > code.diff-highlight .token.token.inserted:not(.prefix) *::selection {
+        background-color: hsl(135deg 73% 55% / 25%);
+    }
+
+    pre.diff-highlight > code .token.token.inserted:not(.prefix)::selection,
+    pre.diff-highlight > code .token.token.inserted:not(.prefix) *::selection,
+    pre > code.diff-highlight .token.token.inserted:not(.prefix)::selection,
+    pre > code.diff-highlight .token.token.inserted:not(.prefix) *::selection {
+        background-color: hsl(135deg 73% 55% / 25%);
+    }
+
+    /* Previewers plugin overrides */
+
+    /* Based on https://github.com/atom-community/atom-ide-datatip/blob/master/styles/atom-ide-datatips.less and https://github.com/atom/atom/blob/master/packages/one-dark-ui */
+
+    /* Border around popup */
+    .prism-previewer.prism-previewer::before,
+    .prism-previewer-gradient.prism-previewer-gradient div {
+        border-color: hsl(224deg 13% 17%);
+    }
+
+    /* Angle and time should remain as circles and are hence not included */
+    .prism-previewer-color.prism-previewer-color::before,
+    .prism-previewer-gradient.prism-previewer-gradient div,
+    .prism-previewer-easing.prism-previewer-easing::before {
+        border-radius: 0.3em;
+    }
+
+    /* Triangles pointing to the code */
+    .prism-previewer.prism-previewer::after {
+        border-top-color: hsl(224deg 13% 17%);
+    }
+
+    .prism-previewer-flipped.prism-previewer-flipped.after {
+        border-bottom-color: hsl(224deg 13% 17%);
+    }
+
+    /* Background colour within the popup */
+    .prism-previewer-angle.prism-previewer-angle::before,
+    .prism-previewer-time.prism-previewer-time::before,
+    .prism-previewer-easing.prism-previewer-easing {
+        background: hsl(219deg 13% 22%);
+    }
+
+    /* For angle, this is the positive area (eg. 90deg will display one quadrant in this colour) */
+
+    /* For time, this is the alternate colour */
+    .prism-previewer-angle.prism-previewer-angle circle,
+    .prism-previewer-time.prism-previewer-time circle {
+        stroke: hsl(220deg 14% 71%);
+        stroke-opacity: 1;
+    }
+
+    /* Stroke colours of the handle, direction point, and vector itself */
+    .prism-previewer-easing.prism-previewer-easing circle,
+    .prism-previewer-easing.prism-previewer-easing path,
+    .prism-previewer-easing.prism-previewer-easing line {
+        stroke: hsl(220deg 14% 71%);
+    }
+
+    /* Fill colour of the handle */
+    .prism-previewer-easing.prism-previewer-easing circle {
+        fill: transparent;
+    }
+}

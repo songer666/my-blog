@@ -1,0 +1,23 @@
+/* Global styles for MDX editor */
+@reference "#tailwind.css";
+
+.wmde-markdown-var.w-md-editor {
+    @apply flex-auto w-full;
+}
+
+.wmde-markdown-var:has(.w-md-editor-text-input:disabled) {
+    @apply pointer-events-none cursor-not-allowed;
+}
+
+.wmde-markdown-var:has(.w-md-editor-text-input:disabled)::before {
+    @apply content-[''] absolute inset-0 z-[99] pointer-events-none rounded-[3px] bg-zinc-300/50 backdrop-blur-[2px];
+}
+
+.wmde-markdown-var:has(.w-md-editor-text-input:disabled) .w-md-editor-content > .w-md-editor-area,
+.wmde-markdown-var:has(.w-md-editor-text-input:disabled) .w-md-editor-content > .w-md-editor-preview {
+    @apply overflow-hidden;
+}
+
+html[class='dark'] .wmde-markdown-var:has(.w-md-editor-text-input:disabled)::before {
+    @apply bg-zinc-900/50;
+}

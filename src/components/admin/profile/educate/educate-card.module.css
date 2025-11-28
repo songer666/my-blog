@@ -1,0 +1,171 @@
+@reference '#tailwind.css';
+
+/* ===== 卡片容器 ===== */
+.card {
+  @apply transition-all duration-200;
+  @apply hover:shadow-md;
+}
+
+/* ===== 头部区域 ===== */
+.header {
+  @apply pb-4;
+}
+
+.title {
+  @apply flex items-center gap-2;
+  @apply text-foreground font-semibold;
+}
+
+.titleIcon {
+  @apply size-5 text-primary;
+}
+
+/* ===== 内容区域 ===== */
+.content {
+  @apply pt-0;
+}
+
+.educationList {
+  @apply space-y-6;
+}
+
+/* ===== 教育项目 ===== */
+.educationItem {
+  @apply flex items-start gap-4;
+  @apply transition-all duration-200;
+  @apply hover:translate-x-1;
+}
+
+/* ===== 学校logo ===== */
+.schoolLogo {
+  @apply size-12 rounded-lg object-cover flex-shrink-0;
+  @apply ring-2 ring-border/20;
+  @apply transition-all duration-200;
+  @apply hover:ring-primary/30 hover:scale-105;
+}
+
+/* ===== 教育信息 ===== */
+.educationInfo {
+  @apply flex-1 flex items-start justify-between;
+  @apply min-w-0;
+}
+
+.schoolInfo {
+  @apply flex-1 min-w-0;
+}
+
+.schoolName {
+  @apply font-semibold text-foreground;
+  @apply text-base lg:text-lg;
+  @apply truncate;
+}
+
+.degreeInfo {
+  @apply text-muted-foreground;
+  @apply text-sm lg:text-base;
+  @apply mt-1;
+  @apply truncate;
+}
+
+/* ===== 时间信息 ===== */
+.timeInfo {
+  @apply flex items-center gap-1;
+  @apply text-sm text-muted-foreground;
+  @apply flex-shrink-0;
+  @apply ml-4;
+}
+
+.timeIcon {
+  @apply size-4 flex-shrink-0;
+}
+
+.timeText {
+  @apply whitespace-nowrap;
+}
+
+/* ===== 分隔线 ===== */
+.separator {
+  @apply my-6;
+  @apply transition-opacity duration-200;
+  @apply hover:opacity-60;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 768px) {
+  .educationItem {
+    @apply gap-3;
+  }
+  
+  .schoolLogo {
+    @apply size-10;
+  }
+  
+  .educationInfo {
+    @apply flex-col gap-2;
+  }
+  
+  .timeInfo {
+    @apply ml-0;
+    @apply self-start;
+  }
+  
+  .schoolName {
+    @apply text-base;
+  }
+  
+  .degreeInfo {
+    @apply text-sm;
+  }
+}
+
+@media (max-width: 640px) {
+  .educationList {
+    @apply space-y-4;
+  }
+  
+  .separator {
+    @apply my-4;
+  }
+  
+  .timeInfo {
+    @apply text-xs;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .educationItem:hover .schoolLogo {
+    @apply shadow-lg;
+  }
+  
+  .educationItem:hover .schoolName {
+    @apply text-primary;
+  }
+}
+
+/* ===== 空状态样式 ===== */
+.emptyState {
+  @apply flex flex-col items-center justify-center;
+  @apply py-12 text-center;
+}
+
+.emptyIcon {
+  @apply size-12 text-muted-foreground/50;
+  @apply mb-4;
+}
+
+.emptyText {
+  @apply text-lg font-medium text-muted-foreground;
+  @apply mb-2;
+}
+
+.emptySubtext {
+  @apply text-sm text-muted-foreground/80;
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .schoolLogo {
+    @apply ring-border/10;
+  }
+}

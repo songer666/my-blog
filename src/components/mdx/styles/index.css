@@ -1,0 +1,315 @@
+@import './rehype-prism.css';
+@import './rehype-code-window.css';
+
+.mdx-preview {
+    /* 链接样式 */
+    a {
+        color: #374151;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-color: #9ca3af;
+        transition: color 0.2s ease;
+    }
+
+    a:hover {
+        color: #6b7280;
+    }
+
+    /* 内联代码样式 */
+    code:not([class*='language-']) {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        padding-left: 0.375rem;
+        padding-right: 0.375rem;
+        padding-top: 0.125rem;
+        padding-bottom: 0.125rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+        border: 1px solid #e5e7eb;
+        font-size: 0.875em;
+    }
+
+    /* 引用块样式 */
+    blockquote {
+        padding-left: 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid #9ca3af;
+        background-color: #f9fafb;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        padding-right: 1rem;
+        border-top-right-radius: 0.375rem;
+        border-bottom-right-radius: 0.375rem;
+        color: #374151;
+        font-style: italic;
+    }
+
+    /* 标题样式优化 */
+    h1 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: #111827;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        margin-top: 2rem;
+        color: #111827;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        color: #1f2937;
+    }
+
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+        color: #1f2937;
+    }
+
+    h5 {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+        color: #374151;
+    }
+
+    h6 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+        margin-top: 0.75rem;
+        color: #374151;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        scroll-margin-top: 5rem;
+        transition: color 0.2s ease;
+        position: relative;
+        display: inline-block;
+        cursor: default;
+
+        &:hover::after {
+            content: "";
+            display: inline-block;
+            width: 0.75em;
+            height: 0.75em;
+            margin-left: 0.4rem;
+            background: no-repeat center / contain
+            url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' \
+stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
+<path d='M10 13a5 5 0 0 0 7.07 0l1.88-1.88a5 5 0 0 0-7.07-7.07L10 5'/>\
+<path d='M14 11a5 5 0 0 0-7.07 0L5.05 12.9a5 5 0 1 0 7.07 7.07L14 19'/>\
+</svg>");
+            opacity: 0.8;
+            cursor: pointer;
+        }
+        
+        &:hover {
+            color: #4b5563;
+            cursor: pointer;
+        }
+    }
+    
+    /* 暗色模式下的链接图标颜色 */
+    @media (prefers-color-scheme: dark) {
+        h1:hover::after,
+        h2:hover::after,
+        h3:hover::after,
+        h4:hover::after,
+        h5:hover::after,
+        h6:hover::after {
+            background: no-repeat center / contain
+            url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' \
+stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
+<path d='M10 13a5 5 0 0 0 7.07 0l1.88-1.88a5 5 0 0 0-7.07-7.07L10 5'/>\
+<path d='M14 11a5 5 0 0 0-7.07 0L5.05 12.9a5 5 0 1 0 7.07 7.07L14 19'/>\
+</svg>");
+        }
+    }
+    
+    /* 使用.dark类的暗色模式 */
+    :where(.dark) {
+        h1:hover::after,
+        h2:hover::after,
+        h3:hover::after,
+        h4:hover::after,
+        h5:hover::after,
+        h6:hover::after {
+            background: no-repeat center / contain
+            url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' \
+stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
+<path d='M10 13a5 5 0 0 0 7.07 0l1.88-1.88a5 5 0 0 0-7.07-7.07L10 5'/>\
+<path d='M14 11a5 5 0 0 0-7.07 0L5.05 12.9a5 5 0 1 0 7.07 7.07L14 19'/>\
+</svg>");
+        }
+
+        & > a {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+
+    /* 段落间距优化 */
+    p {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        color: #374151;
+        line-height: 1.75;
+    }
+
+    /* 列表样式优化 */
+    ul,
+    ol {
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    ul li,
+    ol li {
+        margin-bottom: 0.375rem;
+    }
+
+    li {
+        color: #374151;
+        line-height: 1.75;
+    }
+
+    /* 表格样式 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    th {
+        background-color: #f3f4f6;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        text-align: left;
+        font-weight: 600;
+        color: #111827;
+        border-bottom: 2px solid #d1d5db;
+        font-size: 0.875rem;
+    }
+
+    td {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
+        color: #374151;
+        font-size: 0.875rem;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+    
+    tbody tr:hover {
+        background-color: rgba(249, 250, 251, 0.5);
+    }
+}
+
+/* Dark mode styles */
+.dark .mdx-preview a {
+    color: #d1d5db;
+    text-decoration-color: #6b7280;
+}
+
+.dark .mdx-preview a:hover {
+    color: #9ca3af;
+}
+
+.dark .mdx-preview code:not([class*='language-']) {
+    background-color: #1f2937;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+
+.dark .mdx-preview blockquote {
+    border-left-color: #6b7280;
+    background-color: rgba(31, 41, 55, 0.5);
+    color: #d1d5db;
+}
+
+.dark .mdx-preview h1,
+.dark .mdx-preview h2 {
+    color: #f9fafb;
+}
+
+.dark .mdx-preview h3,
+.dark .mdx-preview h4 {
+    color: #e5e7eb;
+}
+
+.dark .mdx-preview h5,
+.dark .mdx-preview h6 {
+    color: #d1d5db;
+}
+
+.dark .mdx-preview h1:hover,
+.dark .mdx-preview h2:hover,
+.dark .mdx-preview h3:hover,
+.dark .mdx-preview h4:hover,
+.dark .mdx-preview h5:hover,
+.dark .mdx-preview h6:hover {
+    color: #9ca3af;
+}
+
+.dark .mdx-preview p {
+    color: #d1d5db;
+}
+
+.dark .mdx-preview li {
+    color: #d1d5db;
+}
+
+.dark .mdx-preview table {
+    border-color: #374151;
+}
+
+.dark .mdx-preview th {
+    background-color: #1f2937;
+    color: #f9fafb;
+    border-bottom-color: #4b5563;
+}
+
+.dark .mdx-preview td {
+    border-bottom-color: #374151;
+    color: #d1d5db;
+}
+
+.dark .mdx-preview tbody tr:hover {
+    background-color: rgba(31, 41, 55, 0.5);
+}

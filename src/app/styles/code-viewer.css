@@ -1,0 +1,47 @@
+/* —— 代码查看器样式：溢出滚动模式（默认） —— */
+.code-viewer-overflow pre {
+  padding: 0.75rem !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.code-viewer-overflow code {
+  white-space: pre !important;
+}
+
+@media (min-width: 640px) {
+  .code-viewer-overflow pre {
+    padding: 1rem !important;
+  }
+}
+
+/* —— 代码查看器样式：自动换行模式 —— */
+.code-viewer-wrap pre {
+  padding: 0.75rem !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.code-viewer-wrap code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+@media (min-width: 640px) {
+  .code-viewer-wrap pre {
+    padding: 1rem !important;
+  }
+}
+
+/* —— Shiki 双主题支持 —— */
+/* 只设置背景为容器背景色，不干扰代码颜色 */
+.code-viewer-overflow pre,
+.code-viewer-wrap pre {
+  background-color: hsl(var(--background)) !important;
+}

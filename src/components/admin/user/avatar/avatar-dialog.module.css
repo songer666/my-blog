@@ -1,0 +1,142 @@
+@reference '#tailwind.css';
+
+/* ===== 触发按钮 ===== */
+.avatarTrigger {
+  @apply relative cursor-pointer;
+  @apply hover:opacity-80 transition-opacity duration-200;
+}
+
+.avatarContainer {
+  @apply relative;
+}
+
+.avatar {
+  @apply w-10 h-10 rounded-full;
+  @apply border-2 border-border;
+  @apply transition-all duration-200;
+}
+
+.avatarFallback {
+  @apply bg-muted text-muted-foreground;
+  @apply flex items-center justify-center;
+  @apply text-sm font-medium;
+}
+
+.uploadOverlay {
+  @apply absolute inset-0 rounded-full;
+  @apply bg-black/50 opacity-0 hover:opacity-100;
+  @apply flex items-center justify-center;
+  @apply transition-opacity duration-200;
+}
+
+.uploadIcon {
+  @apply w-5 h-5 text-white;
+}
+
+/* ===== 对话框样式 ===== */
+.dialogContent {
+  @apply max-w-md;
+}
+
+.dialogHeader {
+  @apply text-center;
+}
+
+.dialogTitle {
+  @apply flex items-center justify-center gap-2 text-lg font-semibold;
+}
+
+.titleIcon {
+  @apply w-5 h-5 text-blue-600;
+}
+
+.dialogBody {
+  @apply space-y-6;
+}
+
+/* ===== 用户信息 ===== */
+.userInfo {
+  @apply bg-muted/50 p-3 rounded-md border;
+}
+
+.userInfoLabel {
+  @apply text-xs font-medium text-muted-foreground uppercase tracking-wide;
+}
+
+.userInfoValue {
+  @apply text-sm font-medium text-foreground mt-1;
+}
+
+/* ===== 头像上传区域 ===== */
+.avatarUploadSection {
+  @apply flex flex-col items-center gap-4;
+}
+
+.previewAvatar {
+  @apply w-24 h-24 rounded-full;
+  @apply border-2 border-border;
+}
+
+.previewFallback {
+  @apply bg-muted text-muted-foreground;
+  @apply flex items-center justify-center;
+  @apply text-2xl font-medium;
+}
+
+.uploadButton {
+  @apply flex items-center gap-2;
+}
+
+.uploadButtonIcon {
+  @apply w-4 h-4;
+}
+
+.fileInput {
+  @apply hidden;
+}
+
+.uploadTip {
+  @apply text-xs text-muted-foreground text-center;
+  @apply max-w-xs;
+}
+
+/* ===== 按钮组 ===== */
+.buttonGroup {
+  @apply flex items-center justify-end gap-3 pt-4;
+}
+
+.cancelButton {
+  @apply min-w-20;
+}
+
+.submitButton {
+  @apply min-w-24;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.spinner {
+  @apply w-4 h-4;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .dialogContent {
+    @apply max-w-[calc(100vw-2rem)];
+  }
+  
+  .buttonGroup {
+    @apply flex-col gap-2 w-full;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    @apply w-full;
+  }
+  
+  .previewAvatar {
+    @apply w-20 h-20;
+  }
+}

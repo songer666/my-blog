@@ -1,0 +1,41 @@
+@reference '#tailwind.css';
+
+.container {
+  @apply p-6;
+}
+
+.header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.titleSection {
+  @apply flex-1;
+}
+
+.title {
+  @apply text-3xl font-bold tracking-tight;
+}
+
+.subtitle {
+  @apply text-muted-foreground mt-2;
+}
+
+.statsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6;
+}
+
+.statCard {
+  @apply hover:shadow-md transition-shadow;
+}
+
+.statHeader {
+  @apply pb-2;
+}
+
+.statTitle {
+  @apply text-sm font-medium text-muted-foreground;
+}
+
+.statValue {
+  @apply text-2xl font-bold;
+}

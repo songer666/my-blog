@@ -1,0 +1,49 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply flex flex-col gap-6 w-full mx-auto;
+  @apply animate-in fade-in slide-in-from-bottom-4 duration-500;
+  @apply px-4;
+}
+
+/* ===== 页面头部 ===== */
+.header {
+  @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
+  @apply pb-4 border-b border-border;
+}
+
+.headerLeft {
+  @apply flex items-center gap-3;
+}
+
+.headerRight {
+  @apply flex items-center gap-3;
+}
+
+/* ===== 内容卡片 ===== */
+.contentCard {
+  @apply bg-card text-card-foreground;
+  @apply border border-border;
+  @apply shadow-sm;
+}
+
+.contentWrapper {
+  @apply p-0;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 768px) {
+  .container {
+    @apply px-2;
+  }
+  
+  .header {
+    @apply gap-3;
+  }
+  
+  .headerRight {
+    @apply flex-col w-full;
+  }
+}
+

@@ -1,0 +1,232 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply flex flex-col gap-6 w-full;
+  @apply animate-in fade-in slide-in-from-bottom-4 duration-500;
+}
+
+/* ===== 页面头部 ===== */
+.header {
+  @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
+  @apply pb-4 border-b border-border;
+}
+
+.titleSection {
+  @apply flex flex-col gap-1;
+}
+
+.title {
+  @apply text-2xl lg:text-3xl font-bold;
+  @apply text-foreground;
+}
+
+.subtitle {
+  @apply text-muted-foreground text-sm lg:text-base;
+}
+
+/* ===== 统计卡片 ===== */
+.statsGrid {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+}
+
+.statCard {
+  @apply bg-card text-card-foreground;
+  @apply border border-border;
+  @apply shadow-sm;
+  @apply transition-all duration-200;
+  @apply hover:shadow-md;
+}
+
+.statHeader {
+  @apply pb-2;
+}
+
+.statTitle {
+  @apply text-sm font-medium text-muted-foreground;
+}
+
+.statValue {
+  @apply text-2xl font-bold text-foreground;
+}
+
+.statValue.unread {
+  @apply text-orange-600 dark:text-orange-400;
+}
+
+.statValue.read {
+  @apply text-green-600 dark:text-green-400;
+}
+
+/* ===== Tabs 容器 ===== */
+.tabsContainer {
+  @apply w-full;
+}
+
+.tabsList {
+  @apply mb-4;
+}
+
+/* ===== 表格卡片 ===== */
+.tableCard {
+  @apply bg-card text-card-foreground;
+  @apply border border-border;
+  @apply shadow-sm;
+}
+
+.tableHeader {
+  @apply pb-3;
+}
+
+.tableTitle {
+  @apply text-lg font-semibold;
+  @apply text-foreground;
+}
+
+.tableContent {
+  @apply p-0;
+}
+
+.tableWrapper {
+  @apply overflow-x-auto;
+  @apply border border-border rounded-md;
+}
+
+/* ===== 表格样式 ===== */
+.headerRow {
+  @apply bg-muted/50;
+  @apply hover:bg-muted/50;
+}
+
+.headerCell {
+  @apply font-semibold text-foreground;
+  @apply px-4 py-3;
+  @apply text-left;
+  @apply whitespace-nowrap;
+}
+
+.actionsHeader {
+  @apply font-semibold text-foreground;
+  @apply px-4 py-3;
+  @apply text-center;
+  @apply whitespace-nowrap;
+}
+
+.dataRow {
+  @apply hover:bg-muted/30;
+  @apply transition-colors duration-150;
+}
+
+.dataCell {
+  @apply px-4 py-3;
+  @apply text-sm;
+  @apply border-b border-border;
+}
+
+/* ===== 消息信息样式 ===== */
+.messageId {
+  @apply font-mono text-xs;
+  @apply text-muted-foreground;
+  @apply bg-muted px-2 py-1 rounded;
+}
+
+.messageName {
+  @apply font-medium text-foreground;
+}
+
+.messageEmail {
+  @apply text-muted-foreground text-xs;
+  @apply break-all;
+}
+
+.messageContent {
+  @apply text-foreground;
+  @apply max-w-xs truncate;
+  @apply cursor-help;
+}
+
+.ipText {
+  @apply text-muted-foreground text-xs;
+  @apply font-mono;
+}
+
+.uaText {
+  @apply text-muted-foreground text-xs;
+  @apply max-w-xs break-words whitespace-normal;
+  @apply leading-relaxed;
+}
+
+.dateText {
+  @apply text-muted-foreground text-xs;
+  @apply whitespace-nowrap;
+}
+
+/* ===== 操作按钮 ===== */
+.actionsCell {
+  @apply px-4 py-3;
+  @apply border-b border-border;
+}
+
+.actionButtons {
+  @apply flex items-center justify-center gap-1;
+}
+
+/* ===== 空状态 ===== */
+.emptyCell {
+  @apply text-center py-12;
+}
+
+.emptyState {
+  @apply flex flex-col items-center gap-3;
+}
+
+.emptyIcon {
+  @apply w-12 h-12 text-muted-foreground/50;
+}
+
+.emptyText {
+  @apply text-lg font-medium text-muted-foreground;
+}
+
+.emptySubtext {
+  @apply text-sm text-muted-foreground/70;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .header {
+    @apply gap-3;
+  }
+  
+  .title {
+    @apply text-xl;
+  }
+  
+  .statsGrid {
+    @apply grid-cols-1;
+  }
+  
+  .headerCell,
+  .dataCell,
+  .actionsCell {
+    @apply px-2 py-2;
+  }
+  
+  .messageContent {
+    @apply max-w-[150px];
+  }
+  
+  .uaText {
+    @apply max-w-[150px];
+  }
+}
+
+@media (max-width: 768px) {
+  .tableWrapper {
+    @apply text-xs;
+  }
+  
+  .messageId {
+    @apply text-xs px-1 py-0.5;
+  }
+}

@@ -1,0 +1,9 @@
+@reference '#tailwind.css';
+
+.container {
+    @apply bg-muted flex min-h-svh flex-col items-center justify-center;
+}
+
+.item {
+    @apply w-full;
+}

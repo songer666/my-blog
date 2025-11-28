@@ -1,0 +1,127 @@
+@reference '#tailwind.css';
+
+/* ===== 卡片容器 ===== */
+.card {
+  @apply transition-all duration-200;
+  @apply hover:shadow-md;
+}
+
+/* ===== 头部区域 ===== */
+.header {
+  @apply pb-4;
+}
+
+.title {
+  @apply text-lg font-semibold flex items-center gap-2;
+  @apply text-foreground;
+}
+
+.titleIcon {
+  @apply size-5 text-primary;
+}
+
+/* ===== 内容区域 ===== */
+.content {
+  @apply pt-0;
+}
+
+.linksContainer {
+  @apply space-y-0;
+}
+
+/* ===== 链接项目 ===== */
+.linkItem {
+  @apply flex items-center justify-between p-4;
+  @apply hover:bg-muted/50 transition-colors duration-200;
+}
+
+.linkMain {
+  @apply flex items-center gap-3 flex-1 min-w-0;
+}
+
+.linkIconWrapper {
+  @apply flex-shrink-0;
+}
+
+.linkIcon {
+  @apply size-10;
+}
+
+/* ===== 链接信息 ===== */
+.linkInfo {
+  @apply flex-1 min-w-0;
+}
+
+.linkHeader {
+  @apply flex items-center justify-between gap-2;
+}
+
+.linkPlatform {
+  @apply font-medium text-foreground;
+  @apply truncate;
+}
+
+.linkUrl {
+  @apply text-muted-foreground hover:text-primary;
+  @apply transition-colors duration-200;
+  @apply flex-shrink-0;
+}
+
+.linkDescription {
+  @apply text-sm text-muted-foreground mt-1;
+  @apply truncate;
+}
+
+/* ===== 操作按钮 ===== */
+.linkActions {
+  @apply flex items-center gap-1 ml-2;
+  @apply opacity-0 group-hover:opacity-100 transition-opacity duration-200;
+}
+
+.linkItem:hover .linkActions {
+  @apply opacity-100;
+}
+
+/* ===== 分隔线 ===== */
+.separator {
+  @apply my-0;
+}
+
+/* ===== 空状态 ===== */
+.emptyState {
+  @apply flex flex-col items-center justify-center py-12 text-center;
+}
+
+.emptyIcon {
+  @apply size-12 text-muted-foreground/50 mb-4;
+}
+
+.emptyText {
+  @apply text-lg font-medium text-muted-foreground mb-2;
+}
+
+.emptySubtext {
+  @apply text-sm text-muted-foreground/80 max-w-sm;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 640px) {
+  .linkItem {
+    @apply p-3;
+  }
+  
+  .linkIcon {
+    @apply size-6 text-xs;
+  }
+  
+  .linkActions {
+    @apply opacity-100;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .linkIcon {
+    @apply hover:scale-110;
+  }
+}

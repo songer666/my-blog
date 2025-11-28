@@ -1,0 +1,43 @@
+/* —— Plyr 视频播放器样式定制 —— */
+.plyr {
+  --plyr-color-main: hsl(var(--primary));
+  --plyr-video-background: #000;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.plyr__control--overlaid {
+  background: hsla(var(--primary) / 0.9);
+}
+
+.plyr__control--overlaid:hover,
+.plyr__control--overlaid:focus {
+  background: hsl(var(--primary));
+}
+
+.plyr__control:hover,
+.plyr__control[aria-expanded="true"] {
+  background: hsla(var(--primary) / 0.2);
+}
+
+.plyr__menu__container {
+  background: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+}
+
+.plyr__menu__container [role="menuitemradio"][aria-checked="true"]::before {
+  background: hsl(var(--primary));
+}
+
+/* 暗色模式适配 */
+.dark .plyr {
+  --plyr-video-control-background-hover: hsla(var(--primary) / 0.3);
+  --plyr-video-control-color: hsl(var(--foreground));
+  --plyr-video-control-color-hover: hsl(var(--primary-foreground));
+}
+
+.dark .plyr__controls {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}

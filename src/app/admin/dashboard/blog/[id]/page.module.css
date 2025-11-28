@@ -1,0 +1,164 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply mx-auto py-6 w-full;
+}
+
+/* ===== 顶部按钮栏 ===== */
+.buttonBar {
+  @apply flex justify-between items-center mb-6;
+}
+
+.backButton {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.editButton {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.buttonIcon {
+  @apply w-4 h-4;
+}
+
+/* ===== 文章头部卡片 ===== */
+.headerCard {
+  @apply bg-card rounded-lg border p-6 mb-6;
+}
+
+.headerContent {
+  @apply flex flex-col lg:flex-row gap-6;
+}
+
+/* ===== 左侧内容区域 ===== */
+.contentArea {
+  @apply flex-1;
+}
+
+.title {
+  @apply text-3xl font-bold mb-4;
+}
+
+.urlSection {
+  @apply flex items-center gap-1 text-muted-foreground mb-4;
+}
+
+.urlIcon {
+  @apply w-4 h-4;
+}
+
+.metaInfo {
+  @apply flex flex-col gap-2 text-muted-foreground mb-4;
+}
+
+.metaItem {
+  @apply flex items-center gap-1;
+}
+
+.metaIcon {
+  @apply w-4 h-4;
+}
+
+.statusBadge {
+  @apply flex items-center gap-1 w-fit;
+}
+
+.statusIcon {
+  @apply w-3 h-3;
+}
+
+.description {
+  @apply text-muted-foreground mb-4;
+}
+
+.tagsSection {
+  @apply flex items-center gap-2 mb-4;
+}
+
+.tagsIcon {
+  @apply w-4 h-4 text-muted-foreground;
+}
+
+.tagsList {
+  @apply flex flex-wrap gap-1;
+}
+
+.tagBadge {
+  @apply text-xs;
+}
+
+.keywords {
+  @apply text-muted-foreground;
+}
+
+.keywordsLabel {
+  @apply font-medium;
+}
+
+/* ===== 右侧图片区域 ===== */
+.imageArea {
+  @apply lg:flex-shrink-0;
+}
+
+.coverImage {
+  @apply h-48 lg:h-full object-cover rounded-lg border;
+}
+
+/* ===== 文章内容卡片 ===== */
+.contentCard {
+  @apply bg-card rounded-lg border p-6;
+}
+
+.articleContent {
+  @apply max-w-none;
+  @apply text-gray-700 dark:text-gray-300;
+  @apply leading-relaxed;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 1024px) {
+  .headerContent {
+    @apply flex-col;
+  }
+  
+  .imageArea {
+    @apply w-full;
+  }
+  
+  .coverImage {
+    @apply h-48;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    @apply px-4;
+  }
+  
+  .buttonBar {
+    @apply flex-col gap-3 items-stretch;
+  }
+  
+  .title {
+    @apply text-2xl;
+  }
+  
+  .metaInfo {
+    @apply gap-1;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    @apply text-xl;
+  }
+  
+  .headerCard {
+    @apply p-4;
+  }
+  
+  .contentCard {
+    @apply p-4;
+  }
+}

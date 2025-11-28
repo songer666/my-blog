@@ -1,0 +1,1 @@
+ALTER TABLE "post" ADD COLUMN "visible" boolean DEFAULT false NOT NULL;

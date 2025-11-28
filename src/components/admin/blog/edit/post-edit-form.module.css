@@ -1,0 +1,277 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply w-full max-w-7xl mx-auto;
+  @apply space-y-6;
+}
+
+/* ===== 表单样式 ===== */
+.form {
+  @apply space-y-6;
+}
+
+.fieldGroup {
+  @apply space-y-6;
+}
+
+/* ===== 字段样式 ===== */
+.field {
+  @apply space-y-2;
+}
+
+.fieldLabel {
+  @apply text-sm font-medium;
+  @apply text-gray-900 dark:text-gray-100;
+}
+
+.fieldInput {
+  @apply w-full;
+  @apply px-3 py-2;
+  @apply border border-gray-300 rounded-md;
+  @apply bg-white text-gray-900;
+  @apply placeholder:text-gray-500;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply transition-colors duration-200;
+  @apply dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-400;
+}
+
+.textarea {
+  @apply w-full;
+  @apply px-3 py-2;
+  @apply border border-gray-300 rounded-md;
+  @apply bg-white text-gray-900;
+  @apply placeholder:text-gray-500;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply transition-colors duration-200;
+  @apply dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-400;
+  resize: vertical;
+}
+
+.contentTextarea {
+  @apply w-full;
+  @apply px-3 py-2;
+  @apply border border-gray-300 rounded-md;
+  @apply bg-white text-gray-900;
+  @apply placeholder:text-gray-500;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply transition-colors duration-200;
+  @apply dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-400;
+  @apply font-mono text-sm;
+  resize: vertical;
+}
+
+.textareaFooter {
+  @apply flex justify-between items-center;
+  @apply mt-1;
+}
+
+.charCount {
+  @apply text-xs text-gray-500;
+}
+
+.fieldError {
+  @apply text-sm text-red-600;
+}
+
+.fieldHint {
+  @apply text-xs text-gray-500;
+  @apply mt-1;
+}
+
+/* ===== Slug 字段样式 ===== */
+.slugInputGroup {
+  @apply flex gap-2;
+}
+
+.slugInputWrapper {
+  @apply flex-1 relative;
+}
+
+.slugStatus {
+  @apply absolute right-3 top-1/2 -translate-y-1/2;
+  @apply flex items-center gap-2;
+}
+
+.slugStatusText {
+  @apply text-xs font-medium;
+}
+
+.statusAvailable {
+  @apply text-green-600;
+}
+
+.statusTaken {
+  @apply text-red-600;
+}
+
+.generateButton {
+  @apply flex items-center gap-2;
+  @apply min-w-[80px];
+  @apply border-gray-300;
+  @apply hover:bg-gray-50 hover:text-gray-900;
+  @apply dark:border-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-100;
+}
+
+.errorHint {
+  @apply text-red-600 font-medium;
+}
+
+/* ===== 标签选择样式 ===== */
+.tagsContainer {
+  @apply border border-gray-300 rounded-md;
+  @apply bg-white;
+  @apply p-4;
+  @apply dark:border-gray-600 dark:bg-gray-800;
+}
+
+.tagsLoading {
+  @apply flex items-center justify-center gap-2;
+  @apply py-8;
+  @apply text-gray-500;
+}
+
+.tagsList {
+  @apply flex flex-wrap gap-2;
+}
+
+.tagButton {
+  @apply flex items-center gap-2;
+  @apply px-3 py-2;
+  @apply border rounded-md;
+  @apply text-sm font-medium;
+  @apply transition-all duration-200;
+  @apply hover:scale-105;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.tagButtonSelected {
+  @apply bg-blue-600 text-white;
+  @apply border-blue-600;
+  @apply shadow-sm;
+}
+
+.tagButtonUnselected {
+  @apply bg-white text-gray-900;
+  @apply border-gray-300;
+  @apply hover:bg-gray-50 hover:text-gray-900;
+  @apply dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700;
+}
+
+.tagIcon {
+  @apply w-4 h-4;
+}
+
+.tagRemoveIcon {
+  @apply w-3 h-3;
+  @apply opacity-70;
+}
+
+.noTags {
+  @apply flex flex-col items-center justify-center;
+  @apply py-8;
+  @apply text-center;
+  @apply text-gray-500;
+}
+
+.noTagsIcon {
+  @apply w-12 h-12;
+  @apply mb-3;
+  @apply opacity-50;
+}
+
+.noTagsHint {
+  @apply text-xs;
+  @apply mt-1;
+}
+
+/* ===== 按钮组样式 ===== */
+.buttonGroup {
+  @apply flex flex-col gap-4;
+  @apply pt-6;
+  @apply border-t border-gray-200 dark:border-gray-700;
+}
+
+.draftStatus {
+  @apply flex items-center justify-center;
+  @apply py-2;
+}
+
+.draftText {
+  @apply text-sm text-green-600;
+  @apply font-medium;
+}
+
+.actionButtons {
+  @apply flex justify-end gap-3;
+}
+
+/* ===== 提交区域 ===== */
+.submitSection {
+  @apply flex flex-col gap-4;
+  @apply pt-6;
+  @apply border-t border-gray-200 dark:border-gray-700;
+}
+
+.cancelButton {
+  @apply border-gray-300;
+  @apply hover:bg-gray-50 hover:text-gray-900;
+  @apply dark:border-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-100;
+}
+
+.submitButton {
+  @apply bg-blue-600 text-white;
+  @apply hover:bg-blue-700;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply min-w-[120px];
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.spinner {
+  @apply w-4 h-4 animate-spin;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 768px) {
+  .container {
+    @apply max-w-full px-4;
+  }
+  
+  .actionButtons {
+    @apply flex-col gap-2;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    @apply w-full;
+  }
+  
+  .tagsList {
+    @apply gap-1;
+  }
+  
+  .tagButton {
+    @apply px-2 py-1;
+    @apply text-xs;
+  }
+  
+  .contentTextarea {
+    @apply text-xs;
+  }
+}
+
+@media (max-width: 640px) {
+  .textareaFooter {
+    @apply flex-col items-start gap-1;
+  }
+  
+  .fieldHint {
+    @apply text-xs;
+  }
+}

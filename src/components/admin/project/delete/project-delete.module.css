@@ -1,0 +1,124 @@
+@reference '#tailwind.css';
+
+/* ===== 对话框内容 ===== */
+.dialogContent {
+  @apply max-w-md;
+}
+
+/* ===== 头部样式 ===== */
+.header {
+  @apply flex gap-4 items-start;
+}
+
+.iconContainer {
+  @apply flex-shrink-0;
+  @apply w-12 h-12;
+  @apply rounded-full;
+  @apply bg-red-50 dark:bg-red-900/20;
+  @apply flex items-center justify-center;
+}
+
+.warningIcon {
+  @apply w-6 h-6;
+}
+
+.headerContent {
+  @apply flex-1;
+}
+
+.title {
+  @apply text-lg font-semibold;
+  @apply text-gray-900 dark:text-gray-100;
+}
+
+.description {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+  @apply mt-1;
+}
+
+/* ===== 内容区域 ===== */
+.content {
+  @apply py-4;
+}
+
+.projectInfo {
+  @apply bg-gray-50 dark:bg-gray-800;
+  @apply rounded-lg;
+  @apply p-4;
+  @apply border border-gray-200 dark:border-gray-700;
+}
+
+.projectInfoLabel {
+  @apply text-xs font-medium text-gray-500 dark:text-gray-400;
+  @apply mb-2;
+}
+
+.projectDetails {
+  @apply space-y-1;
+}
+
+.projectTitle {
+  @apply font-medium text-gray-900 dark:text-gray-100;
+}
+
+.projectDescription {
+  @apply text-sm;
+}
+
+.projectUrl {
+  @apply text-xs font-mono;
+}
+
+/* ===== 底部按钮 ===== */
+.footer {
+  @apply flex gap-2;
+}
+
+.cancelButton {
+  /* 使用默认样式 */
+}
+
+.actionIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.deleteButton {
+  transition: all 0.2s ease-in-out;
+}
+
+.deleteButton:hover {
+  background-color: hsl(var(--destructive) / 0.1);
+}
+
+.confirmDeleteButton {
+  @apply bg-destructive hover:bg-destructive/90;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.loadingSpinner {
+  @apply w-4 h-4 animate-spin;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .dialogContent {
+    @apply max-w-[calc(100vw-2rem)];
+  }
+  
+  .header {
+    @apply flex-col;
+  }
+  
+  .iconContainer {
+    @apply w-10 h-10;
+  }
+  
+  .warningIcon {
+    @apply w-5 h-5;
+  }
+}
+

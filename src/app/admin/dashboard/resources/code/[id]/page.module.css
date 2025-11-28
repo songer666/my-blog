@@ -1,0 +1,109 @@
+@reference '#tailwind.css';
+
+.container {
+  @apply space-y-6;
+}
+
+.backButtonIcon {
+  @apply h-4 w-4 mr-2;
+}
+
+.repositoryHeader {
+  @apply flex items-start justify-between;
+}
+
+.repositoryInfo {
+  @apply space-y-1;
+}
+
+.titleRow {
+  @apply flex items-center gap-2;
+}
+
+.title {
+  @apply text-3xl font-bold;
+}
+
+.slug {
+  @apply text-muted-foreground;
+}
+
+.description {
+  @apply text-sm text-muted-foreground mt-2;
+}
+
+.keywordsContainer {
+  @apply flex flex-wrap gap-2;
+}
+
+.statsGrid {
+  @apply grid gap-4 md:grid-cols-2;
+}
+
+.cardHeader {
+  @apply flex flex-row items-center justify-between space-y-0 pb-2;
+}
+
+.cardTitle {
+  @apply text-sm font-medium;
+}
+
+.icon {
+  @apply h-4 w-4 text-muted-foreground;
+}
+
+.statValue {
+  @apply text-2xl font-bold;
+}
+
+.tabs {
+  @apply w-full;
+}
+
+.tabIcon {
+  @apply h-4 w-4 mr-2;
+}
+
+.tabContent {
+  @apply mt-6;
+}
+
+.codeList {
+  @apply space-y-3;
+}
+
+.emptyState {
+  @apply flex flex-col items-center justify-center py-20 text-center border-2 border-dashed rounded-lg;
+}
+
+.emptyIcon {
+  @apply w-16 h-16 text-muted-foreground/50 mb-4;
+}
+
+.emptyTitle {
+  @apply text-lg font-medium text-muted-foreground;
+}
+
+.emptyDescription {
+  @apply text-sm text-muted-foreground/70 mt-1 mb-4;
+}
+
+.docsCardHeader {
+  @apply flex flex-row items-center justify-between;
+}
+
+.mdxPre {
+  @apply whitespace-pre-wrap text-sm;
+}
+
+.docsEmptyState {
+  @apply text-center py-12 text-muted-foreground;
+}
+
+.docsEmptyIcon {
+  @apply w-12 h-12 mx-auto mb-3 opacity-50;
+}
+
+.docsEmptyText {
+  @apply text-sm mt-1;
+}

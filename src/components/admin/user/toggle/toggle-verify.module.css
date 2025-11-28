@@ -1,0 +1,101 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply flex flex-col gap-2;
+  @apply min-w-0;
+}
+
+/* ===== 开关包装器 ===== */
+.switchWrapper {
+  @apply flex items-center gap-3;
+}
+
+.switch {
+  @apply shrink-0;
+  @apply transition-all duration-200;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* ===== 状态信息 ===== */
+.statusInfo {
+  @apply flex flex-col gap-1;
+  @apply min-w-0;
+}
+
+.statusText {
+  @apply text-sm font-medium;
+  @apply transition-colors duration-200;
+}
+
+.verified {
+  @apply text-green-600;
+  @apply dark:text-green-400;
+}
+
+.unverified {
+  @apply text-yellow-600;
+  @apply dark:text-yellow-400;
+}
+
+.disabledHint {
+  @apply text-xs text-muted-foreground;
+  @apply bg-muted px-2 py-0.5 rounded;
+  @apply whitespace-nowrap;
+}
+
+/* ===== Loading 指示器 ===== */
+.loadingIndicator {
+  @apply flex items-center gap-2;
+  @apply text-xs text-muted-foreground;
+}
+
+.loadingText {
+  @apply animate-pulse;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .switchWrapper {
+    @apply flex-col items-start gap-2;
+  }
+  
+  .statusInfo {
+    @apply flex-row items-center gap-2;
+  }
+  
+  .statusText {
+    @apply text-xs;
+  }
+  
+  .disabledHint {
+    @apply text-xs px-1.5 py-0.5;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .verified {
+    @apply text-green-300;
+  }
+  
+  .unverified {
+    @apply text-yellow-300;
+  }
+  
+  .disabledHint {
+    @apply bg-muted/70;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .switch:not(:disabled):hover {
+    @apply transform scale-105;
+    @apply transition-transform duration-150;
+  }
+  
+  .statusText {
+    @apply transition-all duration-200;
+  }
+}

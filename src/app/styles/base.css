@@ -1,0 +1,19 @@
+/* —— 基础样式 —— */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  body {
+    @apply bg-background text-foreground w-full h-[100vh] p-0 m-0 font-sans;
+  }
+  
+  code, pre, kbd, samp {
+    @apply font-mono;
+  }
+}
+
+/* Table 行高调整 */
+[data-slot="table-row"] {
+  min-height: 4rem;
+}

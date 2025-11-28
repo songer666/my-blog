@@ -1,0 +1,163 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 - 全屏网格布局 ===== */
+.container {
+  @apply min-h-screen grid grid-cols-1 lg:grid-cols-2;
+  @apply bg-gradient-to-br from-slate-50 to-slate-100;
+  @apply dark:from-slate-900 dark:to-slate-800;
+}
+
+/* ===== 图片区域 ===== */
+.imageSection {
+  @apply relative overflow-hidden;
+  @apply bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700;
+  @apply flex items-center justify-center;
+  @apply order-2 lg:order-1;
+}
+
+.imageOverlay {
+  @apply absolute inset-0 bg-black/20;
+  @apply backdrop-blur-[1px];
+}
+
+.backgroundImage {
+  @apply absolute inset-0 w-full h-full object-cover;
+  @apply opacity-30 mix-blend-overlay;
+  @apply transition-transform duration-700 ease-out;
+  @apply hover:scale-105;
+}
+
+
+/* ===== 表单区域 ===== */
+.formSection {
+  @apply flex items-center justify-center p-6 lg:p-12;
+  @apply bg-white/80 dark:bg-slate-900/80;
+  @apply backdrop-blur-sm;
+  @apply order-1 lg:order-2;
+}
+
+.formContainer {
+  @apply w-full max-w-md space-y-8;
+  @apply animate-in fade-in slide-in-from-right-4 duration-700 delay-300;
+}
+
+/* ===== 表单头部 ===== */
+.header {
+  @apply text-center space-y-3;
+}
+
+.title {
+  @apply text-3xl lg:text-4xl font-bold;
+  @apply bg-gradient-to-r from-slate-900 to-slate-600;
+  @apply dark:from-slate-100 dark:to-slate-300;
+  @apply bg-clip-text text-transparent;
+  @apply tracking-tight;
+}
+
+.subtitle {
+  @apply text-slate-600 dark:text-slate-400;
+  @apply text-base lg:text-lg;
+  @apply font-medium;
+}
+
+/* ===== 表单样式 ===== */
+.form {
+  @apply space-y-6;
+}
+
+.fieldGroup {
+  @apply space-y-5;
+}
+
+/* ===== 忘记密码行 ===== */
+.forgotRow {
+  @apply flex items-center justify-between;
+}
+
+.forgot {
+  @apply text-sm font-medium;
+  @apply text-blue-600 hover:text-blue-500;
+  @apply dark:text-blue-400 dark:hover:text-blue-300;
+  @apply underline-offset-2 hover:underline;
+  @apply transition-colors duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  @apply rounded-sm px-1;
+}
+
+/* ===== 提交按钮 ===== */
+.submitField {
+  @apply pt-4;
+}
+
+.submitBtn {
+  @apply w-full h-12;
+  @apply bg-gradient-to-r from-blue-600 to-indigo-600;
+  @apply hover:from-blue-700 hover:to-indigo-700;
+  @apply focus:from-blue-700 focus:to-indigo-700;
+  @apply text-white font-semibold;
+  @apply shadow-lg hover:shadow-xl;
+  @apply transition-all duration-200;
+  @apply transform hover:scale-[1.02] active:scale-[0.98];
+  @apply cursor-pointer;
+  @apply disabled:opacity-70 disabled:cursor-not-allowed;
+  @apply disabled:hover:scale-100 disabled:shadow-lg;
+}
+
+.loadingContent {
+  @apply flex items-center justify-center gap-3;
+}
+
+.spinner {
+  @apply w-5 h-5 text-white/80;
+  @apply animate-spin;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 1023px) {
+  .container {
+    @apply grid-rows-[auto_1fr];
+  }
+  
+  .imageSection {
+    @apply min-h-[40vh] lg:min-h-screen;
+  }
+  
+  .formSection {
+    @apply min-h-[60vh];
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .container * {
+    @apply transition-colors duration-200;
+  }
+  
+  .backgroundImage {
+    animation: subtle-float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-10px) scale(1.02); }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .imageSection {
+    @apply from-slate-800 via-slate-700 to-slate-900;
+  }
+  
+  .formSection {
+    @apply bg-slate-900/90;
+  }
+}
+
+/* ===== 高对比度模式支持 ===== */
+@media (prefers-contrast: high) {
+  .title {
+    @apply text-slate-900 dark:text-slate-100;
+    @apply bg-none;
+  }
+}

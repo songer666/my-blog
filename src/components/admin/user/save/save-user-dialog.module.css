@@ -1,0 +1,77 @@
+@reference '#tailwind.css';
+
+/* ===== 触发按钮 ===== */
+.triggerButton {
+  @apply flex items-center gap-2;
+  @apply bg-primary hover:bg-primary/90;
+  @apply text-primary-foreground;
+  @apply px-4 py-2 rounded-md;
+  @apply transition-colors duration-200;
+  @apply whitespace-nowrap;
+}
+
+.triggerIcon {
+  @apply w-4 h-4;
+}
+
+/* ===== 对话框样式 ===== */
+.dialogContent {
+  @apply max-w-md w-full;
+  @apply sm:max-w-lg;
+}
+
+.dialogHeader {
+  @apply pb-4;
+}
+
+.dialogTitle {
+  @apply flex items-center gap-2;
+  @apply text-xl font-semibold;
+  @apply text-foreground;
+}
+
+.titleIcon {
+  @apply w-5 h-5 text-primary;
+}
+
+/* ===== 对话框内容 ===== */
+.dialogBody {
+  @apply space-y-4;
+}
+
+.dialogDescription {
+  @apply text-muted-foreground text-sm leading-relaxed;
+  @apply bg-muted/30 p-3 rounded-md;
+  @apply border-l-4 border-primary/30;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .dialogContent {
+    @apply max-w-[calc(100vw-2rem)];
+  }
+  
+  .dialogTitle {
+    @apply text-lg;
+  }
+  
+  .dialogDescription {
+    @apply text-xs p-2;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .dialogDescription {
+    @apply bg-muted/20;
+    @apply border-primary/40;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .triggerButton:hover {
+    @apply transform scale-[1.02];
+    @apply transition-transform duration-150;
+  }
+}

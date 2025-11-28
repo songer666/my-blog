@@ -1,0 +1,24 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/root",
+      "missing": [
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app$"
+        }
+      ]
+    },
+    {
+      "source": "/:path((?!admin|api|_next|root).*)*",
+      "destination": "/root/:path*",
+      "missing": [
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app$"
+        }
+      ]
+    }
+  ]
+}

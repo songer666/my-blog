@@ -1,0 +1,251 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply space-y-4;
+}
+
+/* ===== 头部操作栏 ===== */
+.header {
+  @apply flex justify-between items-start gap-4;
+}
+
+.headerInfo {
+  @apply space-y-1;
+}
+
+.title {
+  @apply text-2xl font-bold;
+}
+
+.subtitle {
+  /* 样式在 TSX 中定义 */
+}
+
+.filterCount {
+  @apply ml-2;
+}
+
+.createButton {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.createIcon {
+  @apply w-4 h-4;
+}
+
+/* ===== 筛选栏 ===== */
+.filterBar {
+  @apply flex flex-col sm:flex-row gap-4 p-4 bg-muted/50 rounded-lg;
+}
+
+.searchContainer {
+  @apply flex-1;
+}
+
+.searchWrapper {
+  @apply relative;
+}
+
+.searchIcon {
+  @apply absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4;
+}
+
+.searchInput {
+  @apply pl-10 pr-10;
+}
+
+.clearSearchButton {
+  @apply absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 cursor-pointer;
+}
+
+.clearSearchIcon {
+  @apply w-3 h-3;
+}
+
+.tagSelect {
+  @apply sm:w-48;
+}
+
+.tagSelectInput {
+  @apply w-full px-3 py-2 border border-input bg-background rounded-md text-sm;
+  @apply focus:outline-none focus:ring-2 focus:ring-ring;
+}
+
+.clearFilterButton {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.clearFilterIcon {
+  @apply w-4 h-4;
+}
+
+/* ===== 表格 ===== */
+.tableContainer {
+  @apply border rounded-lg;
+}
+
+.tableHeader {
+  @apply text-right;
+}
+
+/* ===== 表格内容 ===== */
+.titleCell {
+  @apply space-y-1;
+}
+
+.titleText {
+  @apply font-medium;
+}
+
+.descriptionText {
+  @apply text-sm;
+}
+
+.slugText {
+  @apply text-xs;
+}
+
+.statusBadge {
+  @apply flex items-center gap-1 w-fit;
+}
+
+.statusIcon {
+  @apply w-3 h-3;
+}
+
+.tagsContainer {
+  @apply flex flex-wrap gap-1;
+}
+
+.tagBadge {
+  @apply text-xs;
+}
+
+.noTags {
+  @apply text-sm;
+}
+
+.timeCell {
+  @apply flex items-center gap-1 text-sm;
+}
+
+.timeIcon {
+  @apply w-3 h-3;
+}
+
+.timeText {
+  @apply text-sm;
+}
+
+.actionsCell {
+  @apply text-right;
+}
+
+.actionButtons {
+  @apply flex items-center justify-end gap-2 cursor-pointer;
+}
+
+.actionButton {
+  @apply flex items-center gap-1 cursor-pointer;
+}
+
+.actionIcon {
+  @apply w-4 h-4;
+}
+
+.deleteButton {
+  /* 样式在 TSX 中定义 */
+}
+
+/* ===== 空状态 ===== */
+.emptyState {
+  @apply text-center py-12;
+}
+
+.emptyContent {
+  @apply flex flex-col items-center gap-3;
+}
+
+.emptyIcon {
+  @apply w-12 h-12;
+}
+
+.emptyText {
+  @apply text-lg font-medium;
+}
+
+.emptySubtext {
+  @apply text-sm;
+}
+
+.deleteButton {
+  @apply flex items-center gap-1 cursor-pointer;
+}
+
+/* ===== 空状态 ===== */
+.emptyState {
+  @apply text-center py-8;
+}
+
+.emptyContent {
+  @apply flex flex-col items-center gap-2;
+}
+
+.emptyIcon {
+  @apply w-8 h-8;
+}
+
+.emptyText {
+  @apply text-base;
+}
+
+.emptySubtext {
+  @apply text-sm;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 768px) {
+  .header {
+    @apply flex-col items-start gap-3;
+  }
+  
+  .filterBar {
+    @apply gap-3;
+  }
+  
+  .actionButtons {
+    @apply flex-col gap-1;
+  }
+  
+  .actionButton {
+    @apply w-full justify-center;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    @apply text-xl;
+  }
+  
+  .titleText {
+    @apply text-sm;
+  }
+  
+  .descriptionText {
+    @apply text-xs;
+  }
+}
+
+/* ===== 图片列 ===== */
+.imageCell {
+  @apply w-20 h-16;
+}
+
+.coverImage {
+  @apply w-full h-full object-cover rounded-md border;
+}
+
+.noImage {
+  @apply w-full h-full flex items-center justify-center bg-muted rounded-md border border-dashed;
+}

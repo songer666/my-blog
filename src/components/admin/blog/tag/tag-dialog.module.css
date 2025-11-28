@@ -1,0 +1,105 @@
+@reference '#tailwind.css';
+
+/* ===== 对话框样式 ===== */
+.dialogContent {
+  @apply sm:max-w-md;
+}
+
+.dialogHeader {
+  @apply pb-4;
+}
+
+.dialogTitle {
+  @apply flex items-center gap-2;
+  @apply text-lg font-semibold;
+}
+
+.dialogBody {
+  @apply py-4;
+}
+
+.dialogDescription {
+  @apply text-sm text-muted-foreground mb-4;
+}
+
+/* ===== 删除确认对话框样式 ===== */
+.alertContent {
+  @apply max-w-lg;
+}
+
+.alertTitle {
+  @apply flex items-center gap-2;
+  @apply text-lg font-semibold;
+}
+
+.alertIcon {
+  @apply w-5 h-5 text-red-600;
+}
+
+.alertDescription {
+  @apply text-sm text-muted-foreground;
+}
+
+.tagName {
+  @apply font-medium text-foreground;
+}
+
+.warningText {
+  @apply text-red-600;
+}
+
+/* ===== 按钮样式 ===== */
+.triggerButton {
+  @apply flex items-center gap-2;
+}
+
+.triggerButtonOutline {
+  @apply flex items-center gap-2;
+}
+
+.buttonIcon {
+  @apply w-4 h-4;
+}
+
+.buttonIconSmall {
+  @apply w-4 h-4 mr-1;
+}
+
+.buttonIconMedium {
+  @apply w-4 h-4 mr-2;
+}
+
+.buttonIconLarge {
+  @apply w-5 h-5;
+}
+
+.deleteButton {
+  @apply bg-red-600 text-white;
+  @apply hover:bg-red-700;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.spinner {
+  @apply w-4 h-4;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .dialogContent,
+  .alertContent {
+    @apply max-w-[95vw];
+  }
+  
+  .dialogTitle,
+  .alertTitle {
+    @apply text-base;
+  }
+  
+  .buttonIconLarge,
+  .alertIcon {
+    @apply w-4 h-4;
+  }
+}

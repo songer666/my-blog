@@ -1,0 +1,144 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply space-y-6;
+}
+
+/* ===== 头像上传区域 ===== */
+.avatarSection {
+  @apply flex flex-col items-center space-y-4;
+}
+
+.avatarContainer {
+  @apply relative;
+}
+
+.avatar {
+  @apply size-24 cursor-pointer;
+  @apply ring-2 ring-border/20;
+  @apply transition-all duration-200;
+  @apply hover:ring-primary/30 hover:scale-105;
+}
+
+.avatarFallback {
+  @apply text-2xl;
+  @apply bg-gradient-to-br from-primary/10 to-primary/20;
+  @apply text-primary;
+}
+
+.uploadButton {
+  @apply absolute -bottom-2 -right-2 size-8 rounded-full p-0;
+  @apply bg-primary text-primary-foreground;
+  @apply hover:bg-primary/90;
+  @apply transition-all duration-200;
+  @apply hover:scale-110;
+}
+
+.avatarInfo {
+  @apply text-center;
+}
+
+.avatarTitle {
+  @apply text-sm text-muted-foreground;
+}
+
+.avatarSubtitle {
+  @apply text-xs text-muted-foreground;
+}
+
+.fileInput {
+  @apply hidden;
+}
+
+/* ===== 表单区域 ===== */
+.form {
+  @apply space-y-4;
+}
+
+.fieldGroup {
+  @apply space-y-4;
+}
+
+/* ===== 文本域样式 ===== */
+.textarea {
+  @apply flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm;
+  @apply ring-offset-background placeholder:text-muted-foreground;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  @apply disabled:cursor-not-allowed disabled:opacity-50;
+  @apply resize-none;
+  @apply transition-all duration-200;
+}
+
+.textareaFooter {
+  @apply flex justify-between items-center mt-1;
+}
+
+.charCount {
+  @apply text-xs text-muted-foreground;
+}
+
+/* ===== 操作按钮 ===== */
+.actions {
+  @apply flex justify-end space-x-3 pt-4;
+}
+
+.cancelButton {
+  @apply transition-all duration-200;
+  @apply hover:scale-105;
+}
+
+.submitButton {
+  @apply transition-all duration-200;
+  @apply hover:scale-105;
+  @apply disabled:hover:scale-100;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.spinner {
+  @apply size-4;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 640px) {
+  .container {
+    @apply space-y-4;
+  }
+  
+  .avatar {
+    @apply size-20;
+  }
+  
+  .avatarFallback {
+    @apply text-xl;
+  }
+  
+  .uploadButton {
+    @apply size-7;
+  }
+  
+  .actions {
+    @apply flex-col space-x-0 space-y-2;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .avatar:hover {
+    @apply shadow-lg;
+  }
+  
+  .uploadButton:hover {
+    @apply shadow-md;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .textarea {
+    @apply bg-background/50;
+  }
+}

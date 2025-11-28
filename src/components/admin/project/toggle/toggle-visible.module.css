@@ -1,0 +1,84 @@
+@reference '#tailwind.css';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.switchWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.switch {
+  transition: all 0.2s ease-in-out;
+}
+
+.switch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.statusInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statusText {
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.statusText.visible {
+  color: hsl(var(--primary));
+}
+
+.statusText.hidden {
+  color: hsl(var(--muted-foreground));
+}
+
+.loadingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.loadingText {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .container {
+    gap: 0.25rem;
+  }
+  
+  .switchWrapper {
+    gap: 0.5rem;
+  }
+  
+  .statusText {
+    font-size: 0.8125rem;
+  }
+  
+  .loadingText {
+    font-size: 0.6875rem;
+  }
+}
+

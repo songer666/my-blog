@@ -1,0 +1,58 @@
+@reference '#tailwind.css';
+
+/* ===== 容器和布局 ===== */
+.container {
+  @apply flex flex-col gap-6 w-full;
+}
+
+.header {
+  @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
+  @apply pb-4 border-b border-border;
+}
+
+.titleSection {
+  @apply flex flex-col gap-1;
+}
+
+.title {
+  @apply text-2xl sm:text-3xl font-bold;
+  @apply text-foreground;
+}
+
+.subtitle {
+  @apply text-sm text-muted-foreground;
+}
+
+/* ===== 统计卡片样式 ===== */
+.statsGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+.statCard {
+  @apply transition-all duration-200;
+  @apply hover:shadow-md;
+}
+
+.statHeader {
+  @apply pb-2;
+}
+
+.statTitle {
+  @apply text-sm font-medium text-muted-foreground;
+}
+
+.statValue {
+  @apply text-3xl font-bold;
+  @apply text-foreground;
+}
+
+/* ===== Tabs 样式 ===== */
+.tabsContainer {
+  @apply w-full;
+}
+
+.tabsList {
+  @apply w-full justify-start;
+  @apply bg-muted/50 p-1 rounded-lg;
+  @apply overflow-x-auto;
+}

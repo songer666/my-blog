@@ -1,0 +1,50 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply container mx-auto py-8 max-w-md;
+  @apply animate-in fade-in slide-in-from-bottom-4 duration-500;
+}
+
+/* ===== 卡片样式 ===== */
+.card {
+  @apply bg-card text-card-foreground;
+  @apply border border-border;
+  @apply shadow-lg;
+}
+
+.cardHeader {
+  @apply text-center;
+}
+
+.cardTitle {
+  @apply flex items-center justify-center gap-2 text-xl;
+  @apply text-foreground font-semibold;
+}
+
+.titleIcon {
+  @apply w-6 h-6 text-blue-600;
+}
+
+.cardDescription {
+  @apply text-sm text-muted-foreground mt-2;
+}
+
+.cardContent {
+  @apply p-6;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4 py-6 max-w-full;
+  }
+  
+  .cardTitle {
+    @apply text-lg;
+  }
+  
+  .cardContent {
+    @apply p-4;
+  }
+}

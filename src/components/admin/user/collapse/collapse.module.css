@@ -1,0 +1,171 @@
+@reference '#tailwind.css';
+
+/* ===== 手风琴容器 ===== */
+.accordion {
+  @apply w-full;
+}
+
+.accordionItem {
+  @apply border border-border rounded-md;
+  @apply bg-card text-card-foreground;
+}
+
+.accordionTrigger {
+  @apply px-4 py-3;
+  @apply hover:bg-muted/50;
+  @apply transition-colors duration-200;
+}
+
+.triggerContent {
+  @apply flex items-center gap-2;
+}
+
+.triggerIcon {
+  @apply w-4 h-4 text-muted-foreground;
+}
+
+.triggerText {
+  @apply font-medium text-sm;
+}
+
+.accordionContent {
+  @apply px-4 pb-4;
+}
+
+/* ===== 会话列表 ===== */
+.sessionsList {
+  @apply space-y-2;
+}
+
+.sessionItem {
+  @apply transition-all duration-200;
+  @apply hover:shadow-sm;
+}
+
+.sessionMedia {
+  @apply bg-primary/10 text-primary;
+}
+
+.sessionContent {
+  @apply flex-1;
+}
+
+.sessionTitle {
+  @apply flex items-center gap-2;
+}
+
+.sessionToken {
+  @apply text-xs font-mono;
+  @apply bg-muted px-2 py-1 rounded;
+  @apply text-muted-foreground;
+}
+
+.sessionDescription {
+  @apply mt-1;
+  @apply text-muted-foreground text-sm leading-normal;
+}
+
+.sessionActions {
+  @apply flex items-center;
+}
+
+/* ===== 删除按钮 ===== */
+.deleteButton {
+  @apply flex items-center gap-1;
+  @apply px-2 py-1;
+  @apply text-xs;
+  @apply hover:bg-destructive/10 hover:text-destructive;
+  @apply transition-colors duration-200;
+}
+
+.deleteIcon {
+  @apply w-3 h-3;
+}
+
+.deleteText {
+  @apply hidden sm:inline;
+}
+
+/* ===== 会话详情 ===== */
+.sessionDetails {
+  @apply flex flex-wrap gap-4 text-xs;
+}
+
+.detailItem {
+  @apply flex items-center gap-1;
+  @apply text-muted-foreground;
+}
+
+.detailIcon {
+  @apply w-3 h-3;
+  @apply shrink-0;
+}
+
+/* ===== 空状态 ===== */
+.emptyState {
+  @apply flex flex-col items-center gap-2;
+  @apply py-6 text-center;
+}
+
+.emptyIcon {
+  @apply w-8 h-8 text-muted-foreground/50;
+}
+
+.emptyText {
+  @apply text-sm text-muted-foreground;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .accordionTrigger {
+    @apply px-3 py-2;
+  }
+  
+  .accordionContent {
+    @apply px-3 pb-3;
+  }
+  
+  .sessionItem {
+    @apply p-2;
+  }
+  
+  .sessionHeader {
+    @apply flex-col items-start gap-2;
+  }
+  
+  .deleteButton {
+    @apply w-full justify-center;
+  }
+  
+  .deleteText {
+    @apply inline;
+  }
+  
+  .detailItem {
+    @apply text-xs;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .sessionItem {
+    @apply bg-muted/20;
+    @apply hover:bg-muted/40;
+  }
+  
+  .sessionToken {
+    @apply bg-muted/50;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .sessionItem:hover {
+    @apply transform scale-[1.01];
+    @apply shadow-sm;
+  }
+  
+  .deleteButton:hover {
+    @apply transform scale-105;
+  }
+}

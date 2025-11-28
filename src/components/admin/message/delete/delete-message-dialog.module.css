@@ -1,0 +1,122 @@
+@reference '#tailwind.css';
+
+/* ===== 删除按钮 ===== */
+.deleteButton {
+  @apply flex items-center gap-1;
+  @apply px-2 py-1;
+  @apply text-xs;
+  @apply hover:bg-destructive/10 hover:text-destructive;
+  @apply transition-colors duration-200;
+  @apply whitespace-nowrap;
+}
+
+.deleteIcon {
+  @apply w-3 h-3;
+}
+
+.deleteText {
+  @apply hidden sm:inline;
+}
+
+/* ===== 对话框样式 ===== */
+.dialogContent {
+  @apply max-w-md;
+}
+
+.dialogHeader {
+  @apply text-left;
+}
+
+.dialogTitle {
+  @apply text-destructive;
+  @apply flex items-center gap-2;
+  @apply text-lg font-semibold;
+}
+
+.dialogDescription {
+  @apply text-sm leading-relaxed;
+  @apply mt-2;
+}
+
+.messageName {
+  @apply text-foreground font-medium;
+  @apply bg-muted px-2 py-1 rounded;
+}
+
+.messageEmail {
+  @apply text-muted-foreground text-xs;
+  @apply font-mono;
+}
+
+.warningText {
+  @apply text-destructive/80 font-medium;
+  @apply bg-destructive/5 px-3 py-2 rounded-md;
+  @apply border border-destructive/20;
+  @apply block mt-3;
+}
+
+/* ===== 对话框底部 ===== */
+.dialogFooter {
+  @apply flex gap-2 mt-6;
+}
+
+.cancelButton {
+  @apply hover:bg-muted hover:text-muted-foreground;
+  @apply transition-colors duration-200;
+}
+
+.confirmButton {
+  @apply bg-destructive hover:bg-destructive/90;
+  @apply text-white;
+  @apply flex items-center gap-2;
+  @apply transition-colors duration-200;
+}
+
+.confirmIcon {
+  @apply w-4 h-4;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .deleteButton {
+    @apply px-1 py-1;
+  }
+  
+  .dialogContent {
+    @apply max-w-[calc(100vw-2rem)];
+  }
+  
+  .dialogFooter {
+    @apply flex-col gap-2;
+  }
+  
+  .cancelButton,
+  .confirmButton {
+    @apply w-full;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .warningText {
+    @apply bg-destructive/10;
+    @apply border-destructive/30;
+  }
+  
+  .messageName {
+    @apply bg-muted/70;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .deleteButton:hover {
+    @apply transform scale-105;
+    @apply transition-transform duration-150;
+  }
+  
+  .confirmButton:hover {
+    @apply transform scale-[1.02];
+    @apply transition-transform duration-150;
+  }
+}

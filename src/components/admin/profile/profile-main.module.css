@@ -1,0 +1,6 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply space-y-6;
+}

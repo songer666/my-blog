@@ -1,0 +1,118 @@
+@reference '#tailwind.css';
+
+/* ===== 对话框容器 ===== */
+.dialogContent {
+  @apply max-w-md;
+}
+
+/* ===== 头部 ===== */
+.header {
+  @apply flex items-center gap-3;
+}
+
+.iconContainer {
+  @apply flex-shrink-0 w-10 h-10 rounded-full bg-destructive/10;
+  @apply flex items-center justify-center;
+}
+
+.warningIcon {
+  @apply w-5 h-5;
+}
+
+.headerContent {
+  @apply space-y-1;
+}
+
+.title {
+  @apply text-left;
+}
+
+.description {
+  @apply text-left mt-1;
+}
+
+/* ===== 内容区域 ===== */
+.content {
+  @apply py-4;
+}
+
+.postInfo {
+  @apply bg-muted/50 rounded-lg p-4 space-y-2;
+}
+
+.postInfoLabel {
+  @apply font-medium text-sm;
+}
+
+.postDetails {
+  @apply space-y-1;
+}
+
+.postTitle {
+  @apply font-semibold;
+}
+
+.postDescription {
+  @apply text-sm;
+}
+
+.postUrl {
+  @apply text-xs;
+}
+
+/* ===== 底部按钮 ===== */
+.footer {
+  @apply gap-2;
+}
+
+.cancelButton {
+  /* 使用默认样式 */
+}
+
+.actionIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.deleteButton {
+  transition: all 0.2s ease-in-out;
+}
+
+.deleteButton:hover {
+  background-color: hsl(var(--destructive) / 0.1);
+}
+
+.confirmDeleteButton {
+  @apply bg-destructive hover:bg-destructive/90;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.loadingSpinner {
+  @apply w-4 h-4;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .dialogContent {
+    @apply max-w-[95vw];
+  }
+  
+  .header {
+    @apply gap-2;
+  }
+  
+  .iconContainer {
+    @apply w-8 h-8;
+  }
+  
+  .warningIcon {
+    @apply w-4 h-4;
+  }
+  
+  .postInfo {
+    @apply p-3;
+  }
+}

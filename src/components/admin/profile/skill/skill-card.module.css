@@ -1,0 +1,224 @@
+@reference '#tailwind.css';
+
+/* ===== 卡片容器 ===== */
+.card {
+  @apply transition-all duration-200;
+  @apply hover:shadow-md;
+}
+
+/* ===== 头部区域 ===== */
+.header {
+  @apply pb-4;
+}
+
+.title {
+  @apply flex items-center gap-2;
+  @apply text-foreground font-semibold;
+}
+
+.titleIcon {
+  @apply size-5 text-primary;
+}
+
+/* ===== 内容区域 ===== */
+.content {
+  @apply pt-0;
+}
+
+.skillContainer {
+  @apply space-y-0;
+}
+
+/* ===== 技能分类 ===== */
+.skillCategory {
+  @apply py-4;
+}
+
+.categoryHeader {
+  @apply flex items-center justify-between mb-4;
+}
+
+.categoryTitle {
+  @apply flex items-center gap-2 text-lg font-semibold text-foreground;
+}
+
+.categoryIcon {
+  @apply text-xl;
+}
+
+.categoryActions {
+  @apply flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200;
+}
+
+/* ===== 技能列表 ===== */
+.skillList {
+  @apply flex flex-wrap gap-2;
+}
+
+.skillTag {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5;
+  @apply bg-secondary text-secondary-foreground;
+  @apply rounded-full text-sm font-medium;
+  @apply border border-border;
+  @apply transition-all duration-200;
+  @apply hover:bg-accent hover:text-accent-foreground;
+  @apply hover:shadow-sm hover:scale-105;
+  @apply relative;
+}
+
+.skillIcon {
+  @apply size-6 object-contain rounded;
+}
+
+.skillIconEmoji {
+  @apply size-6 flex items-center justify-center;
+  @apply text-base;
+}
+
+.skillIconPlaceholder {
+  @apply size-6 flex items-center justify-center;
+  @apply bg-muted text-muted-foreground;
+  @apply rounded text-xs font-bold uppercase;
+}
+
+.skillName {
+  @apply select-none;
+}
+
+.skillActions {
+  @apply absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200;
+}
+
+.deleteSkillButton {
+  @apply size-5 flex items-center justify-center;
+  @apply bg-red-500 text-white;
+  @apply rounded-full text-xs font-bold;
+  @apply hover:bg-red-600;
+  @apply cursor-pointer;
+}
+
+/* ===== 空状态 ===== */
+.emptySkills {
+  @apply text-center py-4 text-muted-foreground;
+}
+
+.emptySkillsText {
+  @apply text-sm mb-2;
+}
+
+.addFirstSkill {
+  @apply inline-flex items-center text-sm text-primary hover:text-primary/80 cursor-pointer;
+}
+
+.separator {
+  @apply my-0;
+}
+
+.emptyState {
+  @apply flex flex-col items-center justify-center py-12 text-center;
+}
+
+.emptyIcon {
+  @apply size-12 text-muted-foreground/50 mb-4;
+}
+
+.emptyText {
+  @apply text-lg font-medium text-muted-foreground mb-2;
+}
+
+.emptySubtext {
+  @apply text-sm text-muted-foreground/80 max-w-sm;
+}
+
+.emptyActions {
+  @apply mt-4;
+}
+
+/* ===== 技能类型样式 ===== */
+.skillTag.skill-tech {
+  @apply bg-blue-100 text-blue-800 border-blue-200;
+  @apply hover:bg-blue-200 hover:text-blue-900;
+}
+
+.skillTag.skill-design {
+  @apply bg-purple-100 text-purple-800 border-purple-200;
+  @apply hover:bg-purple-200 hover:text-purple-900;
+}
+
+.skillTag.skill-tool {
+  @apply bg-green-100 text-green-800 border-green-200;
+  @apply hover:bg-green-200 hover:text-green-900;
+}
+
+.skillTag.skill-default {
+  @apply bg-gray-100 text-gray-800 border-gray-200;
+  @apply hover:bg-gray-200 hover:text-gray-900;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 768px) {
+  .categoryActions {
+    @apply opacity-100;
+  }
+  
+  .skillActions {
+    @apply opacity-100;
+  }
+  
+  .skillTag {
+    @apply px-2.5 py-1;
+    @apply text-xs;
+  }
+  
+  .skillIcon {
+    @apply text-sm;
+  }
+}
+
+@media (max-width: 640px) {
+  .skillList {
+    @apply gap-1.5;
+  }
+  
+  .skillTag {
+    @apply px-2 py-0.5;
+  }
+  
+  .deleteSkillButton {
+    @apply size-4 text-[10px];
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .skillCategory:hover .categoryIcon {
+    @apply scale-110;
+  }
+  
+  .skillTag:hover .skillIcon {
+    @apply rotate-12;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .skillTag.skill-tech {
+    @apply bg-blue-900/30 text-blue-300 border-blue-700/50;
+    @apply hover:bg-blue-900/50 hover:text-blue-200;
+  }
+  
+  .skillTag.skill-design {
+    @apply bg-purple-900/30 text-purple-300 border-purple-700/50;
+    @apply hover:bg-purple-900/50 hover:text-purple-200;
+  }
+  
+  .skillTag.skill-tool {
+    @apply bg-green-900/30 text-green-300 border-green-700/50;
+    @apply hover:bg-green-900/50 hover:text-green-200;
+  }
+  
+  .skillTag.skill-default {
+    @apply bg-gray-800/30 text-gray-300 border-gray-600/50;
+    @apply hover:bg-gray-800/50 hover:text-gray-200;
+  }
+}

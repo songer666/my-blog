@@ -1,0 +1,146 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply space-y-6;
+}
+
+/* ===== Logo 上传区域 ===== */
+.logoSection {
+  @apply flex items-center gap-4;
+  @apply p-4 rounded-lg border border-dashed border-border;
+  @apply bg-muted/20;
+}
+
+.logoContainer {
+  @apply flex items-center gap-3;
+}
+
+.logoPreview {
+  @apply size-16 rounded-lg border border-border;
+  @apply bg-background cursor-pointer;
+  @apply flex items-center justify-center;
+  @apply transition-all duration-200;
+  @apply hover:border-primary/50 hover:bg-primary/5;
+  @apply overflow-hidden;
+}
+
+.logoImage {
+  @apply size-full object-cover rounded-lg;
+}
+
+.logoPlaceholder {
+  @apply size-8 text-muted-foreground;
+}
+
+.uploadButton {
+  @apply transition-all duration-200;
+  @apply hover:scale-105;
+}
+
+.logoInfo {
+  @apply flex-1;
+}
+
+.logoTitle {
+  @apply text-sm font-medium text-foreground;
+}
+
+.logoSubtitle {
+  @apply text-xs text-muted-foreground;
+}
+
+.fileInput {
+  @apply hidden;
+}
+
+/* ===== 表单区域 ===== */
+.form {
+  @apply space-y-4;
+}
+
+.fieldGroup {
+  @apply space-y-4;
+}
+
+/* ===== 行内字段 ===== */
+.rowFields {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+/* ===== 操作按钮 ===== */
+.actions {
+  @apply flex justify-end space-x-3 pt-4;
+}
+
+.cancelButton {
+  @apply transition-all duration-200;
+  @apply hover:scale-105;
+}
+
+.submitButton {
+  @apply transition-all duration-200;
+  @apply hover:scale-105;
+  @apply disabled:hover:scale-100;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.spinner {
+  @apply size-4;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 640px) {
+  .container {
+    @apply space-y-4;
+  }
+  
+  .logoSection {
+    @apply flex-col gap-3;
+  }
+  
+  .logoContainer {
+    @apply flex-col;
+  }
+  
+  .logoPreview {
+    @apply size-12;
+  }
+  
+  .logoPlaceholder {
+    @apply size-6;
+  }
+  
+  .rowFields {
+    @apply grid-cols-1;
+  }
+  
+  .actions {
+    @apply flex-col space-x-0 space-y-2;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .logoPreview:hover {
+    @apply shadow-md;
+  }
+  
+  .uploadButton:hover {
+    @apply shadow-sm;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .logoSection {
+    @apply bg-muted/10;
+  }
+  
+  .logoPreview {
+    @apply bg-background/80;
+  }
+}

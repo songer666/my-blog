@@ -1,0 +1,118 @@
+@reference '#tailwind.css';
+
+.container {
+  @apply w-full;
+}
+
+.form {
+  @apply space-y-6;
+}
+
+.fieldGroup {
+  @apply space-y-4;
+}
+
+.modeHeader {
+  @apply flex items-center gap-3 p-4 bg-muted/50 rounded-lg border-2 border-dashed border-muted-foreground/20;
+}
+
+.modeIcon {
+  @apply size-6 text-primary;
+}
+
+.modeTitle {
+  @apply text-lg font-semibold text-foreground;
+}
+
+
+.fieldHint {
+  @apply text-sm text-muted-foreground mt-1;
+}
+
+.actions {
+  @apply flex justify-end gap-3 pt-4 border-t;
+}
+
+.cancelButton {
+  @apply min-w-20;
+}
+
+.submitButton {
+  @apply min-w-32;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.spinner {
+  @apply size-4;
+}
+
+/* ===== 图标上传区域 ===== */
+.iconSection {
+  @apply flex items-start gap-4 p-4 bg-muted/50 rounded-lg border-2 border-dashed border-muted-foreground/20;
+}
+
+.iconContainer {
+  @apply flex flex-col items-center gap-3;
+}
+
+.iconPreview {
+  @apply size-16 flex items-center justify-center;
+  @apply bg-background border-2 border-dashed border-muted-foreground/30;
+  @apply rounded-lg cursor-pointer;
+  @apply hover:border-primary/50 transition-colors duration-200;
+}
+
+.iconImage {
+  @apply size-12 object-contain rounded;
+}
+
+.iconPlaceholder {
+  @apply size-8 text-muted-foreground/50;
+}
+
+.iconButtons {
+  @apply flex gap-2;
+}
+
+.uploadButton {
+  @apply min-w-24;
+}
+
+.iconInfo {
+  @apply flex-1;
+}
+
+.iconTitle {
+  @apply font-medium text-foreground mb-1;
+}
+
+.iconSubtitle {
+  @apply text-sm text-muted-foreground;
+}
+
+.fileInput {
+  @apply hidden;
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .iconSection {
+    @apply flex-col gap-3;
+  }
+  
+  .iconContainer {
+    @apply flex-row gap-3;
+  }
+  
+  .actions {
+    @apply flex-col gap-2;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    @apply w-full;
+  }
+}

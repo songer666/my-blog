@@ -1,0 +1,75 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply space-y-4;
+}
+
+/* ===== 表单样式 ===== */
+.form {
+  @apply space-y-4;
+}
+
+.fieldGroup {
+  @apply space-y-4;
+}
+
+/* ===== 字段样式 ===== */
+.field {
+  @apply space-y-2;
+}
+
+.fieldLabel {
+  @apply text-sm font-medium;
+  @apply text-foreground;
+}
+
+.fieldInput {
+  @apply w-full;
+  @apply px-3 py-2;
+  @apply border border-border rounded-md;
+  @apply bg-background text-foreground;
+  @apply placeholder:text-muted-foreground;
+  @apply focus:outline-none focus:ring-2 focus:ring-ring;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.fieldError {
+  @apply text-sm text-destructive;
+}
+
+/* ===== 按钮组样式 ===== */
+.buttonGroup {
+  @apply flex justify-end gap-3 pt-4;
+}
+
+.cancelButton {
+  @apply border-border;
+  @apply hover:bg-accent hover:text-accent-foreground;
+}
+
+.submitButton {
+  @apply bg-primary text-primary-foreground;
+  @apply hover:bg-primary/90;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.loadingContent {
+  @apply flex items-center gap-2;
+}
+
+.spinner {
+  @apply w-4 h-4 animate-spin;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .buttonGroup {
+    @apply flex-col gap-2;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    @apply w-full;
+  }
+}

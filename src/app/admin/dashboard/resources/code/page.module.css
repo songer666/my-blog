@@ -1,0 +1,37 @@
+@reference '#tailwind.css';
+
+.container {
+  @apply space-y-6;
+}
+
+.header {
+  @apply flex items-center justify-between;
+}
+
+.headerTitle {
+  @apply text-3xl font-bold;
+}
+
+.headerDescription {
+  @apply text-muted-foreground mt-1;
+}
+
+.statsGrid {
+  @apply grid gap-4 md:grid-cols-3;
+}
+
+.cardHeader {
+  @apply flex flex-row items-center justify-between space-y-0 pb-2;
+}
+
+.cardTitle {
+  @apply text-sm font-medium;
+}
+
+.icon {
+  @apply h-4 w-4 text-muted-foreground;
+}
+
+.statValue {
+  @apply text-2xl font-bold;
+}

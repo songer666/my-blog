@@ -1,0 +1,83 @@
+@reference '#tailwind.css';
+
+/* ===== 统计卡片网格 ===== */
+.statsGrid {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+  @apply animate-in fade-in slide-in-from-top-4 duration-700 delay-100;
+}
+
+.statCard {
+  @apply bg-card text-card-foreground;
+  @apply border border-border;
+  @apply hover:shadow-md transition-all duration-200;
+}
+
+.statContent {
+  @apply p-4 text-center;
+}
+
+.statNumber {
+  @apply text-2xl lg:text-3xl font-bold;
+  @apply text-primary mb-1;
+  @apply bg-gradient-to-r from-primary to-primary/80;
+  @apply bg-clip-text text-transparent;
+}
+
+.statLabel {
+  @apply text-sm text-muted-foreground;
+  @apply font-medium;
+  @apply transition-colors duration-200;
+}
+
+/* ===== 悬停效果增强 ===== */
+.statCard:hover .statLabel {
+  @apply text-foreground;
+}
+
+.statCard:hover .statNumber {
+  @apply scale-110;
+  @apply transition-transform duration-200;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .statsGrid {
+    @apply grid-cols-1 gap-3;
+  }
+  
+  .statContent {
+    @apply p-3;
+  }
+  
+  .statNumber {
+    @apply text-xl lg:text-2xl;
+  }
+  
+  .statLabel {
+    @apply text-xs;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .statCard {
+    @apply bg-card/50 backdrop-blur-sm;
+    @apply hover:bg-card/70;
+  }
+  
+  .statNumber {
+    @apply from-primary to-primary/90;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .statCard {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .statCard:hover {
+    @apply shadow-lg;
+    @apply -translate-y-1;
+  }
+}

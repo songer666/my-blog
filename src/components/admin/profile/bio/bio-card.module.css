@@ -1,0 +1,126 @@
+@reference '#tailwind.css';
+
+/* ===== 卡片容器 ===== */
+.card {
+  @apply transition-all duration-200;
+  @apply hover:shadow-md;
+}
+
+/* ===== 头部区域 ===== */
+.header {
+  @apply pb-0;
+}
+
+.profileInfo {
+  @apply flex items-start gap-6;
+}
+
+/* ===== 头像样式 ===== */
+.avatar {
+  @apply size-24 flex-shrink-0;
+  @apply ring-2 ring-border/20;
+  @apply transition-all duration-200;
+  @apply hover:ring-primary/30;
+}
+
+.avatarFallback {
+  @apply text-2xl font-bold;
+  @apply bg-gradient-to-br from-primary/10 to-primary/20;
+  @apply text-primary;
+}
+
+/* ===== 详细信息 ===== */
+.details {
+  @apply flex-1 space-y-3;
+}
+
+.nameSection {
+  @apply space-y-1;
+}
+
+.name {
+  @apply text-2xl font-bold;
+  @apply bg-gradient-to-r from-foreground to-foreground/80;
+  @apply bg-clip-text text-transparent;
+}
+
+.title {
+  @apply text-lg font-medium;
+  @apply text-muted-foreground;
+}
+
+/* ===== 联系信息 ===== */
+.contactInfo {
+  @apply flex flex-wrap gap-4;
+}
+
+.contactItem {
+  @apply flex items-center gap-2;
+  @apply text-sm text-muted-foreground;
+  @apply transition-colors duration-200;
+  @apply hover:text-foreground;
+}
+
+.contactIcon {
+  @apply size-4 flex-shrink-0;
+}
+
+/* ===== 内容区域 ===== */
+.content {
+  @apply pt-6;
+}
+
+.bioSection {
+  @apply space-y-3;
+}
+
+.bioTitle {
+  @apply font-semibold flex items-center gap-2;
+  @apply text-foreground;
+}
+
+.bioIcon {
+  @apply size-4 text-primary;
+}
+
+.bioText {
+  @apply text-muted-foreground leading-relaxed;
+  @apply text-sm lg:text-base;
+  @apply transition-colors duration-200;
+}
+
+/* MDX 内容样式 */
+.bioMdxContent {
+  @apply w-full;
+  @apply text-sm lg:text-base;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 640px) {
+  .profileInfo {
+    @apply flex-col gap-4;
+  }
+  
+  .avatar {
+    @apply size-20;
+  }
+  
+  .name {
+    @apply text-xl;
+  }
+  
+  .title {
+    @apply text-base;
+  }
+}
+
+/* ===== 动画增强 ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .avatar {
+    @apply hover:scale-105;
+  }
+  
+  .contactItem {
+    @apply hover:translate-x-1;
+  }
+}

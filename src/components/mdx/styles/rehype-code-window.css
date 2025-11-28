@@ -1,0 +1,186 @@
+.mdx-preview {
+    .code-window {
+        margin: 1rem 0;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        background-color: #d1d5db;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        width: 100%;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 3px;
+
+        &:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+        }
+
+        & pre {
+            margin: 0;
+            border-radius: 0;
+        }
+
+        & code {
+            background-color: transparent;
+        }
+    }
+
+    .code-header {
+        display: none;
+    }
+
+    .window-controls {
+        display: none;
+    }
+
+    .code-tools {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .code-lang {
+        display: none;
+    }
+
+    .code-copy {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4b5563;
+        transition: all 0.2s ease;
+        background-color: #d1d5db;
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+        min-height: 28px;
+        border: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0.6rem;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0.75rem;
+    }
+    
+    .code-copy:hover {
+        color: #1f2937;
+        background-color: #9ca3af;
+    }
+    
+    .code-copy svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .code-content {
+        overflow: auto;
+        padding: 0.75rem;
+        background: #f8f9fa !important;
+        resize: none !important; /* 禁用调整大小功能 */
+        overflow: auto;
+        max-height: 350px;
+        border-radius: 0.75rem; /* 所有四个角都圆角 */
+
+        & pre {
+            padding-left: 1rem;
+            padding-right: 3rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            margin: 0;
+            background: #f8f9fa !important;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            overflow: visible !important; /* 禁用 pre 的滚动条 */
+            max-height: none !important; /* 移除 pre 的高度限制 */
+        }
+        
+        & code {
+            display: block;
+            background: transparent !important;
+        }
+    }
+    
+    :is(.dark *) .code-content {
+        background: #2d2d2d !important;
+        
+        & pre {
+            background: #2d2d2d !important;
+        }
+    }
+}
+
+/* Dark mode styles */
+.dark .mdx-preview .code-window {
+    background-color: #374151;
+}
+
+.dark .mdx-preview .code-copy {
+    color: #d1d5db;
+    background-color: #374151;
+}
+
+.dark .mdx-preview .code-copy:hover {
+    color: #ffffff;
+    background-color: #4b5563;
+}
+
+/* Firefox 专用滚动条样式（不会影响 Chrome / Edge / Safari） */
+@-moz-document url-prefix() {
+    .mdx-preview .code-content {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+
+    .dark .mdx-preview .code-content {
+        scrollbar-color: #374151 transparent;
+    }
+}
+
+/* ===== 强制覆盖：确保滚动条样式生效 ===== */
+/* 使用完整选择器路径，不依赖嵌套 */
+.mdx-preview .code-window .code-content::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+.mdx-preview .code-window .code-content::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+.mdx-preview .code-window .code-content::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 3px !important;
+}
+
+.mdx-preview .code-window .code-content::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+.mdx-preview .code-window .code-content::-webkit-scrollbar-corner {
+    background: transparent !important;
+}
+
+.mdx-preview .code-window .code-content::-webkit-scrollbar-button {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+.mdx-preview .code-window .code-content::-webkit-resizer {
+    display: none !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* 暗色模式 */
+.dark .mdx-preview .code-window .code-content::-webkit-scrollbar-thumb {
+    background: #374151 !important;
+}
+
+.dark .mdx-preview .code-window .code-content::-webkit-scrollbar-thumb:hover {
+    background: #4b5563 !important;
+}
+

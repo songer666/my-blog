@@ -1,0 +1,250 @@
+@reference '#tailwind.css';
+
+/* ===== 主容器 ===== */
+.container {
+  @apply flex flex-col gap-6 w-full;
+  @apply animate-in fade-in slide-in-from-bottom-4 duration-500;
+}
+
+/* ===== 页面头部 ===== */
+.header {
+  @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
+  @apply pb-4 border-b border-border;
+}
+
+.titleSection {
+  @apply flex flex-col gap-1;
+}
+
+.title {
+  @apply text-2xl lg:text-3xl font-bold;
+  @apply text-foreground;
+}
+
+.subtitle {
+  @apply text-muted-foreground text-sm lg:text-base;
+}
+
+.addButton {
+  @apply flex items-center gap-2;
+  @apply bg-primary hover:bg-primary/90;
+  @apply text-primary-foreground;
+  @apply px-4 py-2 rounded-md;
+  @apply transition-colors duration-200;
+  @apply whitespace-nowrap;
+}
+
+.buttonIcon {
+  @apply w-4 h-4;
+}
+
+
+/* ===== 表格卡片 ===== */
+.tableCard {
+  @apply bg-card text-card-foreground;
+  @apply border border-border;
+  @apply shadow-sm;
+}
+
+.tableHeader {
+  @apply pb-3;
+}
+
+.tableTitle {
+  @apply text-lg font-semibold;
+  @apply text-foreground;
+}
+
+.tableContent {
+  @apply p-0;
+}
+
+.tableWrapper {
+  @apply overflow-x-auto;
+  @apply border border-border rounded-md;
+}
+
+/* ===== 表格样式 ===== */
+.headerRow {
+  @apply bg-muted/50;
+  @apply hover:bg-muted/50;
+}
+
+.headerCell {
+  @apply font-semibold text-foreground;
+  @apply px-4 py-3;
+  @apply text-left;
+  @apply whitespace-nowrap;
+}
+
+.actionsHeader {
+  @apply font-semibold text-foreground;
+  @apply px-4 py-3;
+  @apply text-center;
+  @apply whitespace-nowrap;
+}
+
+.dataRow {
+  @apply hover:bg-muted/30;
+  @apply transition-colors duration-150;
+}
+
+/* ===== 会话行样式 ===== */
+.sessionRow {
+  @apply border-t-0;
+  @apply bg-muted/10;
+}
+
+.sessionCell {
+  @apply p-0;
+  @apply border-b border-border;
+}
+
+.dataCell {
+  @apply px-4 py-3;
+  @apply text-sm;
+  @apply border-b border-border;
+}
+
+/* ===== 用户信息样式 ===== */
+.userId {
+  @apply font-mono text-xs;
+  @apply text-muted-foreground;
+  @apply bg-muted px-2 py-1 rounded;
+}
+
+.userInfo {
+  @apply flex flex-col gap-1;
+}
+
+.userName {
+  @apply font-medium text-foreground;
+}
+
+.userEmail {
+  @apply text-muted-foreground;
+  @apply break-all;
+}
+
+.dateText {
+  @apply text-muted-foreground text-xs;
+  @apply whitespace-nowrap;
+}
+
+/* ===== 状态徽章 ===== */
+.statusBadge {
+  @apply inline-flex items-center;
+  @apply px-2 py-1 rounded-full;
+  @apply text-xs font-medium;
+  @apply whitespace-nowrap;
+}
+
+.verified {
+  @apply bg-green-100 text-green-800;
+  @apply dark:bg-green-900/20 dark:text-green-400;
+}
+
+.unverified {
+  @apply bg-yellow-100 text-yellow-800;
+  @apply dark:bg-yellow-900/20 dark:text-yellow-400;
+}
+
+/* ===== 操作按钮 ===== */
+.actionsCell {
+  @apply px-4 py-3;
+  @apply border-b border-border;
+}
+
+.actionButtons {
+  @apply flex items-center justify-center gap-1;
+}
+
+.actionButton {
+  @apply flex items-center gap-1;
+  @apply px-2 py-1;
+  @apply text-xs;
+  @apply hover:bg-accent hover:text-accent-foreground;
+  @apply transition-colors duration-200;
+  @apply whitespace-nowrap;
+}
+
+
+.actionIcon {
+  @apply w-3 h-3;
+}
+
+.actionText {
+  @apply hidden sm:inline;
+}
+
+/* ===== 空状态 ===== */
+.emptyCell {
+  @apply text-center py-12;
+}
+
+.emptyState {
+  @apply flex flex-col items-center gap-3;
+}
+
+.emptyIcon {
+  @apply w-12 h-12 text-muted-foreground/50;
+}
+
+.emptyText {
+  @apply text-lg font-medium text-muted-foreground;
+}
+
+.emptySubtext {
+  @apply text-sm text-muted-foreground/70;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 640px) {
+  .header {
+    @apply gap-3;
+  }
+  
+  .title {
+    @apply text-xl;
+  }
+  
+  
+  .headerCell,
+  .dataCell,
+  .actionsCell {
+    @apply px-2 py-2;
+  }
+  
+  .actionButtons {
+    @apply flex-col gap-1;
+  }
+  
+  .actionButton {
+    @apply px-1 py-1;
+  }
+}
+
+@media (max-width: 768px) {
+  .tableWrapper {
+    @apply text-xs;
+  }
+  
+  .userId {
+    @apply text-xs px-1 py-0.5;
+  }
+  
+  .statusBadge {
+    @apply text-xs px-1.5 py-0.5;
+  }
+}
+
+/* ===== 深色模式优化 ===== */
+@media (prefers-color-scheme: dark) {
+  .verified {
+    @apply bg-green-900/30 text-green-300;
+  }
+  
+  .unverified {
+    @apply bg-yellow-900/30 text-yellow-300;
+  }
+}
