@@ -1,1 +1,0 @@
-ALTER TABLE "skill_category" DROP COLUMN "icon";

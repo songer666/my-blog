@@ -96,7 +96,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@netlify/plugin-nextjs": "^5.15.1",
     "@tailwindcss/postcss": "^4",
     "@types/jszip": "^3.4.1",
     "@types/lodash": "^4.17.20",

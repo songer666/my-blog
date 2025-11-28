@@ -1,1 +1,0 @@
-ALTER TABLE "project" ADD COLUMN "code_repository_id" text;
