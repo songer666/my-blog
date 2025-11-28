@@ -116,6 +116,9 @@ importers:
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
+      drizzle-kit:
+        specifier: ^0.31.7
+        version: 0.31.7
       drizzle-orm:
         specifier: ^0.44.6
         version: 0.44.6(@types/pg@8.15.5)(kysely@0.28.8)(pg@8.16.3)
@@ -243,6 +246,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3
         version: 3.3.1
+      '@netlify/plugin-nextjs':
+        specifier: ^5.15.1
+        version: 5.15.1
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.14
@@ -273,9 +279,6 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.2.2(@types/react@19.2.2)
-      drizzle-kit:
-        specifier: ^0.31.5
-        version: 0.31.5
       eslint:
         specifier: ^9
         version: 9.38.0(jiti@2.6.1)
@@ -1363,6 +1366,10 @@ packages:
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
+
+  '@netlify/plugin-nextjs@5.15.1':
+    resolution: {integrity: sha512-HXm94tteOuA0FYwhkxjYIPe0zta+Dsu0wz7LnhfqVlaYcRaOLjHtd2vgfmpz3np/fx9TQg3gCfqGkXt2a9i7Aw==}
+    engines: {node: '>=18.0.0'}
 
   '@next/env@15.5.6':
     resolution: {integrity: sha512-3qBGRW+sCGzgbpc5TS1a0p7eNxnOarGVQhZxfvTdnV0gFI61lX7QNtQ4V1TSREctXzYn5NetbUsLvyqwLFJM6Q==}
@@ -3444,8 +3451,8 @@ packages:
     resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
     engines: {node: '>=12'}
 
-  drizzle-kit@0.31.5:
-    resolution: {integrity: sha512-+CHgPFzuoTQTt7cOYCV6MOw2w8vqEn/ap1yv4bpZOWL03u7rlVRQhUY0WYT3rHsgVTXwYQDZaSUJSQrMBUKuWg==}
+  drizzle-kit@0.31.7:
+    resolution: {integrity: sha512-hOzRGSdyKIU4FcTSFYGKdXEjFsncVwHZ43gY3WU5Bz9j5Iadp6Rh6hxLSQ1IWXpKLBKt/d5y1cpSPcV+FcoQ1A==}
     hasBin: true
 
   drizzle-orm@0.44.6:
@@ -7797,6 +7804,8 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
+  '@netlify/plugin-nextjs@5.15.1': {}
+
   '@next/env@15.5.6': {}
 
   '@next/eslint-plugin-next@15.5.6':
@@ -10096,7 +10105,7 @@ snapshots:
 
   dotenv@17.2.3: {}
 
-  drizzle-kit@0.31.5:
+  drizzle-kit@0.31.7:
     dependencies:
       '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5

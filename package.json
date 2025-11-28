@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "rimraf -rf .next && next dev --turbopack",
-    "build": "rimraf -rf .next && next build",
+    "db:generate": "drizzle-kit generate",
+    "build": "pnpm db:generate && next build",
     "start": "next start",
     "lint": "eslint",
     "------------------ ui command": "----",
@@ -50,6 +51,7 @@
     "deepmerge": "^4.3.1",
     "dompurify": "^3.3.0",
     "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.31.7",
     "drizzle-orm": "^0.44.6",
     "drizzle-zod": "^0.8.3",
     "easymde": "^2.20.0",
@@ -94,6 +96,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@netlify/plugin-nextjs": "^5.15.1",
     "@tailwindcss/postcss": "^4",
     "@types/jszip": "^3.4.1",
     "@types/lodash": "^4.17.20",
@@ -104,7 +107,6 @@
     "@types/pinyin": "^2.10.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "drizzle-kit": "^0.31.5",
     "eslint": "^9",
     "eslint-config-next": "15.5.6",
     "rimraf": "^6.0.1",
