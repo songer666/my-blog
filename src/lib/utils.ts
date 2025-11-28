@@ -15,7 +15,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getUrl(): string {
     const base = (() => {
         if (typeof window !== 'undefined') return '';
-        if (process.env.VERCEL_URL) return process.env.VERCEL_URL;
+        if (process.env.NETWORK_URL) return process.env.NETWORK_URL;
         return 'http://localhost:3000';
     })();
     return `${base}/api/trpc`;
