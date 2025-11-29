@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,11 +9,11 @@ import {
   DialogTrigger,
 } from '@/components/shadcn/ui/dialog';
 import { Button } from '@/components/shadcn/ui/button';
+import { Input } from '@/components/shadcn/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/shadcn/ui/avatar';
 import { Spinner } from '@/components/shadcn/ui/spinner';
 import { Upload, Camera } from 'lucide-react';
 import { useAuthAPI } from '@/client/auth-api';
-import { validateAvatarFile } from '@/client/profile/bio-api';
 import { toast } from 'sonner';
 import { UserType } from '@/server/types/user-type';
 import { AvatarSkeleton } from '@/components/skeleton/admin-skeleton';
@@ -27,41 +27,51 @@ interface AvatarDialogProps {
 export function AvatarDialog({ user, onAvatarUpdated }: AvatarDialogProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(user.image);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string>(user.image || '');
+  const [error, setError] = useState<string>('');
   const { useUpdateAvatar } = useAuthAPI();
   const updateAvatarMutation = useUpdateAvatar();
 
-  // 处理头像上传
-  const handleAvatarUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // 验证文件
-    const validation = validateAvatarFile(file);
-    if (!validation.valid) {
-      toast.error(validation.message, { position: 'top-center' });
-      return;
+  // 验证图片路径（支持URL和相对路径）
+  const validateImageUrl = (url: string): boolean => {
+    if (!url) {
+      setError('请输入头像路径');
+      return false;
     }
-
-    // 预览图片
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      setAvatarPreview(result);
-    };
-    reader.readAsDataURL(file);
+    
+    // 如果是相对路径（以/开头），直接通过
+    if (url.startsWith('/')) {
+      setError('');
+      return true;
+    }
+    
+    // 如果是URL，验证格式
+    try {
+      const urlObj = new URL(url);
+      if (!['http:', 'https:'].includes(urlObj.protocol)) {
+        setError('请输入有效的HTTP或HTTPS图片链接，或以/开头的相对路径');
+        return false;
+      }
+      setError('');
+      return true;
+    } catch {
+      setError('请输入有效的图片URL或相对路径（如 /images/avatar.jpg）');
+      return false;
+    }
   };
 
-  // 触发文件选择
-  const triggerFileUpload = () => {
-    fileInputRef.current?.click();
+  const handleUrlChange = (url: string) => {
+    setAvatarUrl(url);
+    if (url.trim()) {
+      validateImageUrl(url);
+    } else {
+      setError('');
+    }
   };
 
   // 提交头像更新
   const handleSubmit = async () => {
-    if (!avatarPreview) {
-      toast.error('请先选择头像', { position: 'top-center' });
+    if (!validateImageUrl(avatarUrl)) {
       return;
     }
 
@@ -70,7 +80,7 @@ export function AvatarDialog({ user, onAvatarUpdated }: AvatarDialogProps) {
 
       await updateAvatarMutation.mutateAsync({
         id: user.id,
-        image: avatarPreview,
+        image: avatarUrl,
       });
       
       toast.success('头像更新成功', { 
@@ -99,7 +109,8 @@ export function AvatarDialog({ user, onAvatarUpdated }: AvatarDialogProps) {
 
   const handleCancel = () => {
     setOpen(false);
-    setAvatarPreview(user.image);
+    setAvatarUrl(user.image || '');
+    setError('');
   };
 
   return (
@@ -141,39 +152,45 @@ export function AvatarDialog({ user, onAvatarUpdated }: AvatarDialogProps) {
           </div>
           
           <div className={styles.avatarUploadSection}>
-            {avatarPreview ? (
-              <Avatar className={styles.previewAvatar}>
-                <AvatarImage src={avatarPreview} alt="头像预览" />
-                <AvatarFallback className={styles.previewFallback}>
-                  <AvatarSkeleton className="w-24 h-24" />
-                </AvatarFallback>
-              </Avatar>
-            ) : (
-              <AvatarSkeleton className="w-24 h-24" />
-            )}
-            
-            <Button
-              type="button"
-              variant="outline"
-              onClick={triggerFileUpload}
-              disabled={isSubmitting}
-              className={styles.uploadButton}
-            >
-              <Upload className={styles.uploadButtonIcon} />
-              选择头像
-            </Button>
-            
-            <p className={styles.uploadTip}>
-              支持 JPEG、PNG、WebP 格式，大小不超过 2MB
-            </p>
-            
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/jpeg,image/jpg,image/png,image/webp"
-              onChange={handleAvatarUpload}
-              className={styles.fileInput}
-            />
+            <div className="space-y-3 w-full">
+              <label htmlFor="avatarUrl" className="text-sm font-medium">
+                头像URL
+              </label>
+              <Input
+                type="url"
+                id="avatarUrl"
+                value={avatarUrl}
+                disabled={isSubmitting}
+                onChange={(e) => handleUrlChange(e.target.value)}
+                placeholder="https://example.com/avatar.jpg"
+                className="w-full"
+              />
+              
+              {error && (
+                <div className="text-sm text-red-500">
+                  {error}
+                </div>
+              )}
+              
+              {avatarUrl && !error && (
+                <div className="flex justify-center">
+                  <Avatar className={styles.previewAvatar}>
+                    <AvatarImage 
+                      src={avatarUrl} 
+                      alt="头像预览"
+                      onError={() => setError('图片加载失败，请检查URL是否正确')}
+                    />
+                    <AvatarFallback className={styles.previewFallback}>
+                      <AvatarSkeleton className="w-24 h-24" />
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+              )}
+              
+              <p className={styles.uploadTip}>
+                支持完整URL（https://...）或相对路径（/images/avatar.jpg）
+              </p>
+            </div>
           </div>
           
           <div className={styles.buttonGroup}>
@@ -190,13 +207,13 @@ export function AvatarDialog({ user, onAvatarUpdated }: AvatarDialogProps) {
             <Button
               type="button"
               onClick={handleSubmit}
-              disabled={isSubmitting || !avatarPreview}
+              disabled={isSubmitting || !avatarUrl}
               className={styles.submitButton}
             >
               {isSubmitting ? (
                 <span className={styles.loadingContent}>
                   <Spinner className={styles.spinner} aria-hidden="true" />
-                  <span>上传中...</span>
+                  <span>更新中...</span>
                 </span>
               ) : (
                 '更新头像'

@@ -18,8 +18,7 @@ export const bioUpdateSchema = z.object({
   title: z.string().min(1, "职位不能为空").max(100, "职位不能超过100个字符"),
   email: z.string().email("邮箱格式不正确"),
   bio: z.string().min(1, "个人简介不能为空").max(1000, "个人简介不能超过1000个字符"),
-  avatar: z.string().optional(),
-  avatarMimeType: z.string().optional(),
+  avatar: z.string().optional().or(z.literal('')),
 });
 
 // Social Link Schemas
@@ -96,8 +95,7 @@ export const educationUpdateSchema = z.object({
   schoolUrl: z.string().url("学校链接格式不正确").optional().or(z.literal("")),
   startYear: z.number().int().min(1900, "开始年份不能早于1900年").max(new Date().getFullYear() + 10),
   endYear: z.number().int().min(1900, "结束年份不能早于1900年").max(new Date().getFullYear() + 10),
-  logo: z.string().optional(),
-  logoMimeType: z.string().optional(),
+  logo: z.string().optional().or(z.literal('')),
   sortOrder: z.number().int().min(0).default(0),
 });
 

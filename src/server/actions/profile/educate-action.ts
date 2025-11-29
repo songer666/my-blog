@@ -55,7 +55,6 @@ export async function createEducation(data: EducationUpdateType): Promise<Educat
         startYear: data.startYear,
         endYear: data.endYear,
         logo: data.logo,
-        logoMimeType: data.logoMimeType,
         sortOrder: data.sortOrder || 0,
       })
       .returning();

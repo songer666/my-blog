@@ -33,16 +33,7 @@ export const insertPostSchema = createInsertSchema(post, {
   description: z.string().min(1, "描述不能为空").max(500, "描述不能超过500个字符"),
   slug: z.string().min(1, "URL别名不能为空").max(100, "URL别名不能超过100个字符"),
   content: z.string().min(1, "内容不能为空"),
-  image: z.string().optional().refine((val) => {
-    if (!val) return true; // 可选字段
-    // 检查是否是base64图片格式
-    if (!val.startsWith('data:image/') || !val.includes('base64,')) {
-      return false;
-    }
-    // 检查base64大小（估算字节数）
-    const sizeInBytes = Math.round((val.length * 3) / 4);
-    return sizeInBytes <= 700 * 1024; // 700KB限制，给一些缓冲
-  }, "图片格式不正确或文件过大，请上传小于500KB的有效图片文件"),
+  image: z.string().url("请输入有效的图片URL").optional().or(z.literal('')),
   keyWords: z.string().optional(),
 });
 
@@ -52,16 +43,7 @@ export const postUpdateSchema = z.object({
   description: z.string().min(1, "描述不能为空").max(500, "描述不能超过500个字符"),
   slug: z.string().min(1, "URL别名不能为空").max(100, "URL别名不能超过100个字符"),
   content: z.string().min(1, "内容不能为空"),
-  image: z.string().optional().refine((val) => {
-    if (!val) return true; // 可选字段
-    // 检查是否是base64图片格式
-    if (!val.startsWith('data:image/') || !val.includes('base64,')) {
-      return false;
-    }
-    // 检查base64大小（估算字节数）
-    const sizeInBytes = Math.round((val.length * 3) / 4);
-    return sizeInBytes <= 900 * 1024; // 900KB限制，给一些缓冲
-  }, "图片格式不正确或文件过大，请上传小于800KB的有效图片文件"),
+  image: z.string().url("请输入有效的图片URL").optional().or(z.literal('')),
   keyWords: z.string().optional(),
   visible: z.boolean().default(false),
   tagIds: z.array(z.string()).optional(), // 标签ID数组

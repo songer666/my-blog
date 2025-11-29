@@ -44,9 +44,8 @@ export const updateUserSchema = z.object({
 //用户头像更新
 export const updateUserAvatarSchema = z.object({
     id: z.string().min(1, 'ID不能为空'),
-    image: z.string().min(1, '头像数据不能为空'),
+    image: z.string().min(1, '头像不能为空'),
 })
-
 
 //用户列表
 export const userListSchema = z.array(

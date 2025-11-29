@@ -1,17 +1,16 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/shadcn/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/shadcn/ui/field';
 import { Input } from '@/components/shadcn/ui/input';
 import { Spinner } from '@/components/shadcn/ui/spinner';
 import { useForm } from '@tanstack/react-form';
 import { educationUpdateSchema } from '@/server/schema/profile-schema';
-import { useEducateOperations, validateSchoolLogoFile } from '@/client/profile/educate-api';
-import { Upload, School } from 'lucide-react';
+import { useEducateOperations } from '@/client/profile/educate-api';
+import { School } from 'lucide-react';
 import { EducationType } from '@/server/types/profile-type';
 import styles from './educate-form.module.css';
-import {toast} from "sonner";
 
 interface EducateFormProps {
   onSuccess?: (data: EducationType) => void;
@@ -20,8 +19,8 @@ interface EducateFormProps {
 
 export function EducateForm({ onSuccess, onCancel }: EducateFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [logoUrl, setLogoUrl] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const { createEducation } = useEducateOperations();
 
   const form = useForm({
@@ -33,8 +32,7 @@ export function EducateForm({ onSuccess, onCancel }: EducateFormProps) {
       schoolUrl: '',
       startYear: new Date().getFullYear() - 4,
       endYear: new Date().getFullYear(),
-      logo: undefined as string | undefined,
-      logoMimeType: undefined as string | undefined,
+      logo: '',
       sortOrder: 0,
     },
     onSubmit: async (values) => {
@@ -45,7 +43,6 @@ export function EducateForm({ onSuccess, onCancel }: EducateFormProps) {
         const validatedData = educationUpdateSchema.parse({
           ...values.value,
           logo: values.value.logo || undefined,
-          logoMimeType: values.value.logoMimeType || undefined,
           schoolUrl: values.value.schoolUrl || undefined,
         });
         
@@ -63,34 +60,39 @@ export function EducateForm({ onSuccess, onCancel }: EducateFormProps) {
     }
   });
 
-  // 处理学校 logo 上传
-  const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // 验证文件
-    const validation = validateSchoolLogoFile(file);
-    if (!validation.valid) {
-      toast.error(validation.message, { position: 'top-center' });
-      return;
+  // 验证图片路径（支持URL和相对路径）
+  const validateImageUrl = (url: string): boolean => {
+    if (!url) return true; // 空值允许
+    
+    // 如果是相对路径（以/开头），直接通过
+    if (url.startsWith('/')) {
+      setError('');
+      return true;
     }
-
-    // 预览图片
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      setLogoPreview(result);
-      
-      // 更新表单数据
-      form.setFieldValue('logo', result);
-      form.setFieldValue('logoMimeType', file.type);
-    };
-    reader.readAsDataURL(file);
+    
+    // 如果是URL，验证格式
+    try {
+      const urlObj = new URL(url);
+      if (!['http:', 'https:'].includes(urlObj.protocol)) {
+        setError('请输入有效的HTTP或HTTPS图片链接，或以/开头的相对路径');
+        return false;
+      }
+      setError('');
+      return true;
+    } catch {
+      setError('请输入有效的图片URL或相对路径（如 /images/logo.jpg）');
+      return false;
+    }
   };
 
-  // 触发文件选择
-  const triggerFileUpload = () => {
-    fileInputRef.current?.click();
+  const handleUrlChange = (url: string) => {
+    setLogoUrl(url);
+    form.setFieldValue('logo', url);
+    if (url.trim()) {
+      validateImageUrl(url);
+    } else {
+      setError('');
+    }
   };
 
   // 处理表单提交
@@ -101,39 +103,41 @@ export function EducateForm({ onSuccess, onCancel }: EducateFormProps) {
 
   return (
     <div className={styles.container}>
-      {/* 学校 logo 上传区域 */}
+      {/* 学校 logo URL输入区域 */}
       <div className={styles.logoSection}>
         <div className={styles.logoContainer}>
-          <div className={styles.logoPreview} onClick={triggerFileUpload}>
-            {logoPreview ? (
-              <img src={logoPreview} alt="学校logo预览" className={styles.logoImage} />
+          <div className={styles.logoPreview}>
+            {logoUrl ? (
+              <img src={logoUrl} alt="学校logo预览" className={styles.logoImage} />
             ) : (
               <School className={styles.logoPlaceholder} />
             )}
           </div>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            onClick={triggerFileUpload}
-            disabled={isSubmitting}
-            className={styles.uploadButton}
-          >
-            <Upload className="size-4 mr-2" />
-            上传校徽
-          </Button>
         </div>
         <div className={styles.logoInfo}>
-          <p className={styles.logoTitle}>学校校徽（可选）</p>
-          <p className={styles.logoSubtitle}>支持 JPEG、PNG、WebP 格式，大小不超过 1MB</p>
+          <div className="space-y-2 w-full">
+            <label htmlFor="logoUrl" className={styles.logoTitle}>
+              学校校徽URL（可选）
+            </label>
+            <Input
+              type="url"
+              id="logoUrl"
+              value={logoUrl}
+              disabled={isSubmitting}
+              onChange={(e) => handleUrlChange(e.target.value)}
+              placeholder="https://example.com/logo.jpg 或 /images/logo.jpg"
+              className="w-full"
+            />
+            {error && (
+              <p className="text-sm text-red-500">
+                {error}
+              </p>
+            )}
+            <p className={styles.logoSubtitle}>
+              支持完整URL（https://...）或相对路径（/images/logo.jpg）
+            </p>
+          </div>
         </div>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/jpg,image/png,image/webp"
-          onChange={handleLogoUpload}
-          className={styles.fileInput}
-        />
       </div>
 
       {/* 表单区域 */}

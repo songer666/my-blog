@@ -49,127 +49,66 @@ interface ImageFieldProps {
 }
 
 export function ImageField({ field, isSubmitting }: ImageFieldProps) {
-  const [preview, setPreview] = React.useState<string>('');
   const [error, setError] = React.useState<string>('');
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  // 当字段值变化时更新预览
-  React.useEffect(() => {
-    if (field.state.value && field.state.value.startsWith('data:image/')) {
-      setPreview(field.state.value);
-    } else {
-      setPreview('');
-    }
-  }, [field.state.value]);
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setError('');
-
-    // 检查文件类型
-    if (!file.type.startsWith('image/')) {
-      setError('请选择图片文件');
-      return;
-    }
-
-    // 检查文件大小（500KB = 512 * 1024 bytes）
-    const maxSize = 512 * 1024; // 500KB
-    if (file.size > maxSize) {
-      setError('图片大小不能超过500KB');
-      return;
-    }
-
+  // 验证URL格式
+  const validateImageUrl = (url: string): boolean => {
+    if (!url) return true; // 空值允许
     try {
-      // 压缩并转换为base64
-      compressImage(file, (compressedBase64) => {
-        field.handleChange(compressedBase64);
-        setPreview(compressedBase64);
-      });
-    } catch (err) {
-      setError('图片处理失败');
-    }
-  };
-
-  // 图片压缩函数
-  const compressImage = (file: File, callback: (base64: string) => void) => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-
-    img.onload = () => {
-      // 计算压缩后的尺寸（最大宽度800px）
-      const maxWidth = 800;
-      const maxHeight = 600;
-      let { width, height } = img;
-
-      if (width > maxWidth) {
-        height = (height * maxWidth) / width;
-        width = maxWidth;
+      const urlObj = new URL(url);
+      // 检查是否是http或https协议
+      if (!['http:', 'https:'].includes(urlObj.protocol)) {
+        setError('请输入有效的HTTP或HTTPS图片链接');
+        return false;
       }
-      if (height > maxHeight) {
-        width = (width * maxHeight) / height;
-        height = maxHeight;
-      }
-
-      canvas.width = width;
-      canvas.height = height;
-
-      // 绘制压缩后的图片
-      ctx?.drawImage(img, 0, 0, width, height);
-
-      // 转换为base64，质量设置为0.8
-      const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+      // 检查是否是常见的图片格式
+      const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+      const pathname = urlObj.pathname.toLowerCase();
+      const hasImageExtension = imageExtensions.some(ext => pathname.endsWith(ext));
       
-      // 检查压缩后的大小
-      const sizeInBytes = Math.round((compressedBase64.length * 3) / 4);
-      if (sizeInBytes > 512 * 1024) { // 如果还是超过500KB
-        // 进一步降低质量
-        const furtherCompressed = canvas.toDataURL('image/jpeg', 0.6);
-        callback(furtherCompressed);
-      } else {
-        callback(compressedBase64);
+      if (!hasImageExtension) {
+        setError('URL应该指向图片文件（.jpg, .png, .gif, .webp, .svg等）');
+        return false;
       }
-    };
-
-    img.onerror = () => {
-      setError('图片加载失败');
-    };
-
-    // 读取文件
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      img.src = e.target?.result as string;
-    };
-    reader.onerror = () => {
-      setError('图片读取失败');
-    };
-    reader.readAsDataURL(file);
+      
+      setError('');
+      return true;
+    } catch {
+      setError('请输入有效的图片URL');
+      return false;
+    }
   };
 
-  const handleRemoveImage = () => {
-    field.handleChange('');
-    setPreview('');
-    setError('');
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+  const handleUrlChange = (url: string) => {
+    field.handleChange(url);
+    if (url.trim()) {
+      validateImageUrl(url);
+    } else {
+      setError('');
     }
+  };
+
+  const handleClearImage = () => {
+    field.handleChange('');
+    setError('');
   };
 
   return (
     <Field className={styles.field}>
       <FieldLabel htmlFor={field.name} className={styles.fieldLabel}>
-        封面图片（可选）
+        封面图片URL（可选）
       </FieldLabel>
       
       <div className="space-y-3">
         <Input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
+          type="url"
+          id={field.name}
+          name={field.name}
+          value={field.state.value || ''}
           disabled={isSubmitting}
-          onChange={handleFileChange}
+          onBlur={field.handleBlur}
+          onChange={(e) => handleUrlChange(e.target.value)}
+          placeholder="https://example.com/image.jpg"
           className={styles.fieldInput}
         />
         
@@ -179,16 +118,17 @@ export function ImageField({ field, isSubmitting }: ImageFieldProps) {
           </div>
         )}
         
-        {preview && (
+        {field.state.value && !error && (
           <div className="relative inline-block">
             <img
-              src={preview}
+              src={field.state.value}
               alt="封面预览"
               className="max-w-xs max-h-48 rounded-md border border-border object-cover"
+              onError={() => setError('图片加载失败，请检查URL是否正确')}
             />
             <button
               type="button"
-              onClick={handleRemoveImage}
+              onClick={handleClearImage}
               disabled={isSubmitting}
               className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 transition-colors"
             >
@@ -198,7 +138,7 @@ export function ImageField({ field, isSubmitting }: ImageFieldProps) {
         )}
         
         <p className={styles.fieldHint}>
-          支持 JPG、PNG、GIF 等格式，文件大小不超过500KB，图片会自动压缩
+          请输入图片的完整URL地址，支持 JPG、PNG、GIF、WebP、SVG 等格式
         </p>
       </div>
     </Field>

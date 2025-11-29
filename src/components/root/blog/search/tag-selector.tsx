@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
-import Link from 'next/link';
-import { Badge } from '@/components/shadcn/ui/badge';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Tag {
   id: string;
@@ -45,17 +46,17 @@ const styles = {
         flex items-center justify-center`.trim(),
 };
 
-export function TagSelector({ tags, currentTag, baseUrl, searchParams = {}, totalPosts }: TagSelectorProps) {
+export function TagSelector({ tags, currentTag, baseUrl, totalPosts }: TagSelectorProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   // 构建URL
   const buildUrl = (tagName?: string) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
     
-    // 添加其他查询参数（排除tag和page）
-    Object.entries(searchParams).forEach(([key, value]) => {
-      if (value && key !== 'tag' && key !== 'page') {
-        params.set(key, value);
-      }
-    });
+    // 移除tag和page参数
+    params.delete('tag');
+    params.delete('page');
     
     // 添加标签参数（如果有）
     if (tagName) {
@@ -66,6 +67,11 @@ export function TagSelector({ tags, currentTag, baseUrl, searchParams = {}, tota
     return queryString ? `${baseUrl}?${queryString}` : baseUrl;
   };
 
+  const handleTagClick = (tagName?: string) => {
+    const url = buildUrl(tagName);
+    router.push(url);
+  };
+
   if (tags.length === 0) {
     return null;
   }
@@ -74,21 +80,24 @@ export function TagSelector({ tags, currentTag, baseUrl, searchParams = {}, tota
     <div className={styles.container}>
       <div className={styles.tagsWrapper}>
         {/* 全部标签按钮（显示文章总数） */}
-        <Link href={buildUrl()}>
-          <button className={styles.badge(!currentTag)}>
-            <span>全部</span>
-            <span className={styles.count(!currentTag)}>{totalPosts}</span>
-          </button>
-        </Link>
+        <button 
+          onClick={() => handleTagClick()}
+          className={styles.badge(!currentTag)}
+        >
+          <span>全部</span>
+          <span className={styles.count(!currentTag)}>{totalPosts}</span>
+        </button>
 
         {/* 各个标签按钮 */}
         {tags.map((tag) => (
-          <Link key={tag.id} href={buildUrl(tag.name)}>
-            <button className={styles.badge(currentTag === tag.name)}>
-              <span>{tag.name}</span>
-              <span className={styles.count(currentTag === tag.name)}>{tag.postCount}</span>
-            </button>
-          </Link>
+          <button
+            key={tag.id}
+            onClick={() => handleTagClick(tag.name)}
+            className={styles.badge(currentTag === tag.name)}
+          >
+            <span>{tag.name}</span>
+            <span className={styles.count(currentTag === tag.name)}>{tag.postCount}</span>
+          </button>
         ))}
       </div>
     </div>

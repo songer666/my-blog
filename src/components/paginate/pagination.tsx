@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { PaginationProps } from './type';
 import {
   Pagination as ShadcnPagination,
@@ -13,7 +15,10 @@ const styles = {
   container: 'my-8',
 };
 
-export function Pagination({ currentPage, totalPages, baseUrl, searchParams = {} }: PaginationProps) {
+export function Pagination({ currentPage, totalPages, baseUrl }: Omit<PaginationProps, 'searchParams'>) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   // 如果只有一页或没有页面，不显示分页
   if (totalPages <= 1) {
     return null;
@@ -21,19 +26,19 @@ export function Pagination({ currentPage, totalPages, baseUrl, searchParams = {}
 
   // 构建URL查询参数
   const buildUrl = (page: number) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
     
-    // 添加其他查询参数
-    Object.entries(searchParams).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, value);
-      }
-    });
-    
-    // 添加页码参数
+    // 更新页码参数
     params.set('page', page.toString());
     
     return `${baseUrl}?${params.toString()}`;
+  };
+
+  const handlePageChange = (page: number) => {
+    const url = buildUrl(page);
+    router.push(url);
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const showPrevious = currentPage > 1;
@@ -44,13 +49,19 @@ export function Pagination({ currentPage, totalPages, baseUrl, searchParams = {}
       <PaginationContent>
         {showPrevious && (
           <PaginationItem>
-            <PaginationPrevious href={buildUrl(currentPage - 1)} />
+            <PaginationPrevious 
+              onClick={() => handlePageChange(currentPage - 1)}
+              className="cursor-pointer"
+            />
           </PaginationItem>
         )}
         
         {showNext && (
           <PaginationItem>
-            <PaginationNext href={buildUrl(currentPage + 1)} />
+            <PaginationNext 
+              onClick={() => handlePageChange(currentPage + 1)}
+              className="cursor-pointer"
+            />
           </PaginationItem>
         )}
       </PaginationContent>

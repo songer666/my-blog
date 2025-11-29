@@ -1,5 +1,7 @@
-import React from 'react';
-import Form from 'next/form';
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/shadcn/ui/input';
 import { Button } from '@/components/shadcn/ui/button';
 import { Search } from 'lucide-react';
@@ -19,21 +21,45 @@ const styles = {
 };
 
 export function SearchBox({ currentKeyword, baseUrl }: SearchBoxProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [keyword, setKeyword] = useState(currentKeyword || '');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const params = new URLSearchParams(searchParams.toString());
+    
+    // 移除page参数
+    params.delete('page');
+    
+    // 更新或删除keyword参数
+    if (keyword.trim()) {
+      params.set('keyword', keyword.trim());
+    } else {
+      params.delete('keyword');
+    }
+    
+    const queryString = params.toString();
+    const url = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+    router.push(url);
+  };
+
   return (
     <div className={styles.container}>
-      <Form action={baseUrl} scroll={false} className={styles.form}>
+      <form onSubmit={handleSearch} className={styles.form}>
         <Input
           type="text"
-          name="keyword"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
           placeholder="搜索博客标题、描述或关键词..."
-          defaultValue={currentKeyword}
           className={styles.input}
         />
         <Button type="submit" variant="default" className={styles.button}>
           <Search className={styles.icon} />
           搜索
         </Button>
-      </Form>
+      </form>
     </div>
   );
 }

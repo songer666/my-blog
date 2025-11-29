@@ -41,7 +41,6 @@ export async function updateBio(data: BioUpdateType): Promise<ProfileType> {
           email: data.email,
           bio: data.bio,
           avatar: data.avatar,
-          avatarMimeType: data.avatarMimeType,
           updatedAt: new Date(),
         })
         .where(eq(profile.id, existingProfile.id))
@@ -62,7 +61,6 @@ export async function updateBio(data: BioUpdateType): Promise<ProfileType> {
           email: data.email,
           bio: data.bio,
           avatar: data.avatar,
-          avatarMimeType: data.avatarMimeType,
         })
         .returning();
 
