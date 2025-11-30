@@ -118,7 +118,7 @@ export function MusicAlbumDetail({ album }: MusicAlbumDetailProps) {
     <div className={styles.container}>
       <div className={styles.subContainer}>
         {/* 返回按钮 */}
-        <BackToList href="/root/resources/music" label="返回音乐列表" />
+        <BackToList href="/resources/music" label="返回音乐列表" />
 
         {/* Header Section */}
         <BlurFade delay={0.1} inView>

@@ -18,18 +18,18 @@ import { revalidatePathAction } from "@/server/actions/revalidate-action";
 
 // 路径映射配置
 const PATH_MAPPING: Record<string, string | ((slug?: string) => string)> = {
-  home: "/root",
-  blog: "/root/blog",
-  "blog-detail": (slug?: string) => `/root/blog/${slug}`,
-  projects: "/root/projects",
-  "project-detail": (slug?: string) => `/root/projects/${slug}`,
-  about: "/root/about",
-  code: "/root/resources/code",
-  "code-detail": (slug?: string) => `/root/resources/code/${slug}`,
-  image: "/root/resources/image",
-  "image-detail": (slug?: string) => `/root/resources/image/${slug}`,
-  music: "/root/resources/music",
-  "music-detail": (slug?: string) => `/root/resources/music/${slug}`,
+  home: "/",
+  blog: "/blog",
+  "blog-detail": (slug?: string) => `/blog/${slug}`,
+  projects: "/projects",
+  "project-detail": (slug?: string) => `/projects/${slug}`,
+  about: "/about",
+  code: "/resources/code",
+  "code-detail": (slug?: string) => `/resources/code/${slug}`,
+  image: "/resources/image",
+  "image-detail": (slug?: string) => `/resources/image/${slug}`,
+  music: "/resources/music",
+  "music-detail": (slug?: string) => `/resources/music/${slug}`,
 };
 
 interface RevalidateButtonProps {

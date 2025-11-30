@@ -18,7 +18,7 @@ interface ProjectCardHomeProps {
 
 const styles = {
   container: `relative flex flex-col h-full rounded-xl overflow-hidden
-    bg-card border border-border/50
+    bg-white dark:bg-black border border-black dark:border-white/20
     transition-all duration-300
     hover:shadow-[0_0_20px_rgba(139,92,246,0.15),0_0_40px_rgba(139,92,246,0.1),0_0_60px_rgba(139,92,246,0.05)]
     dark:hover:shadow-[0_0_20px_rgba(167,139,250,0.2),0_0_40px_rgba(167,139,250,0.15),0_0_60px_rgba(167,139,250,0.1)]
@@ -73,7 +73,7 @@ export function ProjectCardHome({
     <article className={styles.container}>
       {/* 内容区域 */}
       <div className={styles.content}>
-        <Link href={`/root/projects/${slug}`} className={styles.titleLink}>
+        <Link href={`/projects/${slug}`} className={styles.titleLink}>
           <h3 className={styles.title}>{title}</h3>
         </Link>
         
@@ -119,7 +119,7 @@ export function ProjectCardHome({
       </div>
       
       {/* 图片区域 */}
-      <Link href={`/root/projects/${slug}`} className="block group">
+      <Link href={`/projects/${slug}`} className="block group">
         <div className={styles.imageContainer}>
           {image ? (
             <>

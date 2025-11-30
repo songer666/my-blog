@@ -99,7 +99,7 @@ export function ProjectCard({
           borderWidth={1}
         />
         {/* 图片部分 */}
-        <Link href={`/root/projects/${slug}`} className={styles.imageWrapper(isEven)}>
+        <Link href={`/projects/${slug}`} className={styles.imageWrapper(isEven)}>
           {image && (
             <>
               {isBase64Image(image) ? (
@@ -124,7 +124,7 @@ export function ProjectCard({
         {/* 内容部分 */}
         <div className={styles.contentWrapper(isEven)}>
           {/* 标题 */}
-          <Link href={`/root/projects/${slug}`} className={styles.titleLink}>
+          <Link href={`/projects/${slug}`} className={styles.titleLink}>
             <h3 className={styles.title}>{title}</h3>
           </Link>
           

@@ -90,7 +90,7 @@ export function GalleryDetail({ gallery }: GalleryDetailProps) {
     <div className={styles.container}>
       <div className={styles.subContainer}>
         {/* 返回按钮 */}
-        <BackToList href="/root/resources/image" label="返回图库列表" />
+        <BackToList href="/resources/image" label="返回图库列表" />
 
         {/* Header Section */}
         <BlurFade delay={0.1} inView>

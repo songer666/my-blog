@@ -10,16 +10,16 @@ import { navbarStyles } from "./navbar.style"
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { name: "主页", href: "/root" },
-  { name: "博客", href: "/root/blog" },
-  { name: "项目", href: "/root/projects" },
-  { name: "关于", href: "/root/about" },
+  { name: "主页", href: "/" },
+  { name: "博客", href: "/blog" },
+  { name: "项目", href: "/projects" },
+  { name: "关于", href: "/about" },
 ]
 
 const resourceItems = [
-  { name: "代码", href: "/root/resources/code", icon: Code },
-  { name: "图库", href: "/root/resources/image", icon: ImageIcon },
-  { name: "音乐", href: "/root/resources/music", icon: Music },
+  { name: "代码", href: "/resources/code", icon: Code },
+  { name: "图库", href: "/resources/image", icon: ImageIcon },
+  { name: "音乐", href: "/resources/music", icon: Music },
 ]
 
 export function Navbar() {
@@ -56,14 +56,14 @@ export function Navbar() {
     }
   }, [mobileOpen])
 
-  // 判断是否为当前路由（使用 startsWith 匹配，例如 /root/blog/[slug] 也视作 /root/blog）
+  // 判断是否为当前路由（使用 startsWith 匹配，例如 /blog/[slug] 也视作 /blog）
   const isActive = (href: string) => {
     // 精确匹配首页
-    if (href === '/root') {
-      return pathname === '/root'
+    if (href === '/') {
+      return pathname === '/' || pathname === '/root'
     }
     // 其他路径使用 startsWith 匹配
-    return pathname.startsWith(href)
+    return pathname.startsWith(href) || pathname.startsWith('/root' + href)
   }
 
   return (
@@ -176,7 +176,7 @@ export function Navbar() {
                   className={cn(
                     navbarStyles.navLinkItem,
                     navbarStyles.dropdown.trigger,
-                    pathname.startsWith('/root/resources') && navbarStyles.navLinkItemActive
+                    (pathname.startsWith('/resources') || pathname.startsWith('/root/resources')) && navbarStyles.navLinkItemActive
                   )}
                   tabIndex={0}
                 >

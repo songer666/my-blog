@@ -25,7 +25,7 @@ export function BackToList() {
     if (window.history.length > 1) {
       router.back(); // 使用浏览器缓存，瞬间返回
     } else {
-      router.push('/root/blog'); // 如果没有历史记录，直接跳转
+      router.push('/blog'); // 如果没有历史记录，直接跳转
     }
   };
 

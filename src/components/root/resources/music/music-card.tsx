@@ -72,7 +72,7 @@ export function MusicCard({
   const displayTags = [...(keywords || []), ...(tags || [])].slice(0, 3).join(' / ');
 
   return (
-    <Link href={`/root/resources/music/${slug}`} className={styles.wrapper}>
+    <Link href={`/resources/music/${slug}`} className={styles.wrapper}>
       <div className={styles.container}>
         {/* 左上角封面 - 探出卡片 */}
         <div className={styles.coverSection}>

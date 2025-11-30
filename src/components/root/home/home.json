@@ -10,12 +10,12 @@
     "buttons": [
       {
         "text": "阅读博客",
-        "href": "/root/blog",
+        "href": "/blog",
         "variant": "primary"
       },
       {
         "text": "查看项目",
-        "href": "/root/projects",
+        "href": "/projects",
         "variant": "outline"
       }
     ]

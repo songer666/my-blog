@@ -42,7 +42,7 @@ export function BlogCard({ id, title, description, slug, image, keyWords, create
   const keywordArray = keyWords ? keyWords.split(',').map(k => k.trim()).filter(k => k.length > 0) : [];
   
   return (
-    <Link href={`/root/blog/${slug}`} className={styles.link}>
+    <Link href={`/blog/${slug}`} className={styles.link}>
       <div className={styles.container}>
         {image && (
           <div className={styles.imageContainer}>

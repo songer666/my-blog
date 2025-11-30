@@ -31,7 +31,7 @@ const RootPage = async () => {
             <RecentSection
                 title="最近博客"
                 moreText="更多博客"
-                moreLink="/root/blog"
+                moreLink="/blog"
             >
                 <RecentBlogs posts={recentPosts} />
             </RecentSection>
@@ -40,7 +40,7 @@ const RootPage = async () => {
             <RecentSection
                 title="最近项目"
                 moreText="更多项目"
-                moreLink="/root/projects"
+                moreLink="/projects"
             >
                 <RecentProjects projects={recentProjects} />
             </RecentSection>

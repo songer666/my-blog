@@ -10,18 +10,18 @@
     {
       "title": "导航",
       "items": [
-        { "text": "首页", "href": "/root" },
-        { "text": "博客", "href": "/root/blog" },
-        { "text": "项目", "href": "/root/projects" },
-        { "text": "关于", "href": "/root/about" }
+        { "text": "首页", "href": "/" },
+        { "text": "博客", "href": "/blog" },
+        { "text": "项目", "href": "/projects" },
+        { "text": "关于", "href": "/about" }
       ]
     },
     {
       "title": "资源",
       "items": [
-        { "text": "代码", "href": "/root/resources/code" },
-        { "text": "图库", "href": "/root/resources/image" },
-        { "text": "音乐", "href": "/root/resources/music" }
+        { "text": "代码", "href": "/resources/code" },
+        { "text": "图库", "href": "/resources/image" },
+        { "text": "音乐", "href": "/resources/music" }
       ]
     },
     {

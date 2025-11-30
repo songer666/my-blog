@@ -17,7 +17,7 @@ const styles = {
 export function BackToList() {
   return (
     <div className={styles.container}>
-      <Link href="/root/projects">
+      <Link href="/projects">
         <Button variant="ghost" className={styles.button}>
           <ArrowLeft className={styles.icon} />
           返回项目列表

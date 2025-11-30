@@ -56,7 +56,7 @@ export function CodeDetail({ repository, demoImageUrls }: CodeDetailProps) {
     <div className={styles.container}>
       <div className={styles.subContainer}>
         {/* 返回按钮 */}
-        <BackToList href="/root/resources/code" label="返回代码库列表" />
+        <BackToList href="/resources/code" label="返回代码库列表" />
 
         {/* Header Section */}
         <BlurFade delay={0.1} inView>

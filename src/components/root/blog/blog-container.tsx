@@ -106,7 +106,7 @@ export function BlogContainer({ allPosts, allTags }: BlogContainerProps) {
 
           {/* 搜索框 */}
           <div className={pageStyles.searchContainer}>
-            <SearchBox currentKeyword={keyword} baseUrl="/root/blog" />
+            <SearchBox currentKeyword={keyword} baseUrl="/blog" />
           </div>
 
           {/* 标签选择器 */}
@@ -114,7 +114,7 @@ export function BlogContainer({ allPosts, allTags }: BlogContainerProps) {
             <TagSelector
               tags={allTags}
               currentTag={tag}
-              baseUrl="/root/blog"
+              baseUrl="/blog"
               searchParams={{ keyword, tag }}
               totalPosts={allPosts.length}
             />
@@ -148,7 +148,7 @@ export function BlogContainer({ allPosts, allTags }: BlogContainerProps) {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            baseUrl="/root/blog"
+            baseUrl="/blog"
           />
         </div>
       </BlurFade>

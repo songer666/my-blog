@@ -42,7 +42,7 @@ export function GalleryCard({
   createdAt,
 }: GalleryCardProps) {
   return (
-    <Link href={`/root/resources/image/${slug}`} className={styles.wrapper}>
+    <Link href={`/resources/image/${slug}`} className={styles.wrapper}>
       <div className={styles.container}>
         {/* 背景图片 */}
         {coverUrl ? (

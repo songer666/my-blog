@@ -53,7 +53,7 @@ export function CodeCard({
   createdAt,
 }: CodeCardProps) {
   return (
-    <Link href={`/root/resources/code/${slug}`} className={styles.wrapper}>
+    <Link href={`/resources/code/${slug}`} className={styles.wrapper}>
       <div className={styles.container}>
         {/* Header: 标题 */}
         <div className={styles.header}>
