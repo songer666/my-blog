@@ -24,10 +24,7 @@ import {
 import { isNil } from "lodash";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
 
-const musicListUrl = '/root/resources/music';
-const musicDetailUrl = (slug: string) => `/root/resources/music/${slug}`;
 
 export const musicRoute = createTRPCRouter({
   // 获取所有专辑（管理端用）
@@ -112,9 +109,6 @@ export const musicRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(musicListUrl);
-
         return result.data;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -137,12 +131,6 @@ export const musicRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(musicListUrl);
-        if (result.data.slug) {
-          revalidatePath(musicDetailUrl(result.data.slug));
-        }
-
         return result.data;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -163,9 +151,6 @@ export const musicRoute = createTRPCRouter({
           });
         }
         
-        // 清除缓存
-        revalidatePath(musicListUrl);
-        
         return result;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -185,14 +170,6 @@ export const musicRoute = createTRPCRouter({
             code: 'BAD_REQUEST', 
             message: result.error || '添加失败' 
           });
-        }
-
-        // 清除缓存
-        revalidatePath(musicListUrl);
-        // 获取专辑信息以清除详情页缓存
-        const album = await getAlbumById(albumId);
-        if (album?.slug) {
-          revalidatePath(musicDetailUrl(album.slug));
         }
 
         return result;
@@ -216,14 +193,6 @@ export const musicRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(musicListUrl);
-        // 获取专辑信息以清除详情页缓存
-        const album = await getAlbumById(albumId);
-        if (album?.slug) {
-          revalidatePath(musicDetailUrl(album.slug));
-        }
-
         return result;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -243,14 +212,6 @@ export const musicRoute = createTRPCRouter({
             code: 'BAD_REQUEST', 
             message: result.error || '更新失败' 
           });
-        }
-
-        // 清除缓存
-        revalidatePath(musicListUrl);
-        // 获取专辑信息以清除详情页缓存
-        const album = await getAlbumById(albumId);
-        if (album?.slug) {
-          revalidatePath(musicDetailUrl(album.slug));
         }
 
         return result;

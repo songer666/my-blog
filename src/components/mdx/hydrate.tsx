@@ -18,7 +18,7 @@ import { ListTree } from "lucide-react";
 // 样式常量
 const styles = {
     container: `w-full flex`.trim(),
-    content: `flex-1 min-w-0 overflow-hidden dark:bg-neutral-950 px-2 sm:px-8`.trim(),
+    content: `flex-1 min-w-0 overflow-hidden px-2 sm:px-8`.trim(),
     sidebar: `w-72 min-h-screen bg-blue-50/50 dark:bg-neutral-900 px-6 flex-shrink-0
      sticky top-8 self-start hidden lg:block space-y-4 max-h-[calc(100vh-6rem)] 
      overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600

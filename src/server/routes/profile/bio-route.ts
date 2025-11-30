@@ -2,10 +2,7 @@ import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/server/init
 import { bioUpdateSchema, profileResponseSchema, bioResponseSchema } from "@/server/schema/profile-schema";
 import { getProfile, updateBio, getFullProfile, getPublicFullProfile } from "@/server/actions/profile/bio-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 
-const adminUrl = '/admin/dashboard/profile';
-const aboutUrl = '/root/about';
 
 export const bioRoute = createTRPCRouter({
   // 获取个人基本信息
@@ -76,10 +73,6 @@ export const bioRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const updatedProfile = await updateBio(opts.input);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
         
         return {
           success: true,

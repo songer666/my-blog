@@ -9,6 +9,7 @@ import { FriendsSection } from '@/components/root/about/friends-section';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { generateAboutMetadata } from './metadata';
+import homeConfig from '@/components/root/home/home.json';
 
 // 生成页面 metadata
 export async function generateMetadata(
@@ -62,6 +63,14 @@ export default async function AboutRootPage() {
     ? await serializeMdx(profile.bio)
     : null;
 
+  // 将配置文件中的社交链接转换为 BioSection 需要的格式
+  const socialLinks = homeConfig.social.map((link, index) => ({
+    id: `social-${index}`,
+    platform: link.name,
+    url: link.href,
+    icon: link.icon,
+  }));
+
   return (
     <div className={pageStyles.container}>
       <div className={pageStyles.mainWrapper}>
@@ -73,7 +82,7 @@ export default async function AboutRootPage() {
                 <BioSection 
                   profile={profile} 
                   serializedBio={serializedBio}
-                  socialLinks={profile.socialLinks || []}
+                  socialLinks={socialLinks}
                 />
               </BlurFade>
             </div>

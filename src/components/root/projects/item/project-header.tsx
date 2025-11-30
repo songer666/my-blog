@@ -26,10 +26,10 @@ const styles = {
   header: 'mb-8',
   imageContainer: 'relative w-full h-64 md:h-96 mb-6 rounded-lg overflow-hidden',
   image: 'object-cover',
-  title: `text-3xl md:text-4xl font-medium mb-4
+  title: `font-display text-3xl md:text-4xl font-medium mb-4
     text-foreground dark:text-purple-400
     drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_4px_16px_rgba(168,85,247,0.6)]`.trim(),
-  description: 'text-xl text-muted-foreground/80 mb-6',
+  description: 'font-sans text-xl text-muted-foreground/80 mb-6',
   meta: {
     container: `flex flex-wrap items-center gap-4 
       text-sm text-muted-foreground mb-6`.trim(),

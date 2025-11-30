@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui
 import { CreateGalleryDialog } from "@/components/admin/resources/image/dialogs/create-gallery-dialog";
 import { GalleryList } from "@/components/admin/resources/image/gallery-list";
 import styles from './page.module.css';
+import { RevalidateButton } from "@/components/isr";
 
 // 不设置 revalidate，默认永久缓存（SSG），只通过 revalidatePath 清除
 
@@ -37,7 +38,10 @@ export default async function ImageGalleryPage() {
             管理和组织你的图库资源
           </p>
         </div>
-        <CreateGalleryDialog />
+        <div className="flex gap-2">
+          <RevalidateButton type="image" label="刷新图库页面" size="sm" />
+          <CreateGalleryDialog />
+        </div>
       </div>
 
       {/* 统计卡片 */}

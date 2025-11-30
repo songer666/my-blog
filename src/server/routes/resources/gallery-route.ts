@@ -24,10 +24,7 @@ import {
 import { isNil } from "lodash";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
 
-const galleryListUrl = '/root/resources/image';
-const galleryDetailUrl = (slug: string) => `/root/resources/image/${slug}`;
 
 export const galleryRoute = createTRPCRouter({
   // 获取所有图库（管理端用）
@@ -112,9 +109,6 @@ export const galleryRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(galleryListUrl);
-
         return result.data;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -137,12 +131,6 @@ export const galleryRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(galleryListUrl);
-        if (result.data.slug) {
-          revalidatePath(galleryDetailUrl(result.data.slug));
-        }
-
         return result.data;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -163,9 +151,6 @@ export const galleryRoute = createTRPCRouter({
           });
         }
         
-        // 清除缓存
-        revalidatePath(galleryListUrl);
-        
         return result;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -185,14 +170,6 @@ export const galleryRoute = createTRPCRouter({
             code: 'BAD_REQUEST', 
             message: result.error || '添加失败' 
           });
-        }
-
-        // 清除缓存
-        revalidatePath(galleryListUrl);
-        // 获取图库信息以清除详情页缓存
-        const gallery = await getGalleryById(galleryId);
-        if (gallery?.slug) {
-          revalidatePath(galleryDetailUrl(gallery.slug));
         }
 
         return result;
@@ -216,14 +193,6 @@ export const galleryRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(galleryListUrl);
-        // 获取图库信息以清除详情页缓存
-        const gallery = await getGalleryById(galleryId);
-        if (gallery?.slug) {
-          revalidatePath(galleryDetailUrl(gallery.slug));
-        }
-
         return result;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -243,14 +212,6 @@ export const galleryRoute = createTRPCRouter({
             code: 'BAD_REQUEST', 
             message: result.error || '更新失败' 
           });
-        }
-
-        // 清除缓存
-        revalidatePath(galleryListUrl);
-        // 获取图库信息以清除详情页缓存
-        const gallery = await getGalleryById(galleryId);
-        if (gallery?.slug) {
-          revalidatePath(galleryDetailUrl(gallery.slug));
         }
 
         return result;

@@ -28,10 +28,7 @@ import {
 import { isNil } from "lodash";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
 
-const codeListUrl = '/root/resources/code';
-const codeDetailUrl = (slug: string) => `/root/resources/code/${slug}`;
 
 export const codeRoute = createTRPCRouter({
   // 获取所有代码库（管理端用）
@@ -116,9 +113,6 @@ export const codeRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(codeListUrl);
-
         return result.data;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -141,12 +135,6 @@ export const codeRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(codeListUrl);
-        if (result.data.slug) {
-          revalidatePath(codeDetailUrl(result.data.slug));
-        }
-
         return result.data;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -167,9 +155,6 @@ export const codeRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(codeListUrl);
-
         return result;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -189,14 +174,6 @@ export const codeRoute = createTRPCRouter({
             code: 'BAD_REQUEST', 
             message: result.error || '添加失败' 
           });
-        }
-
-        // 清除缓存
-        revalidatePath(codeListUrl);
-        // 获取仓库信息以清除详情页缓存
-        const repository = await getRepositoryById(repositoryId);
-        if (repository?.slug) {
-          revalidatePath(codeDetailUrl(repository.slug));
         }
 
         return result;
@@ -220,14 +197,6 @@ export const codeRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(codeListUrl);
-        // 获取仓库信息以清除详情页缓存
-        const repository = await getRepositoryById(repositoryId);
-        if (repository?.slug) {
-          revalidatePath(codeDetailUrl(repository.slug));
-        }
-
         return result;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -247,14 +216,6 @@ export const codeRoute = createTRPCRouter({
             code: 'BAD_REQUEST', 
             message: result.error || '更新失败' 
           });
-        }
-
-        // 清除缓存
-        revalidatePath(codeListUrl);
-        // 获取仓库信息以清除详情页缓存
-        const repository = await getRepositoryById(repositoryId);
-        if (repository?.slug) {
-          revalidatePath(codeDetailUrl(repository.slug));
         }
 
         return result;
@@ -278,14 +239,6 @@ export const codeRoute = createTRPCRouter({
           });
         }
 
-        // 清除缓存
-        revalidatePath(codeListUrl);
-        // 获取仓库信息以清除详情页缓存
-        const repository = await getRepositoryById(repositoryId);
-        if (repository?.slug) {
-          revalidatePath(codeDetailUrl(repository.slug));
-        }
-
         return result;
       } catch (e: any) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
@@ -305,14 +258,6 @@ export const codeRoute = createTRPCRouter({
             code: 'BAD_REQUEST', 
             message: result.error || '删除失败' 
           });
-        }
-
-        // 清除缓存
-        revalidatePath(codeListUrl);
-        // 获取仓库信息以清除详情页缓存
-        const repository = await getRepositoryById(repositoryId);
-        if (repository?.slug) {
-          revalidatePath(codeDetailUrl(repository.slug));
         }
 
         return result;

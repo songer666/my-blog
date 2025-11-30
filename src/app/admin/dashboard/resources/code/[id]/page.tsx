@@ -11,6 +11,7 @@ import { UploadCodeDialog } from "@/components/admin/resources/code/dialogs/uplo
 import { UploadZipDialog } from "@/components/admin/resources/code/dialogs/upload-zip-dialog";
 import { DownloadZipButton } from "@/components/admin/resources/code/download-zip-button";
 import styles from "./page.module.css";
+import { RevalidateButton } from "@/components/isr";
 
 interface RepositoryDetailPageProps {
   params: Promise<{ id: string }>;
@@ -67,6 +68,12 @@ export default async function RepositoryDetailPage({ params }: RepositoryDetailP
           </div>
         )}
         <div className="flex gap-2">
+          <RevalidateButton 
+            type="code-detail" 
+            slug={repository.slug}
+            label="刷新当前页面"
+            size="sm"
+          />
           <DownloadZipButton 
             repositoryId={repository.id}
             repositoryName={repository.slug || repository.title}

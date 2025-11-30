@@ -2,11 +2,8 @@ import { createTRPCRouter, protectedProcedure } from "@/server/init";
 import { educationUpdateSchema, educationListResponseSchema } from "@/server/schema/profile-schema";
 import { getEducationList, createEducation, deleteEducation } from "@/server/actions/profile/educate-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const adminUrl = '/admin/dashboard/profile';
-const aboutUrl = '/root/about';
 
 export const educateRoute = createTRPCRouter({
   // 获取教育经历列表
@@ -37,10 +34,6 @@ export const educateRoute = createTRPCRouter({
       try {
         const newEducation = await createEducation(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
-        
         return {
           success: true,
           data: newEducation,
@@ -61,10 +54,6 @@ export const educateRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const result = await deleteEducation(opts.input.id);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
         
         return {
           success: result.deleted,

@@ -36,10 +36,10 @@ const styles = {
     coverWrapper: 'w-full md:w-48 lg:w-56 aspect-square shrink-0 rounded-xl overflow-hidden border border-border/40 bg-muted shadow-lg relative group',
     coverImage: 'object-cover w-full h-full transition-transform duration-500 group-hover:scale-105',
     infoWrapper: 'flex-1 flex flex-col gap-4 min-w-0 pt-2',
-    title: 'text-3xl md:text-5xl font-bold tracking-tight text-foreground dark:text-foreground',
+    title: 'font-display text-3xl md:text-5xl font-bold tracking-tight text-foreground dark:text-foreground',
     metaRow: 'flex items-center gap-4 text-sm text-muted-foreground mt-1',
     metaItem: 'flex items-center gap-1.5',
-    description: 'text-muted-foreground text-lg leading-relaxed max-w-2xl mt-2',
+    description: 'font-sans text-muted-foreground text-lg leading-relaxed max-w-2xl mt-2',
     tags: 'flex flex-wrap gap-2 mt-auto',
   },
 };

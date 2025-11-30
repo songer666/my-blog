@@ -11,6 +11,7 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
 import { ArrowLeft, Music2, HardDrive } from "lucide-react";
 import styles from '../page.module.css';
+import { RevalidateButton } from "@/components/isr";
 
 interface AlbumDetailPageProps {
   params: Promise<{ id: string }>;
@@ -82,7 +83,15 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
             )}
           </div>
         </div>
-        <UploadMusicDialog albumId={album.id} />
+        <div className="flex gap-2">
+          <RevalidateButton 
+            type="music-detail" 
+            slug={album.slug}
+            label="刷新当前页面"
+            size="sm"
+          />
+          <UploadMusicDialog albumId={album.id} />
+        </div>
       </div>
 
       {/* 统计卡片 */}

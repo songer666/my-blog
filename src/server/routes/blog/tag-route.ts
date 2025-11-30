@@ -2,11 +2,8 @@ import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/server/in
 import { tagUpdateSchema, tagResponseSchema, tagListResponseSchema } from "@/server/schema/blog-schema";
 import { getAllTags, getTagById, createTag, updateTag, deleteTag, getPublicTagsWithCount } from "@/server/actions/blog/tag-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const isrUrl = '/admin/dashboard/blog/tag';
-const rootUrl = '/root/blog'
 
 export const tagRoute = createTRPCRouter({
   // 获取所有标签
@@ -60,10 +57,6 @@ export const tagRoute = createTRPCRouter({
       try {
         const newTag = await createTag(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(isrUrl);
-        revalidatePath(rootUrl);
-
         return {
           success: true,
           data: newTag,
@@ -89,10 +82,6 @@ export const tagRoute = createTRPCRouter({
       try {
         const updatedTag = await updateTag(opts.input.id, opts.input.data);
         
-        // 重新验证页面缓存
-        revalidatePath(isrUrl);
-        revalidatePath(rootUrl);
-
         return {
           success: true,
           data: updatedTag,
@@ -118,10 +107,6 @@ export const tagRoute = createTRPCRouter({
       try {
         await deleteTag(opts.input.id);
         
-        // 重新验证页面缓存
-        revalidatePath(isrUrl);
-        revalidatePath(rootUrl);
-
         return {
           success: true,
           message: "标签删除成功",

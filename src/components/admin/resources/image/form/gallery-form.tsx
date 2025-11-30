@@ -9,6 +9,16 @@ import { Switch } from '@/components/shadcn/ui/switch';
 import { useForm } from '@tanstack/react-form';
 import { Loader2 } from 'lucide-react';
 
+const styles = {
+  form: `space-y-4`.trim(),
+  fieldContainer: `space-y-2`.trim(),
+  errorText: `text-sm text-destructive`.trim(),
+  hintText: `text-xs text-muted-foreground`.trim(),
+  switchContainer: `flex items-center justify-between`.trim(),
+  switchLabelContainer: `space-y-0.5`.trim(),
+  actionsContainer: `flex justify-end gap-2 pt-4`.trim(),
+};
+
 interface GalleryFormData {
   title: string;
   slug: string;
@@ -61,7 +71,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
         e.stopPropagation();
         void form.handleSubmit();
       }}
-      className="space-y-4"
+      className={styles.form}
     >
       <form.Field
         name="title"
@@ -77,7 +87,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
           }
         }}
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="title">标题 *</Label>
             <Input
               id="title"
@@ -89,7 +99,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
               required
             />
             {field.state.meta.errors.length > 0 && (
-              <p className="text-sm text-destructive">{field.state.meta.errors[0]}</p>
+              <p className={styles.errorText}>{field.state.meta.errors[0]}</p>
             )}
           </div>
         )}
@@ -109,7 +119,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
           }
         }}
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="slug">Slug *</Label>
             <Input
               id="slug"
@@ -121,11 +131,11 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
               disabled={isSubmitting}
               required
             />
-            <p className="text-xs text-muted-foreground">
+            <p className={styles.hintText}>
               只能包含小写字母、数字和连字符
             </p>
             {field.state.meta.errors.length > 0 && (
-              <p className="text-sm text-destructive">{field.state.meta.errors[0]}</p>
+              <p className={styles.errorText}>{field.state.meta.errors[0]}</p>
             )}
           </div>
         )}
@@ -134,7 +144,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
       <form.Field
         name="description"
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="description">描述</Label>
             <Textarea
               id="description"
@@ -151,7 +161,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
       <form.Field
         name="tags"
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="tags">标签</Label>
             <Input
               id="tags"
@@ -160,7 +170,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
               placeholder="React, TypeScript, 前端 (逗号分隔)"
               disabled={isSubmitting}
             />
-            <p className="text-xs text-muted-foreground">
+            <p className={styles.hintText}>
               使用逗号分隔多个标签
             </p>
           </div>
@@ -170,10 +180,10 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
       <form.Field
         name="isPublic"
         children={(field) => (
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
+          <div className={styles.switchContainer}>
+            <div className={styles.switchLabelContainer}>
               <Label htmlFor="isPublic">公开状态</Label>
-              <p className="text-xs text-muted-foreground">
+              <p className={styles.hintText}>
                 公开后其他用户可以查看此图库
               </p>
             </div>
@@ -187,7 +197,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
         )}
       />
 
-      <div className="flex justify-end gap-2 pt-4">
+      <div className={styles.actionsContainer}>
         {onCancel && (
           <Button
             type="button"

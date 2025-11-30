@@ -8,6 +8,7 @@ import { generateBlogDetailMetadata } from './metadata';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shadcn/ui/tabs';
 import { CodeBrowser } from '@/components/admin/resources/code/browser/code-browser';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
+import { DownloadCodeButton } from "@/components/root/blog/download-code-button";
 
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
@@ -123,7 +124,17 @@ export default async function BlogPostPageSlug({ params }: BlogPostPageProps) {
         
         {codeRepository && codeRepository.items && codeRepository.items.length > 0 && (
           <TabsContent value="code" className={pageStyles.tabs.content}>
-            <CodeBrowser files={codeRepository.items} />
+            <div className="space-y-4">
+              <div className="flex justify-end">
+                <DownloadCodeButton 
+                  repositoryId={codeRepository.id}
+                  repositoryName={codeRepository.slug || codeRepository.title}
+                  variant="default"
+                  size="sm"
+                />
+              </div>
+              <CodeBrowser files={codeRepository.items} />
+            </div>
           </TabsContent>
         )}
       </Tabs>

@@ -47,3 +47,12 @@
 
 /* 中文常用字 - 如果需要完整支持，需要加载更多子集文件 */
 /* 由于子集文件较多，建议使用字体加载工具或按需加载 */
+
+/* 猫啃珠圆体 - 可爱圆体字 */
+@font-face {
+  font-family: 'MaoKenZhu';
+  src: url('/fonts/maokenzhu/MaoKenZhuYuanTi-MaokenZhuyuanTi-2.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

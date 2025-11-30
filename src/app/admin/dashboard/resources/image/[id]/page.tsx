@@ -10,6 +10,7 @@ import { BatchUploadImagesDialog } from "@/components/admin/resources/image/batc
 import { GalleryViewContainer } from "@/components/admin/resources/image/gallery-view-container";
 import { GalleryBreadcrumb } from "@/components/admin/resources/image/gallery-breadcrumb";
 import styles from '../page.module.css';
+import { RevalidateButton } from "@/components/isr";
 
 interface GalleryDetailPageProps {
   params: Promise<{
@@ -60,6 +61,12 @@ export default async function GalleryDetailPage({ params }: GalleryDetailPagePro
           </div>
         </div>
         <div className="flex gap-2">
+          <RevalidateButton 
+            type="image-detail" 
+            slug={gallery.slug}
+            label="刷新当前页面"
+            size="sm"
+          />
           <BatchUploadImagesDialog galleryId={gallery.id} />
           <UploadImageToGalleryDialog galleryId={gallery.id} />
         </div>

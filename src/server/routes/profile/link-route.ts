@@ -2,11 +2,8 @@ import { createTRPCRouter, protectedProcedure } from "@/server/init";
 import { socialLinkUpdateSchema, socialLinkListResponseSchema, socialLinkResponseSchema } from "@/server/schema/profile-schema";
 import { getSocialLinkList, createSocialLink, updateSocialLink, deleteSocialLink, getSocialLinkById } from "@/server/actions/profile/link-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const adminUrl = '/admin/dashboard/profile';
-const aboutUrl = '/root/about';
 
 export const linkRoute = createTRPCRouter({
   // 获取社交链接列表
@@ -60,10 +57,6 @@ export const linkRoute = createTRPCRouter({
       try {
         const newSocialLink = await createSocialLink(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
-        
         return {
           success: true,
           data: newSocialLink,
@@ -89,10 +82,6 @@ export const linkRoute = createTRPCRouter({
       try {
         const updatedSocialLink = await updateSocialLink(opts.input.id, opts.input.data);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
-        
         return {
           success: true,
           data: updatedSocialLink,
@@ -113,10 +102,6 @@ export const linkRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const result = await deleteSocialLink(opts.input.id);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
         
         return {
           success: result.deleted,

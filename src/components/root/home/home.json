@@ -1,0 +1,49 @@
+{
+  "hero": {
+    "greeting": "<你好，我是/>",
+    "name": "气质猫咪",
+    "titles": [
+      "TS全栈个人练习生",
+      "会唱、跳、rap、写代码"
+    ],
+    "description": "热爱编程,专注于 Web 开发和用户体验设计。在这里分享技术文章、项目经验和生活感悟。欢迎一起探索代码的优雅与美学。",
+    "buttons": [
+      {
+        "text": "阅读博客",
+        "href": "/root/blog",
+        "variant": "primary"
+      },
+      {
+        "text": "查看项目",
+        "href": "/root/projects",
+        "variant": "outline"
+      }
+    ]
+  },
+  "social": [
+    {
+      "name": "GitHub",
+      "href": "https://github.com/songer666",
+      "icon": "Github",
+      "color": "text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+    },
+    {
+      "name": "X",
+      "href": "https://x.com/songer666666",
+      "icon": "X",
+      "color": "text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300"
+    },
+    {
+      "name": "Bilibili",
+      "href": "https://space.bilibili.com/278474759",
+      "icon": "Bilibili",
+      "color": "text-pink-500 hover:text-pink-600 dark:hover:text-pink-400"
+    },
+    {
+      "name": "Email",
+      "href": "mailto:ysyswenjoy@gmail.com",
+      "icon": "Mail",
+      "color": "text-red-500 hover:text-red-600 dark:hover:text-red-400"
+    }
+  ]
+}

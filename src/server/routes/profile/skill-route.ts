@@ -16,11 +16,8 @@ import {
   getSkillsByCategoryId,
 } from "@/server/actions/profile/skill-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const adminUrl = '/admin/dashboard/profile';
-const aboutUrl = '/root/about';
 
 export const skillRoute = createTRPCRouter({
   // 获取技能分类列表（包含技能）
@@ -95,10 +92,6 @@ export const skillRoute = createTRPCRouter({
       try {
         const newCategory = await createSkillCategory(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
-        
         return {
           success: true,
           data: newCategory,
@@ -119,10 +112,6 @@ export const skillRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const result = await deleteSkillCategory(opts.input.id);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
         
         return {
           success: result.deleted,
@@ -145,10 +134,6 @@ export const skillRoute = createTRPCRouter({
       try {
         const newSkill = await createSkill(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
-        
         return {
           success: true,
           data: newSkill,
@@ -169,10 +154,6 @@ export const skillRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const result = await deleteSkill(opts.input.id);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
         
         return {
           success: result.deleted,

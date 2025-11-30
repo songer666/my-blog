@@ -60,3 +60,17 @@
 .delay-150 {
   animation-delay: 0.2s;
 }
+
+/* —— 渐变动画 —— */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+}

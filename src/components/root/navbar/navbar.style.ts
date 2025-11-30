@@ -40,6 +40,7 @@ export const navbarStyles = {
 
     // 导航链接项 - 纯静态优化
     navLinkItem: cn(
+        "font-display",
         "px-4 py-2 rounded-full text-sm font-medium",
         "whitespace-nowrap",
         "transition-colors duration-150",
@@ -86,6 +87,7 @@ export const navbarStyles = {
         ),
         nav: "px-4 py-3 space-y-0.5",
         item: cn(
+            "font-display",
             "flex items-center gap-3 px-4 py-2.5 rounded-lg w-full",
             "transition-all duration-200",
             "text-foreground/80",
@@ -102,7 +104,7 @@ export const navbarStyles = {
             "bg-purple-50/50 dark:bg-purple-950/20"
         ),
         separator: "h-px bg-border my-2",
-        header: "px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider",
+        header: "font-display px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider",
     },
 
     // 纯 CSS 下拉菜单
@@ -148,6 +150,7 @@ export const navbarStyles = {
         list: "p-1",
         
         item: cn(
+            "font-display",
             "flex items-center gap-3 px-4 py-3 rounded-lg",
             "text-sm font-medium text-foreground/80",
             "whitespace-nowrap",

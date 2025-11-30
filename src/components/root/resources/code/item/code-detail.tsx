@@ -22,12 +22,12 @@ const styles = {
   divider: 'absolute inset-0 bg-border hover:h-[2px] hover:-translate-y-[0.5px] transition-all duration-200',
   header: {
     wrapper: 'flex flex-col gap-4 pb-8',
-    title: `text-3xl md:text-4xl font-semibold tracking-tighter font-sans 
+    title: `font-display text-3xl md:text-4xl font-semibold tracking-tighter 
       text-violet-500 dark:text-violet-500 
       drop-shadow-[0_2px_4px_rgba(139,92,246,0.15)]`.trim(),
     metaRow: 'flex items-center gap-4 text-sm text-muted-foreground',
     metaItem: 'flex items-center gap-1.5',
-    description: 'text-muted-foreground text-base leading-relaxed',
+    description: 'font-sans text-muted-foreground text-base leading-relaxed',
     tags: 'flex flex-wrap gap-2 pt-2',
   },
   section: {

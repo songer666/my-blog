@@ -24,10 +24,10 @@ const styles = {
     text-gray-700 dark:text-white backdrop-blur-xl 
     px-3 py-1.5 rounded-md shadow-sm 
     border border-gray-200/60 dark:border-white/20`.trim(),
-  title: `text-3xl md:text-4xl font-bold mb-4 font-sans 
+  title: `font-display text-3xl md:text-4xl font-bold mb-4 
     text-foreground dark:text-purple-400 
     drop-shadow-[0_2px_4px_rgba(168,85,247,0.15)]`.trim(),
-  description: 'text-xl text-muted-foreground/80 mb-6 font-sans',
+  description: 'font-sans text-xl text-muted-foreground/80 mb-6',
   meta: {
     container: `flex flex-wrap items-center gap-4 
       text-sm text-muted-foreground mb-6 font-sans`.trim(),

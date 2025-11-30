@@ -1,0 +1,37 @@
+{
+  "site": {
+    "name": "气质猫咪",
+    "description": "一个专注于ts全栈开发的个人博客",
+    "copyright": "Copyright © 2025",
+    "icp": "闽ICP备2020017848号-3",
+    "beian": "闽公网安备35021102000847号"
+  },
+  "links": [
+    {
+      "title": "导航",
+      "items": [
+        { "text": "首页", "href": "/root" },
+        { "text": "博客", "href": "/root/blog" },
+        { "text": "项目", "href": "/root/projects" },
+        { "text": "关于", "href": "/root/about" }
+      ]
+    },
+    {
+      "title": "资源",
+      "items": [
+        { "text": "代码", "href": "/root/resources/code" },
+        { "text": "图库", "href": "/root/resources/image" },
+        { "text": "音乐", "href": "/root/resources/music" }
+      ]
+    },
+    {
+      "title": "技术栈",
+      "items": [
+        { "text": "Next.js 15", "href": "https://nextjs.org" },
+        { "text": "React 19", "href": "https://react.dev" },
+        { "text": "TypeScript", "href": "https://www.typescriptlang.org" },
+        { "text": "tRPC", "href": "https://trpc.io" }
+      ]
+    }
+  ]
+}

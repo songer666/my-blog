@@ -1,6 +1,7 @@
 import React from 'react'
 import {ThemeProvider} from "@/components/shadcn/theme-provider";
 import { Navbar } from "@/components/root/navbar"
+import { Footer } from "@/components/root/footer"
 import { MusicPlayer } from "@/components/root/music-player/music-player"
 
 export default function RootLayout({
@@ -17,6 +18,7 @@ export default function RootLayout({
         >
             <Navbar />
             {children}
+            <Footer />
             <MusicPlayer />
         </ThemeProvider>
     )

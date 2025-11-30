@@ -2,11 +2,8 @@ import { createTRPCRouter, protectedProcedure } from "@/server/init";
 import { friendUpdateSchema, friendListResponseSchema, friendResponseSchema } from "@/server/schema/profile-schema";
 import { getFriendList, createFriend, deleteFriend, getFriendById } from "@/server/actions/profile/friend-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const adminUrl = '/admin/dashboard/profile';
-const aboutUrl = '/root/about';
 
 export const friendRoute = createTRPCRouter({
   // 获取友链列表
@@ -60,10 +57,6 @@ export const friendRoute = createTRPCRouter({
       try {
         const newFriend = await createFriend(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
-        
         return {
           success: true,
           data: newFriend,
@@ -84,10 +77,6 @@ export const friendRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const result = await deleteFriend(opts.input.id);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(aboutUrl);
         
         return {
           success: result.deleted,

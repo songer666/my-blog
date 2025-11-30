@@ -29,6 +29,7 @@ import { BlogDeleteDialog } from './delete/blog-delete-dialog';
 import { ToggleVisible } from './toggle/toggle-visible';
 import { formatDateTime, cn } from '@/lib/utils';
 import styles from './blog-table.module.css';
+import { RevalidateButton } from '@/components/isr';
 
 interface BlogTableProps {
   posts: PostWithTagsType[];
@@ -82,12 +83,15 @@ export function BlogTable({ posts, onPostDeleted }: BlogTableProps) {
               )}
             </p>
           </div>
-          <Link href="/admin/dashboard/blog/create">
-            <Button className={styles.createButton}>
-              <Plus className={styles.createIcon} />
-              创建文章
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            <RevalidateButton type="blog" label="刷新博客页面" />
+            <Link href="/admin/dashboard/blog/create">
+              <Button className={styles.createButton}>
+                <Plus className={styles.createIcon} />
+                创建文章
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* 筛选栏 */}
@@ -245,6 +249,12 @@ export function BlogTable({ posts, onPostDeleted }: BlogTableProps) {
                     </TableCell>
                     <TableCell className={styles.actionsCell}>
                       <div className={styles.actionButtons}>
+                        <RevalidateButton 
+                          type="blog-detail" 
+                          slug={post.slug}
+                          size="icon"
+                          variant="ghost"
+                        />
                         <Link href={`/admin/dashboard/blog/${post.id}`}>
                           <Button
                             variant="outline"

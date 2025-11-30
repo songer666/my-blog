@@ -4,7 +4,6 @@ import {deleteUser, getUserList, toggleVerify, updateUser, updateUserAvatar} fro
 import {isNil} from "lodash";
 import {TRPCError} from "@trpc/server";
 import {z} from "zod";
-import {revalidatePath} from "next/cache";
 
 const isrUrl = '/admin/dashboard/user';
 
@@ -39,7 +38,6 @@ export const authRoute = createTRPCRouter({
                 if (isNil(res) || !res.deleted){
                     throw new TRPCError({code: 'UNAUTHORIZED', message: JSON.stringify(res)});
                 }
-                revalidatePath(isrUrl)
                 return res;
             } catch (e: any) {
                 throw new TRPCError({code: 'UNAUTHORIZED', message: e});
@@ -52,7 +50,6 @@ export const authRoute = createTRPCRouter({
                 const res = await toggleVerify(opts.input.id,opts.input.emailVerified);
                 if (isNil(res))
                     throw new TRPCError({code: 'UNAUTHORIZED', message: '切换失败'});
-                revalidatePath(isrUrl)
                 return res;
             } catch (e: any) {
                 throw new TRPCError({code: 'UNAUTHORIZED', message: e.message});
@@ -66,7 +63,6 @@ export const authRoute = createTRPCRouter({
                 const res = await updateUser(id, name, email);
                 if (isNil(res))
                     throw new TRPCError({code: 'NOT_FOUND', message: '用户不存在'});
-                revalidatePath(isrUrl);
                 return res;
             } catch (e: any) {
                 throw new TRPCError({code: 'INTERNAL_SERVER_ERROR', message: e.message || '更新失败'});
@@ -80,7 +76,6 @@ export const authRoute = createTRPCRouter({
                 const res = await updateUserAvatar(id, image);
                 if (isNil(res))
                     throw new TRPCError({code: 'NOT_FOUND', message: '用户不存在'});
-                revalidatePath(isrUrl);
                 return res;
             } catch (e: any) {
                 throw new TRPCError({code: 'INTERNAL_SERVER_ERROR', message: e.message || '头像更新失败'});

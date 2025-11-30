@@ -16,6 +16,34 @@ import type { AlbumMusicItem } from "@/server/types/resources-type";
 import { DeleteMusicDialog } from "./dialogs/delete-music-dialog";
 import { cn } from "@/lib/utils";
 
+const styles = {
+  emptyContainer: `flex flex-col items-center justify-center py-20 text-center border-2 border-dashed rounded-lg`.trim(),
+  emptyIcon: `w-16 h-16 text-muted-foreground/50 mb-4`.trim(),
+  emptyTitle: `text-lg font-medium text-muted-foreground`.trim(),
+  emptyDescription: `text-sm text-muted-foreground/70 mt-1`.trim(),
+  tableContainer: `border rounded-lg overflow-hidden`.trim(),
+  tableHeaderRow: `hover:bg-transparent`.trim(),
+  tableHeadNumber: `w-[60px]`.trim(),
+  tableHeadRight: `text-right`.trim(),
+  tableHeadActions: `w-[60px]`.trim(),
+  tableRow: `cursor-pointer h-16`.trim(),
+  tableRowActive: `bg-accent/50`.trim(),
+  playButton: `h-8 w-8`.trim(),
+  playButtonNumber: `text-sm text-muted-foreground`.trim(),
+  titleContainer: `flex items-center gap-2`.trim(),
+  waveformContainer: `flex items-center gap-0.5 h-3`.trim(),
+  waveformBar: `w-0.5 bg-primary animate-pulse-bar`.trim(),
+  waveformBarDelay75: `w-0.5 bg-primary animate-pulse-bar delay-75`.trim(),
+  waveformBarDelay150: `w-0.5 bg-primary animate-pulse-bar delay-150`.trim(),
+  titleText: `font-medium`.trim(),
+  titleTextActive: `text-primary`.trim(),
+  artistText: `text-muted-foreground`.trim(),
+  durationBadge: `font-mono text-xs`.trim(),
+  bitrateText: `text-right text-sm text-muted-foreground`.trim(),
+  sizeText: `text-right text-sm text-muted-foreground`.trim(),
+  deleteButton: `h-8 w-8`.trim(),
+};
+
 interface MusicTableProps {
   musics: AlbumMusicItem[];
   albumId: string;
@@ -57,10 +85,10 @@ export function MusicTable({
 
   if (musics.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center border-2 border-dashed rounded-lg">
-        <Music2 className="w-16 h-16 text-muted-foreground/50 mb-4" />
-        <p className="text-lg font-medium text-muted-foreground">还没有上传音乐</p>
-        <p className="text-sm text-muted-foreground/70 mt-1">
+      <div className={styles.emptyContainer}>
+        <Music2 className={styles.emptyIcon} />
+        <p className={styles.emptyTitle}>还没有上传音乐</p>
+        <p className={styles.emptyDescription}>
           点击右上角按钮上传音乐文件
         </p>
       </div>
@@ -69,17 +97,17 @@ export function MusicTable({
 
   return (
     <>
-      <div className="border rounded-lg overflow-hidden">
+      <div className={styles.tableContainer}>
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[60px]">#</TableHead>
+            <TableRow className={styles.tableHeaderRow}>
+              <TableHead className={styles.tableHeadNumber}>#</TableHead>
               <TableHead>标题</TableHead>
               <TableHead>艺术家</TableHead>
-              <TableHead className="text-right">时长</TableHead>
-              <TableHead className="text-right">比特率</TableHead>
-              <TableHead className="text-right">大小</TableHead>
-              <TableHead className="w-[60px]"></TableHead>
+              <TableHead className={styles.tableHeadRight}>时长</TableHead>
+              <TableHead className={styles.tableHeadRight}>比特率</TableHead>
+              <TableHead className={styles.tableHeadRight}>大小</TableHead>
+              <TableHead className={styles.tableHeadActions}></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -91,8 +119,8 @@ export function MusicTable({
                 <TableRow
                   key={music.id}
                   className={cn(
-                    "cursor-pointer h-16",
-                    isCurrent && "bg-accent/50"
+                    styles.tableRow,
+                    isCurrent && styles.tableRowActive
                   )}
                   onClick={() => onMusicSelect(music)}
                 >
@@ -101,7 +129,7 @@ export function MusicTable({
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="h-8 w-8"
+                      className={styles.playButton}
                       onClick={(e) => {
                         e.stopPropagation();
                         if (isCurrent) {
@@ -116,7 +144,7 @@ export function MusicTable({
                       ) : isCurrent ? (
                         <Play className="h-4 w-4" />
                       ) : (
-                        <span className="text-sm text-muted-foreground">
+                        <span className={styles.playButtonNumber}>
                           {index + 1}
                         </span>
                       )}
@@ -125,18 +153,18 @@ export function MusicTable({
 
                   {/* 标题 */}
                   <TableCell>
-                    <div className="flex items-center gap-2">
+                    <div className={styles.titleContainer}>
                       {isCurrentPlaying && (
-                        <div className="flex items-center gap-0.5 h-3">
-                          <div className="w-0.5 bg-primary animate-pulse-bar" />
-                          <div className="w-0.5 bg-primary animate-pulse-bar delay-75" />
-                          <div className="w-0.5 bg-primary animate-pulse-bar delay-150" />
+                        <div className={styles.waveformContainer}>
+                          <div className={styles.waveformBar} />
+                          <div className={styles.waveformBarDelay75} />
+                          <div className={styles.waveformBarDelay150} />
                         </div>
                       )}
                       <span
                         className={cn(
-                          "font-medium",
-                          isCurrent && "text-primary"
+                          styles.titleText,
+                          isCurrent && styles.titleTextActive
                         )}
                       >
                         {music.name}
@@ -146,25 +174,25 @@ export function MusicTable({
 
                   {/* 艺术家 */}
                   <TableCell>
-                    <span className="text-muted-foreground">
+                    <span className={styles.artistText}>
                       {music.artist || '-'}
                     </span>
                   </TableCell>
 
                   {/* 时长 */}
-                  <TableCell className="text-right">
-                    <Badge variant="secondary" className="font-mono text-xs">
+                  <TableCell className={styles.tableHeadRight}>
+                    <Badge variant="secondary" className={styles.durationBadge}>
                       {formatTime(music.duration || 0)}
                     </Badge>
                   </TableCell>
 
                   {/* 比特率 */}
-                  <TableCell className="text-right text-sm text-muted-foreground">
+                  <TableCell className={styles.bitrateText}>
                     {formatBitrate(music.bitrate)}
                   </TableCell>
 
                   {/* 文件大小 */}
-                  <TableCell className="text-right text-sm text-muted-foreground">
+                  <TableCell className={styles.sizeText}>
                     {formatBytes(music.fileSize)}
                   </TableCell>
 
@@ -173,7 +201,7 @@ export function MusicTable({
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="h-8 w-8"
+                      className={styles.deleteButton}
                       onClick={(e) => {
                         e.stopPropagation();
                         setDeleteMusic(music);

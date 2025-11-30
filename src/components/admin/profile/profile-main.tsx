@@ -7,6 +7,7 @@ import { caller } from "@/components/trpc/server";
 import { serializeMdx } from "@/components/mdx/utils";
 import styles from "./profile-main.module.css";
 import {auth} from "@/lib/auth";
+import { RevalidateButton } from "@/components/isr";
 
 export async function ProfileMain() {
     // 服务端获取个人资料数据
@@ -24,6 +25,10 @@ export async function ProfileMain() {
 
     return (
         <div className={styles.container}>
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold">个人资料管理</h1>
+                <RevalidateButton type="about" label="刷新关于页面" size="sm" />
+            </div>
             <BioCard 
                 initialData={profileData?.data || null} 
                 serializedBio={serializedBio}

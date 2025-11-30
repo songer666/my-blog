@@ -2,11 +2,8 @@ import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/server/in
 import { postCreateSchema, postUpdateSchema, postResponseSchema, postListResponseSchema } from "@/server/schema/blog-schema";
 import { getAllPosts, getPostById, createPost, updatePost, deletePost, togglePostVisibility, checkSlugExists, getPublicPosts, getPublicPostBySlug } from "@/server/actions/blog/post-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const adminUrl = '/admin/dashboard/blog';
-const blogDetailUrl = (slug: string) => `/root/blog/${slug}`;
 
 export const postRoute = createTRPCRouter({
   // 获取所有文章
@@ -95,10 +92,6 @@ export const postRoute = createTRPCRouter({
 
         const newPost = await createPost(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        // blogListUrl 使用 searchParams，是动态渲染（SSR），不需要 revalidatePath
-        
         return {
           success: true,
           data: newPost,
@@ -133,12 +126,6 @@ export const postRoute = createTRPCRouter({
 
         const updatedPost = await updatePost(opts.input.id, opts.input.data);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(`/admin/dashboard/blog/${opts.input.id}`);
-        // blogListUrl 使用 searchParams，是动态渲染（SSR），不需要 revalidatePath
-        revalidatePath(blogDetailUrl(opts.input.data.slug));
-        
         return {
           success: true,
           data: updatedPost,
@@ -164,10 +151,6 @@ export const postRoute = createTRPCRouter({
       try {
         await deletePost(opts.input.id);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        // blogListUrl 使用 searchParams，是动态渲染（SSR），不需要 revalidatePath
-        
         return {
           success: true,
           message: "文章删除成功",
@@ -188,14 +171,6 @@ export const postRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const updatedPost = await togglePostVisibility(opts.input.id);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(`/admin/dashboard/blog/${opts.input.id}`);
-        // blogListUrl 使用 searchParams，是动态渲染（SSR），不需要 revalidatePath
-        if (updatedPost.slug) {
-          revalidatePath(blogDetailUrl(updatedPost.slug));
-        }
         
         return {
           success: true,

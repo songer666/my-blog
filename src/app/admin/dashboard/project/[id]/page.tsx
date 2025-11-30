@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/shadcn/ui/card';
 import { Button } from '@/components/shadcn/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { RevalidateButton } from '@/components/isr';
 import { notFound } from 'next/navigation';
 import { serializeMdx } from '@/components/mdx/utils';
 import styles from './page.module.css';
@@ -46,6 +47,8 @@ export default async function ProjectIdPage({
           </Link>
         </div>
         <div className={styles.headerRight}>
+          <RevalidateButton type="projects" label="刷新项目列表" size="sm" />
+          <RevalidateButton type="project-detail" slug={project.slug} label="刷新当前页面" size="sm" />
           <LinkCodeRepositoryWrapper project={project} />
           <ToggleVisible project={project} />
           <ProjectDelete project={project} />

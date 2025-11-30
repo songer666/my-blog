@@ -127,7 +127,7 @@ export const getSocialIcon = (platform: string, icon?: string | null): SocialPla
   if (key.includes('bilibili')) {
     return {
       icon: <BilibiliIcon {...iconProps} />,
-      color: 'text-[#00aeec]', // Bilibili 蓝
+      color: 'text-pink-500 hover:text-pink-600 dark:hover:text-pink-400', // 统一使用粉色
       label: 'Bilibili'
     };
   }

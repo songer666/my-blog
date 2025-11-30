@@ -2,12 +2,8 @@ import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/server/in
 import { projectCreateSchema, projectUpdateSchema, projectResponseSchema, projectListResponseSchema } from "@/server/schema/project-schema";
 import { getAllProjects, getProjectById, createProject, updateProject, deleteProject, toggleProjectVisibility, checkSlugExists, linkCodeRepository, getAllPublicProjects, getPublicProjectBySlug } from "@/server/actions/project-action";
 import { TRPCError } from "@trpc/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const adminUrl = '/admin/dashboard/projects';
-const projectListUrl = '/root/projects';
-const projectDetailUrl = (slug: string) => `/root/projects/${slug}`;
 
 export const projectRoute = createTRPCRouter({
   // 获取所有项目
@@ -70,10 +66,6 @@ export const projectRoute = createTRPCRouter({
 
         const newProject = await createProject(opts.input);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(projectListUrl);
-        
         return {
           success: true,
           data: newProject,
@@ -108,12 +100,6 @@ export const projectRoute = createTRPCRouter({
 
         const updatedProject = await updateProject(opts.input.id, opts.input.data);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(`/admin/dashboard/project/${opts.input.id}`);
-        revalidatePath(projectListUrl);
-        revalidatePath(projectDetailUrl(opts.input.data.slug));
-        
         return {
           success: true,
           data: updatedProject,
@@ -139,10 +125,6 @@ export const projectRoute = createTRPCRouter({
       try {
         await deleteProject(opts.input.id);
         
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(projectListUrl);
-        
         return {
           success: true,
           message: "项目删除成功",
@@ -163,14 +145,6 @@ export const projectRoute = createTRPCRouter({
     .mutation(async (opts) => {
       try {
         const updatedProject = await toggleProjectVisibility(opts.input.id);
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(`/admin/dashboard/project/${opts.input.id}`);
-        revalidatePath(projectListUrl);
-        if (updatedProject.slug) {
-          revalidatePath(projectDetailUrl(updatedProject.slug));
-        }
         
         return {
           success: true,
@@ -226,14 +200,6 @@ export const projectRoute = createTRPCRouter({
           opts.input.projectId,
           opts.input.codeRepositoryId
         );
-        
-        // 重新验证页面缓存
-        revalidatePath(adminUrl);
-        revalidatePath(`/admin/dashboard/project/${opts.input.projectId}`);
-        revalidatePath(projectListUrl);
-        if (updatedProject.slug) {
-          revalidatePath(projectDetailUrl(updatedProject.slug));
-        }
         
         return {
           success: true,

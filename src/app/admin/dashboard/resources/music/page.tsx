@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui
 import { CreateAlbumDialog } from "@/components/admin/resources/music/dialogs/create-album-dialog";
 import { AlbumList } from "@/components/admin/resources/music/album-list";
 import styles from './page.module.css';
+import { RevalidateButton } from "@/components/isr";
 
 export default async function MusicAlbumPage() {
   const queryClient = getQueryClient();
@@ -35,7 +36,10 @@ export default async function MusicAlbumPage() {
             管理和组织你的音乐资源
           </p>
         </div>
-        <CreateAlbumDialog />
+        <div className="flex gap-2">
+          <RevalidateButton type="music" label="刷新音乐页面" size="sm" />
+          <CreateAlbumDialog />
+        </div>
       </div>
 
       {/* 统计卡片 */}

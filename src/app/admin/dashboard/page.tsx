@@ -4,6 +4,7 @@ import { StatsCard } from "@/components/admin/main/stats-card";
 import { ActivityChart, ResourceDistribution } from "@/components/admin/main/activity-chart";
 import { RecentPosts } from "@/components/admin/main/recent-posts";
 import { RecentMessages } from "@/components/admin/main/recent-messages";
+import { RevalidateButton } from "@/components/isr/revalidate-button";
 import {
   FileText,
   MessageSquare,
@@ -89,11 +90,14 @@ export default async function DashboardPage() {
   return (
     <div className="container mx-auto p-6 space-y-6">
       {/* 页面头部 */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">仪表盘</h1>
-        <p className="text-muted-foreground">
-          欢迎回来，这是你的系统概览
-        </p>
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">仪表盘</h1>
+          <p className="text-muted-foreground">
+            欢迎回来，这是你的系统概览
+          </p>
+        </div>
+        <RevalidateButton type="home" label="重置主页" />
       </div>
 
       {/* 统计卡片网格 */}

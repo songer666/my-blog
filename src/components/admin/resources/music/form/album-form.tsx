@@ -10,6 +10,22 @@ import { useForm } from '@tanstack/react-form';
 import { Loader2, Upload, X } from 'lucide-react';
 import { musicAlbumUtils } from '@/client/resources/music-api';
 
+const styles = {
+  form: `space-y-4`.trim(),
+  fieldContainer: `space-y-2`.trim(),
+  errorText: `text-sm text-destructive`.trim(),
+  hintText: `text-xs text-muted-foreground`.trim(),
+  modeButtonsContainer: `flex gap-2`.trim(),
+  urlInputContainer: `space-y-2`.trim(),
+  uploadButtonContainer: `flex items-center gap-2`.trim(),
+  previewContainer: `relative w-full max-w-xs`.trim(),
+  previewImage: `w-full h-40 object-cover rounded-md border`.trim(),
+  deleteButton: `absolute top-2 right-2`.trim(),
+  switchContainer: `flex items-center justify-between`.trim(),
+  switchLabelContainer: `space-y-0.5`.trim(),
+  actionsContainer: `flex justify-end gap-2 pt-4`.trim(),
+};
+
 interface AlbumFormData {
   title: string;
   slug: string;
@@ -30,6 +46,8 @@ interface AlbumFormProps {
 export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting = false }: AlbumFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string>(initialData?.coverImage || '');
+  const [uploadMode, setUploadMode] = useState<'url' | 'upload'>('url');
+  const [urlError, setUrlError] = useState<string>('');
 
   const form = useForm({
     defaultValues: {
@@ -89,8 +107,26 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
   const handleClearImage = () => {
     setPreviewImage('');
     form.setFieldValue('coverImage', '');
+    setUrlError('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+  };
+
+  // 处理 URL 输入
+  const handleUrlChange = (url: string) => {
+    form.setFieldValue('coverImage', url);
+    setPreviewImage(url);
+    
+    if (url && !url.startsWith('data:image/')) {
+      try {
+        new URL(url);
+        setUrlError('');
+      } catch {
+        setUrlError('请输入有效的图片URL');
+      }
+    } else {
+      setUrlError('');
     }
   };
 
@@ -101,7 +137,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
         e.stopPropagation();
         void form.handleSubmit();
       }}
-      className="space-y-4"
+      className={styles.form}
     >
       <form.Field
         name="title"
@@ -117,7 +153,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
           }
         }}
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="title">标题 *</Label>
             <Input
               id="title"
@@ -129,7 +165,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
               required
             />
             {field.state.meta.errors.length > 0 && (
-              <p className="text-sm text-destructive">{field.state.meta.errors[0]}</p>
+              <p className={styles.errorText}>{field.state.meta.errors[0]}</p>
             )}
           </div>
         )}
@@ -149,7 +185,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
           }
         }}
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="slug">Slug *</Label>
             <Input
               id="slug"
@@ -161,11 +197,11 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
               disabled={isSubmitting}
               required
             />
-            <p className="text-xs text-muted-foreground">
+            <p className={styles.hintText}>
               只能包含小写字母、数字和连字符
             </p>
             {field.state.meta.errors.length > 0 && (
-              <p className="text-sm text-destructive">{field.state.meta.errors[0]}</p>
+              <p className={styles.errorText}>{field.state.meta.errors[0]}</p>
             )}
           </div>
         )}
@@ -174,7 +210,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
       <form.Field
         name="description"
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="description">描述</Label>
             <Textarea
               id="description"
@@ -191,29 +227,51 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
       <form.Field
         name="coverImage"
         children={(field) => (
-          <div className="space-y-2">
-            <Label htmlFor="coverImage">首页图</Label>
+          <div className={styles.fieldContainer}>
+            <Label htmlFor="coverImage">封面图片</Label>
+            
+            {/* 切换模式按钮 */}
+            <div className={styles.modeButtonsContainer}>
+              <Button
+                type="button"
+                variant={uploadMode === 'url' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setUploadMode('url')}
+                disabled={isSubmitting}
+              >
+                URL 链接
+              </Button>
+              <Button
+                type="button"
+                variant={uploadMode === 'upload' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setUploadMode('upload')}
+                disabled={isSubmitting}
+              >
+                上传图片
+              </Button>
+            </div>
+
             <div className="flex flex-col gap-2">
-              {previewImage ? (
-                <div className="relative w-full max-w-xs">
-                  <img
-                    src={previewImage}
-                    alt="预览"
-                    className="w-full h-40 object-cover rounded-md border"
-                  />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    className="absolute top-2 right-2"
-                    onClick={handleClearImage}
+              {/* URL 输入模式 */}
+              {uploadMode === 'url' && !previewImage && (
+                <div className={styles.fieldContainer}>
+                  <Input
+                    type="url"
+                    placeholder="https://example.com/image.jpg"
+                    value={field.state.value?.startsWith('data:image/') ? '' : field.state.value}
+                    onChange={(e) => handleUrlChange(e.target.value)}
                     disabled={isSubmitting}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
+                  />
+                  {urlError && (
+                    <p className="text-sm text-destructive">{urlError}</p>
+                  )}
                 </div>
-              ) : (
-                <div className="flex items-center gap-2">
+              )}
+
+              {/* 文件上传模式 */}
+              {uploadMode === 'upload' && !previewImage && (
+                <div className={styles.uploadButtonContainer}>
                   <Button
                     type="button"
                     variant="outline"
@@ -233,8 +291,36 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
                   />
                 </div>
               )}
-              <p className="text-xs text-muted-foreground">
-                建议尺寸：16:9，最大 2MB
+
+              {/* 预览图片 */}
+              {previewImage && (
+                <div className={styles.previewContainer}>
+                  <img
+                    src={previewImage}
+                    alt="预览"
+                    className={styles.previewImage}
+                    onError={() => setUrlError('图片加载失败')}
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    className={styles.deleteButton}
+                    onClick={handleClearImage}
+                    disabled={isSubmitting}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                  {field.state.value?.startsWith('data:image/') && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Base64 图片 ({(field.state.value.length / 1024).toFixed(2)} KB)
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <p className={styles.hintText}>
+                {uploadMode === 'upload' ? '建议尺寸：16:9，最大 2MB' : '可以输入图片URL或上传本地图片'}
               </p>
             </div>
           </div>
@@ -244,7 +330,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
       <form.Field
         name="tags"
         children={(field) => (
-          <div className="space-y-2">
+          <div className={styles.fieldContainer}>
             <Label htmlFor="tags">标签</Label>
             <Input
               id="tags"
@@ -253,7 +339,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
               placeholder="流行, 摇滚, 电子 (逗号分隔)"
               disabled={isSubmitting}
             />
-            <p className="text-xs text-muted-foreground">
+            <p className={styles.hintText}>
               使用逗号分隔多个标签
             </p>
           </div>
@@ -263,10 +349,10 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
       <form.Field
         name="isPublic"
         children={(field) => (
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
+          <div className={styles.switchContainer}>
+            <div className={styles.switchLabelContainer}>
               <Label htmlFor="isPublic">公开状态</Label>
-              <p className="text-xs text-muted-foreground">
+              <p className={styles.hintText}>
                 公开后其他用户可以查看此专辑
               </p>
             </div>
@@ -280,7 +366,7 @@ export function AlbumForm({ mode, initialData, onSubmit, onCancel, isSubmitting 
         )}
       />
 
-      <div className="flex justify-end gap-2 pt-4">
+      <div className={styles.actionsContainer}>
         {onCancel && (
           <Button
             type="button"

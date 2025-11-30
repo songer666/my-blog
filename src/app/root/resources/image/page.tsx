@@ -24,7 +24,7 @@ const pageStyles = {
   innerContainer: 'max-w-6xl mx-auto px-6 sm:px-12 xl:px-2',
   header: {
     container: 'max-w-6xl px-6 flex flex-col gap-2',
-    title: `text-4xl md:text-4xl font-semibold tracking-tighter font-sans 
+    title: `font-display text-4xl md:text-4xl font-semibold tracking-tighter 
       text-violet-500 dark:text-violet-500 
       drop-shadow-[0_2px_4px_rgba(139,92,246,0.15)]`.trim(),
     subtitle: 'text-sm text-muted-foreground/80 font-sans flex items-center gap-1.5',

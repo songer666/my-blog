@@ -5,6 +5,7 @@ import { Code2, HardDrive, FolderGit2 } from "lucide-react";
 import { CreateRepositoryDialog } from "@/components/admin/resources/code/dialogs/create-repository-dialog";
 import { RepositoryList } from "@/components/admin/resources/code/repository-list";
 import styles from "./page.module.css";
+import { RevalidateButton } from "@/components/isr";
 
 // 不设置 revalidate，默认永久缓存（SSG），只通过 revalidatePath 清除
 
@@ -35,7 +36,10 @@ export default async function CodeRepositoriesPage() {
             管理您的代码文件和项目
           </p>
         </div>
-        <CreateRepositoryDialog />
+        <div className="flex gap-2">
+          <RevalidateButton type="code" label="刷新代码页面" size="sm" />
+          <CreateRepositoryDialog />
+        </div>
       </div>
 
       {/* 统计卡片 */}

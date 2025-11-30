@@ -8,9 +8,9 @@ export const pageStyles = {
   hero: {
     wrapper: "pt-32 px-6",
     content: "max-w-4xl mx-auto text-center",
-    title: "text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent",
-    subtitle: "text-lg sm:text-xl text-muted-foreground mb-8",
-    hint: "text-sm text-muted-foreground",
+    title: "font-display text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent",
+    subtitle: "font-sans text-lg sm:text-xl text-muted-foreground mb-8",
+    hint: "font-sans text-sm text-muted-foreground",
   },
 
   // 测试内容区域
@@ -33,7 +33,7 @@ export const pageStyles = {
       "p-8 sm:p-12 rounded-2xl backdrop-blur-sm border border-border/50 mb-32",
       "bg-gradient-to-br from-green-500/5 to-emerald-600/5"
     ),
-    title: "text-2xl sm:text-3xl font-bold mb-4",
-    text: "text-muted-foreground leading-relaxed text-sm sm:text-base",
+    title: "font-display text-2xl sm:text-3xl font-bold mb-4",
+    text: "font-sans text-muted-foreground leading-relaxed text-sm sm:text-base",
   },
 }
