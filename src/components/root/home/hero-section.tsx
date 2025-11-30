@@ -32,7 +32,7 @@ const styles = {
     titleGradient: `bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 
       dark:from-purple-400 dark:via-pink-400 dark:to-purple-400 
       bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]`,
-    subtitle: 'font-display text-xl sm:text-2xl text-foreground/80 text-left min-h-[2.5rem]',
+    subtitle: 'font-display text-xl sm:text-2xl text-foreground/80 text-center lg:text-left min-h-[2.5rem]',
     description: `font-sans text-base sm:text-lg text-muted-foreground leading-relaxed 
       max-w-xl mx-auto lg:mx-0`,
     buttons: 'flex flex-wrap gap-4 justify-center lg:justify-start mt-4',
