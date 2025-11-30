@@ -60,10 +60,10 @@ export function Navbar() {
   const isActive = (href: string) => {
     // 精确匹配首页
     if (href === '/') {
-      return pathname === '/' || pathname === '/root'
+      return pathname === '/'
     }
     // 其他路径使用 startsWith 匹配
-    return pathname.startsWith(href) || pathname.startsWith('/root' + href)
+    return pathname.startsWith(href)
   }
 
   return (
@@ -96,7 +96,7 @@ export function Navbar() {
               </button>
 
               {/* 头像 - 所有尺寸都显示 */}
-              <Link href="/root" className={navbarStyles.avatarLink}>
+              <Link href="/" className={navbarStyles.avatarLink}>
                 <div className={navbarStyles.avatarContainer}>
                   <Image
                     src="/navbar/cat.jpg"
@@ -176,7 +176,7 @@ export function Navbar() {
                   className={cn(
                     navbarStyles.navLinkItem,
                     navbarStyles.dropdown.trigger,
-                    (pathname.startsWith('/resources') || pathname.startsWith('/root/resources')) && navbarStyles.navLinkItemActive
+                    pathname.startsWith('/resources') && navbarStyles.navLinkItemActive
                   )}
                   tabIndex={0}
                 >
