@@ -1,5 +1,3 @@
-// ✅ 前台首页 - 通过自定义域名访问时会看到这个页面
-// 域名会通过 vercel.json 的 rewrite 规则映射到这里
 import React from 'react'
 import { getQueryClient, trpc } from '@/components/trpc/server'
 import { HeroSection } from '@/components/root/home/hero-section'
