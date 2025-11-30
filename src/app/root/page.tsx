@@ -7,6 +7,9 @@ import { RecentSection } from '@/components/root/home/recent-section'
 import { RecentBlogs } from '@/components/root/home/recent-blogs'
 import { RecentProjects } from '@/components/root/home/recent-projects'
 
+// 强制静态生成（SSG）
+export const dynamic = 'force-static';
+
 const RootPage = async () => {
     // 获取最近的博客文章（6篇）
     const queryClient = getQueryClient()
