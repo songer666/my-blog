@@ -8,7 +8,7 @@ import homeConfig from './home.json';
 
 const styles = {
   // Hero 容器 - 占满屏幕高度减去 navbar
-  container: 'relative w-full min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-5rem)] min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden pt-20 lg:pt-0',
+  container: 'relative w-full min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-center justify-center overflow-hidden pt-20 lg:pt-0',
   
   // 背景装饰
   decoration: {

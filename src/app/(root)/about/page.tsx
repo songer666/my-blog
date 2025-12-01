@@ -66,7 +66,7 @@ export default async function AboutRootPage() {
   // 将配置文件中的社交链接转换为 BioSection 需要的格式
   const socialLinks = homeConfig.social.map((link, index) => ({
     id: `social-${index}`,
-    platform: link.name,
+    platform: link.icon, // 使用 icon 字段作为 platform，以匹配 iconMap 的键名
     url: link.href,
     icon: link.icon,
   }));
