@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/shadcn/ui/button';
 import { ArrowLeft } from 'lucide-react';
 
@@ -20,14 +22,27 @@ interface BackToListProps {
 }
 
 export function BackToList({ href, label }: BackToListProps) {
+  const router = useRouter();
+
+  const handleBack = () => {
+    // 检查是否有历史记录
+    if (window.history.length > 1) {
+      router.back(); // 使用浏览器缓存，瞬间返回
+    } else {
+      router.push(href); // 如果没有历史记录，直接跳转到指定页面
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <Link href={href}>
-        <Button variant="ghost" className={styles.button}>
-          <ArrowLeft className={styles.icon} />
-          {label}
-        </Button>
-      </Link>
+      <Button 
+        variant="ghost" 
+        className={styles.button}
+        onClick={handleBack}
+      >
+        <ArrowLeft className={styles.icon} />
+        {label}
+      </Button>
     </div>
   );
 }
