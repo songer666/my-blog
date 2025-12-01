@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
                 protocol: 'https',
                 hostname: '**.r2.cloudflarestorage.com',
             },
+            {
+                protocol: 'https',
+                hostname: '**.r2.dev',
+            },
         ],
         // 允许 SVG（需要注意安全性）
         dangerouslyAllowSVG: true,
