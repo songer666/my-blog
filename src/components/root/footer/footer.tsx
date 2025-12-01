@@ -36,7 +36,7 @@ const iconMap = {
 
 const styles = {
   footer: `relative w-full border-t border-border/50 
-    bg-gradient-to-b from-background to-muted/20  mt-20 lg:mt-36 `,
+    bg-gradient-to-b from-background to-muted/20 mt-16 sm:mt-20 lg:mt-24`,
   container: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-16',
   
   // 主要内容区域 - 移动端和平板都是三列,桌面4列

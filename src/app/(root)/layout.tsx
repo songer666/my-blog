@@ -17,7 +17,9 @@ export default function RootLayout({
             themes={["light", "dark"]}  
         >
             <Navbar />
-            {children}
+            <div className="min-h-[calc(100vh-400px)]">
+                {children}
+            </div>
             <Footer />
             <MusicPlayer />
         </ThemeProvider>
