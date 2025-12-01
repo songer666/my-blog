@@ -5,9 +5,11 @@ import { Download as DownloadIcon, FileArchive, FileText, File, FileVideo, FileA
 import React, { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
+import { getSignedUrlAction } from '@/server/actions/resources/r2-action';
 
 interface DownloadProps {
-    url: string;
+    url?: string;
+    r2Key?: string;
     filename: string;
     size?: string;
     description?: string;
@@ -49,6 +51,7 @@ const getFileIcon = (filename: string, type?: string) => {
 
 export const Download: FC<DownloadProps> = ({ 
     url, 
+    r2Key,
     filename, 
     size = '', 
     description = '', 
@@ -57,7 +60,27 @@ export const Download: FC<DownloadProps> = ({
     const FileIcon = getFileIcon(filename, type);
     const [isDisabled, setIsDisabled] = useState(false);
     const [countdown, setCountdown] = useState(0);
+    const [downloadUrl, setDownloadUrl] = useState<string | null>(url || null);
+    const [isLoading, setIsLoading] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        // 如果提供了 r2Key，获取预签名 URL
+        if (r2Key && !url) {
+            setIsLoading(true);
+            getSignedUrlAction(r2Key)
+                .then((result) => {
+                    if (result.success && result.signedUrl) {
+                        setDownloadUrl(result.signedUrl);
+                    } else {
+                        console.error('获取下载链接失败:', result.error);
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    }, [r2Key, url]);
 
     useEffect(() => {
         // 清理函数：组件卸载时清除定时器
@@ -69,10 +92,10 @@ export const Download: FC<DownloadProps> = ({
     }, []);
 
     const handleDownload = () => {
-        if (isDisabled) return;
+        if (isDisabled || !downloadUrl || isLoading) return;
         
         // 打开下载链接
-        window.open(url, '_blank');
+        window.open(downloadUrl, '_blank');
         
         // 禁用按钮30秒
         setIsDisabled(true);
@@ -148,7 +171,7 @@ export const Download: FC<DownloadProps> = ({
                         {/* 下载按钮 */}
                         <button
                             onClick={handleDownload}
-                            disabled={isDisabled}
+                            disabled={isDisabled || isLoading || !downloadUrl}
                             className={cn(
                                 'flex-shrink-0 px-4 py-2 rounded',
                                 'bg-gray-800 dark:bg-gray-300',
@@ -157,12 +180,20 @@ export const Download: FC<DownloadProps> = ({
                                 'transition-all duration-200',
                                 'flex items-center gap-2',
                                 'min-w-[90px] justify-center',
-                                isDisabled 
+                                (isDisabled || isLoading || !downloadUrl)
                                     ? 'opacity-60 cursor-not-allowed' 
                                     : 'hover:bg-gray-900 dark:hover:bg-gray-200 cursor-pointer'
                             )}
                         >
-                            {isDisabled ? (
+                            {isLoading ? (
+                                <>
+                                    <DownloadIcon className={cn(
+                                        'w-4 h-4',
+                                        'animate-spin'
+                                    )} />
+                                    <span className="text-sm">加载中</span>
+                                </>
+                            ) : isDisabled ? (
                                 <>
                                     <DownloadIcon className={cn(
                                         'w-4 h-4',

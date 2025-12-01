@@ -8,6 +8,7 @@ import remarkDirective from "remark-directive";
 import remarkAdmonitions from "@/components/mdx/plugins/remark-admonitions";
 import remarkDownload from "@/components/mdx/plugins/remark-download";
 import remarkVideo from "@/components/mdx/plugins/remark-video";
+import remarkR2Image from "@/components/mdx/plugins/remark-r2-image";
 import remarkGfm from "remark-gfm";
 import rehypeExternalLinks from "rehype-external-links";
 import remarkFlexibleToc from 'remark-flexible-toc';
@@ -21,7 +22,7 @@ export const defaultMdxSerializeOptions: Omit<MDXRemoteProps, 'source'> = {
         parseFrontmatter: true,
         vfileDataIntoScope: 'toc',
         mdxOptions: {
-            remarkPlugins: [remarkDirective,remarkAdmonitions,remarkDownload,remarkVideo,remarkGfm,remarkFlexibleToc],
+            remarkPlugins: [remarkDirective,remarkAdmonitions,remarkDownload,remarkVideo,remarkR2Image,remarkGfm,remarkFlexibleToc],
             rehypePlugins: [
                 rehypeSlug,
                 [rehypeExternalLinks, {target: '_blank'}],

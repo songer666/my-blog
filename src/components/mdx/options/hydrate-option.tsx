@@ -5,6 +5,7 @@ import { Admonition } from '@/components/mdx/components/admonition';
 import { Download } from '@/components/mdx/components/download';
 import { VideoEmbed } from '@/components/mdx/components/video-embed';
 import { ZoomImage } from '@/components/mdx/components/zoom-image';
+import { R2Image } from '@/components/mdx/components/r2-image';
 import '@/components/mdx/styles/index.css';
 
 /**
@@ -20,5 +21,6 @@ export const defaultMdxHydrateOptions: Omit<HydrateProps, 'compiledSource'> = {
         Download,
         VideoEmbed,
         ZoomImage,
+        R2Image,
     },
 };
