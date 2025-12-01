@@ -3,12 +3,12 @@ import { visit } from 'unist-util-visit';
 /**
  * Remark插件：解析 R2 图片指令
  * 语法示例：
- * :::r2-image{r2Key="/images/example.png" alt="示例图片" width="800" height="600"}
+ * ::r2-image{r2Key="/images/example.png" alt="示例图片"}
+ * 
+ * 或者使用容器语法添加说明文字：
+ * :::r2-image{r2Key="/images/example.png" alt="示例图片"}
  * 图片说明文字（可选）
  * :::
- * 
- * 或者使用简化语法（leafDirective）：
- * ::r2-image{r2Key="/images/example.png" alt="示例图片"}
  */
 const remarkR2Image = () => {
     return (tree: any, file: any) => {
@@ -57,8 +57,6 @@ const remarkR2Image = () => {
                 data.hProperties = {
                     r2Key: attributes.r2Key,
                     alt: attributes.alt || caption || '',
-                    width: attributes.width ? parseInt(attributes.width) : undefined,
-                    height: attributes.height ? parseInt(attributes.height) : undefined,
                     className: attributes.className || '',
                     caption: caption || '',
                 };
