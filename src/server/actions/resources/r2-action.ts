@@ -35,7 +35,7 @@ export async function getBatchSignedUrlsAction(r2Keys: string[]) {
 
     const results = await Promise.allSettled(
       r2Keys.map(async (key) => {
-        const url = await getR2SignedUrl(key, 7200); // 2小时有效期
+        const url = await getR2SignedUrl(key, 43200); // 12小时有效期
         return { key, url };
       })
     );

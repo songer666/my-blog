@@ -6,7 +6,8 @@ export type MusicTrack = {
   title: string;
   albumTitle: string;
   albumSlug: string;
-  audioUrl: string;
+  r2Key: string;           // R2 存储的 key,用于刷新 URL
+  audioUrl: string;        // 签名 URL,可能会过期
   coverUrl?: string | null;
   duration?: number;
 }
@@ -46,6 +47,8 @@ export type MusicPlayerAction = {
   setIsPlaying: (isPlaying: boolean) => void; // 设置播放状态
   toggleLoopMode: () => void; // 切换循环模式
   clear: () => void; // 清空播放器
+  refreshTrackUrl: (trackId: string) => Promise<void>; // 刷新指定音轨的 URL
+  updateTrackUrl: (trackId: string, newUrl: string) => void; // 更新音轨 URL
 }
 
 /**

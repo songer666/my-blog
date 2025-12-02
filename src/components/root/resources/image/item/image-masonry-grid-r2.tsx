@@ -5,10 +5,11 @@ import { ImageIcon, Loader2 } from 'lucide-react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { Button } from '@/components/shadcn/ui/button';
 import { ImageLightbox } from '../../code/item/image-lightbox';
+import { useR2Url } from '@/components/mdx/context/r2-url-context';
 
 interface ImageItem {
   id: string;
-  url: string | null;
+  r2Key: string;
   name: string;
   alt?: string | null;
   width: number;
@@ -16,7 +17,7 @@ interface ImageItem {
   fileSize: number;
 }
 
-interface ImageMasonryGridProps {
+interface ImageMasonryGridWithR2Props {
   images: ImageItem[];
   galleryTitle: string;
 }
@@ -36,7 +37,33 @@ const styles = {
 
 const BATCH_SIZE = 10; // 每次加载10张图片
 
-export function ImageMasonryGrid({ images, galleryTitle }: ImageMasonryGridProps) {
+// 单个图片组件,使用 useR2Url 自动刷新
+function ImageCard({ item, onClick }: { item: ImageItem; onClick: (url: string) => void }) {
+  const url = useR2Url(item.r2Key); // 自动刷新的 URL
+
+  return (
+    <div
+      className={styles.imageCard.wrapper}
+      onClick={() => url && onClick(url)}
+    >
+      {url ? (
+        <img
+          src={url}
+          alt={item.alt || item.name}
+          className={styles.imageCard.image}
+          loading="lazy"
+        />
+      ) : (
+        <div className="w-full aspect-[4/3] flex items-center justify-center text-muted-foreground">
+          <ImageIcon className="w-10 h-10 opacity-20" />
+        </div>
+      )}
+      <div className={styles.imageCard.overlay} />
+    </div>
+  );
+}
+
+export function ImageMasonryGridWithR2({ images, galleryTitle }: ImageMasonryGridWithR2Props) {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [displayedCount, setDisplayedCount] = useState(BATCH_SIZE);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,25 +107,11 @@ export function ImageMasonryGrid({ images, galleryTitle }: ImageMasonryGridProps
       <BlurFade delay={0.2} inView>
         <div className={styles.masonry}>
           {displayedImages.map((item) => (
-            <div
-              key={item.id}
-              className={styles.imageCard.wrapper}
-              onClick={() => item.url && setLightboxImage(item.url)}
-            >
-              {item.url ? (
-                <img
-                  src={item.url}
-                  alt={item.alt || item.name}
-                  className={styles.imageCard.image}
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full aspect-[4/3] flex items-center justify-center text-muted-foreground">
-                  <ImageIcon className="w-10 h-10 opacity-20" />
-                </div>
-              )}
-              <div className={styles.imageCard.overlay} />
-            </div>
+            <ImageCard 
+              key={item.id} 
+              item={item} 
+              onClick={setLightboxImage} 
+            />
           ))}
         </div>
       </BlurFade>

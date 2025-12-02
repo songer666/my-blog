@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { BackToList } from '../shared/back-to-list';
 import { Calendar, Music, Disc } from 'lucide-react';
 import { TrackList } from './track-list';
-import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
+import { useR2Url } from '@/components/mdx/context/r2-url-context';
 
 interface Album {
   id: string;
@@ -48,71 +48,33 @@ const styles = {
   },
 };
 
+// 封面组件，使用 useR2Url 自动刷新
+function AlbumCover({ coverImage, coverKey, title }: { coverImage: string | null; coverKey?: string; title: string }) {
+  const coverUrl = coverKey ? useR2Url(coverKey) : coverImage;
+
+  return (
+    <div className={styles.header.coverWrapper}>
+      {coverUrl ? (
+        <img
+          src={coverUrl}
+          alt={title}
+          className={styles.header.coverImage}
+          loading="eager"
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+          <Disc className="w-20 h-20 opacity-20" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function MusicAlbumDetail({ album }: MusicAlbumDetailProps) {
-  const [coverUrl, setCoverUrl] = useState<string | null>(album.coverImage);
-  const [trackUrls, setTrackUrls] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchSignedUrls() {
-      const r2Keys: string[] = [];
-      
-      // 收集封面key（如果没有base64封面）
-      if (!album.coverImage && album.items && album.items.length > 0) {
-        const itemWithCover = album.items.find(item => item.coverKey);
-        if (itemWithCover && itemWithCover.coverKey) {
-          r2Keys.push(itemWithCover.coverKey);
-        }
-      }
-      
-      // 收集所有音轨的key
-      album.items.forEach(track => {
-        r2Keys.push(track.r2Key);
-      });
-
-      if (r2Keys.length === 0) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const result = await getBatchSignedUrlsAction(r2Keys);
-        
-        if (result.success && result.signedUrls) {
-          const signedUrls = result.signedUrls as Record<string, string>;
-          
-          // 设置封面URL
-          if (!album.coverImage && album.items && album.items.length > 0) {
-            const itemWithCover = album.items.find(item => item.coverKey);
-            if (itemWithCover && itemWithCover.coverKey && signedUrls[itemWithCover.coverKey]) {
-              setCoverUrl(signedUrls[itemWithCover.coverKey]);
-            }
-          }
-          
-          // 设置音轨URLs
-          const urls: Record<string, string> = {};
-          album.items.forEach(track => {
-            if (signedUrls[track.r2Key]) {
-              urls[track.id] = signedUrls[track.r2Key];
-            }
-          });
-          setTrackUrls(urls);
-        }
-      } catch (error) {
-        console.error('获取签名URL失败:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchSignedUrls();
-  }, [album]);
-
-  // 将音轨数据与URL合并
-  const enrichedTracks = album.items.map(track => ({
-    ...track,
-    url: trackUrls[track.id] || null,
-  }));
+  // 获取封面 key
+  const coverKey = !album.coverImage && album.items && album.items.length > 0
+    ? album.items.find(item => item.coverKey)?.coverKey
+    : undefined;
 
   return (
     <div className={styles.container}>
@@ -123,20 +85,11 @@ export function MusicAlbumDetail({ album }: MusicAlbumDetailProps) {
         {/* Header Section */}
         <BlurFade delay={0.1} inView>
           <div className={styles.header.wrapper}>
-            <div className={styles.header.coverWrapper}>
-              {coverUrl ? (
-                <img
-                  src={coverUrl}
-                  alt={album.title}
-                  className={styles.header.coverImage}
-                  loading="eager"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  <Disc className="w-20 h-20 opacity-20" />
-                </div>
-              )}
-            </div>
+            <AlbumCover 
+              coverImage={album.coverImage} 
+              coverKey={coverKey} 
+              title={album.title} 
+            />
 
             <div className={styles.header.infoWrapper}>
               <h1 className={styles.header.title}>{album.title}</h1>
@@ -173,10 +126,11 @@ export function MusicAlbumDetail({ album }: MusicAlbumDetailProps) {
 
         {/* Track List */}
         <TrackList 
-          tracks={enrichedTracks}
+          tracks={album.items}
           albumTitle={album.title}
           albumSlug={album.slug}
-          coverUrl={coverUrl}
+          coverImage={album.coverImage}
+          coverKey={coverKey}
         />
       </div>
     </div>

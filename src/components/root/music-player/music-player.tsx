@@ -24,6 +24,7 @@ export function MusicPlayer() {
   const setCurrentTime = useMusicPlayerStore(state => state.setCurrentTime);
   const setDuration = useMusicPlayerStore(state => state.setDuration);
   const setIsPlaying = useMusicPlayerStore(state => state.setIsPlaying);
+  const refreshTrackUrl = useMusicPlayerStore(state => state.refreshTrackUrl);
 
   useEffect(() => {
     setIsMounted(true);
@@ -93,11 +94,28 @@ export function MusicPlayer() {
       audio.play();
     };
 
+    const handleError = async () => {
+      console.error('音频加载失败，可能是签名 URL 已过期');
+      setIsPlaying(false);
+      
+      // 如果有当前音轨，尝试刷新 URL
+      if (currentTrack) {
+        console.log(`尝试刷新音轨 ${currentTrack.id} 的 URL...`);
+        try {
+          await refreshTrackUrl(currentTrack.id);
+          console.log('URL 刷新成功，请重新播放');
+        } catch (error) {
+          console.error('URL 刷新失败:', error);
+        }
+      }
+    };
+
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('durationchange', handleDurationChange);
     audio.addEventListener('canplay', handleCanPlay);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
 
     // 如果已经加载了，立即设置
     if (audio.duration && !isNaN(audio.duration) && audio.duration !== Infinity) {
@@ -110,8 +128,9 @@ export function MusicPlayer() {
       audio.removeEventListener('durationchange', handleDurationChange);
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
     };
-  }, [currentTrack, setCurrentTime, setDuration, setIsPlaying]);
+  }, [currentTrack, setCurrentTime, setDuration, setIsPlaying, refreshTrackUrl]);
 
   // 控制播放/暂停
   useEffect(() => {

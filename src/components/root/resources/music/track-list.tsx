@@ -6,20 +6,23 @@ import { Button } from '@/components/shadcn/ui/button';
 import { Disc, Play, Pause } from 'lucide-react';
 import { useMusicPlayerStore } from '@/store/music/store';
 import type { MusicTrack } from '@/store/music/type';
+import { useR2Url } from '@/components/mdx/context/r2-url-context';
 
 interface Track {
   id: string;
   name: string;
+  r2Key: string;
   artist?: string | null;
   duration?: number | null;
-  url: string | null;
+  coverKey?: string;
 }
 
 interface TrackListProps {
   tracks: Track[];
   albumTitle: string;
   albumSlug: string;
-  coverUrl?: string | null;
+  coverImage?: string | null;
+  coverKey?: string;
 }
 
 const styles = {
@@ -46,38 +49,58 @@ function formatDuration(seconds?: number | null) {
   return `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
-export function TrackList({ tracks, albumTitle, albumSlug, coverUrl }: TrackListProps) {
+// 单个音轨组件，使用 useR2Url 自动刷新
+function TrackItem({ 
+  track, 
+  index, 
+  albumTitle, 
+  albumSlug, 
+  coverImage, 
+  coverKey,
+  allTracks 
+}: { 
+  track: Track; 
+  index: number; 
+  albumTitle: string; 
+  albumSlug: string; 
+  coverImage?: string | null;
+  coverKey?: string;
+  allTracks: Track[];
+}) {
+  const url = useR2Url(track.r2Key); // 自动刷新的 URL
+  const coverUrl = coverKey ? useR2Url(coverKey) : coverImage;
+  
   const currentTrack = useMusicPlayerStore(state => state.currentTrack);
   const isPlaying = useMusicPlayerStore(state => state.isPlaying);
   const playTrack = useMusicPlayerStore(state => state.playTrack);
   const pause = useMusicPlayerStore(state => state.pause);
   const resume = useMusicPlayerStore(state => state.resume);
 
-  const handleTrackClick = (track: Track) => {
-    if (!track.url) return;
+  const handleClick = () => {
+    if (!url) return;
 
     const musicTrack: MusicTrack = {
       id: track.id,
       title: track.name,
       albumTitle,
       albumSlug,
-      audioUrl: track.url,
+      r2Key: track.r2Key,
+      audioUrl: url,
       coverUrl,
       duration: track.duration || undefined,
     };
 
-    // 构建完整播放列表
-    const playlist: MusicTrack[] = tracks
-      .filter(t => t.url)
-      .map(t => ({
-        id: t.id,
-        title: t.name,
-        albumTitle,
-        albumSlug,
-        audioUrl: t.url!,
-        coverUrl,
-        duration: t.duration || undefined,
-      }));
+    // 构建完整播放列表（使用当前的 URL）
+    const playlist: MusicTrack[] = allTracks.map(t => ({
+      id: t.id,
+      title: t.name,
+      albumTitle,
+      albumSlug,
+      r2Key: t.r2Key,
+      audioUrl: url, // 注意：这里会在播放器中自动刷新
+      coverUrl,
+      duration: t.duration || undefined,
+    }));
 
     // 如果点击的是当前歌曲
     if (currentTrack?.id === track.id) {
@@ -92,8 +115,44 @@ export function TrackList({ tracks, albumTitle, albumSlug, coverUrl }: TrackList
     }
   };
 
-  const isCurrentTrack = (trackId: string) => currentTrack?.id === trackId;
-  const isCurrentTrackPlaying = (trackId: string) => isCurrentTrack(trackId) && isPlaying;
+  const isCurrent = currentTrack?.id === track.id;
+  const isCurrentPlaying = isCurrent && isPlaying;
+
+  return (
+    <div
+      className={`${styles.item} ${isCurrent ? styles.itemActive : ''}`}
+      onClick={handleClick}
+    >
+      <span className={styles.index}>{index + 1}</span>
+      <div className={styles.trackInfo}>
+        <span className={`${styles.trackName} ${isCurrent ? styles.trackNameActive : ''}`}>
+          {track.name}
+        </span>
+        {track.artist && (
+          <span className={styles.artist}>{track.artist}</span>
+        )}
+      </div>
+      <div className={styles.duration}>
+        {formatDuration(track.duration)}
+      </div>
+      <div className={`${styles.playButton} ${isCurrent ? styles.playButtonActive : ''}`}>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-8 w-8 rounded-full hover:bg-violet-500/20 dark:hover:bg-violet-500/30"
+        >
+          {isCurrentPlaying ? (
+            <Pause className="w-4 h-4" />
+          ) : (
+            <Play className="w-4 h-4 ml-0.5" />
+          )}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export function TrackList({ tracks, albumTitle, albumSlug, coverImage, coverKey }: TrackListProps) {
 
   return (
     <BlurFade delay={0.2} inView>
@@ -105,44 +164,18 @@ export function TrackList({ tracks, albumTitle, albumSlug, coverUrl }: TrackList
           </div>
         </div>
         <div className={styles.list}>
-          {tracks.map((track, index) => {
-            const isCurrent = isCurrentTrack(track.id);
-            const isCurrentPlaying = isCurrentTrackPlaying(track.id);
-
-            return (
-              <div
-                key={track.id}
-                className={`${styles.item} ${isCurrent ? styles.itemActive : ''}`}
-                onClick={() => handleTrackClick(track)}
-              >
-                <span className={styles.index}>{index + 1}</span>
-                <div className={styles.trackInfo}>
-                  <span className={`${styles.trackName} ${isCurrent ? styles.trackNameActive : ''}`}>
-                    {track.name}
-                  </span>
-                  {track.artist && (
-                    <span className={styles.artist}>{track.artist}</span>
-                  )}
-                </div>
-                <div className={styles.duration}>
-                  {formatDuration(track.duration)}
-                </div>
-                <div className={`${styles.playButton} ${isCurrent ? styles.playButtonActive : ''}`}>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-8 w-8 rounded-full hover:bg-violet-500/20 dark:hover:bg-violet-500/30"
-                  >
-                    {isCurrentPlaying ? (
-                      <Pause className="w-4 h-4" />
-                    ) : (
-                      <Play className="w-4 h-4 ml-0.5" />
-                    )}
-                  </Button>
-                </div>
-              </div>
-            );
-          })}
+          {tracks.map((track, index) => (
+            <TrackItem
+              key={track.id}
+              track={track}
+              index={index}
+              albumTitle={albumTitle}
+              albumSlug={albumSlug}
+              coverImage={coverImage}
+              coverKey={coverKey}
+              allTracks={tracks}
+            />
+          ))}
           {tracks.length === 0 && (
             <div className="p-8 text-center text-muted-foreground text-sm">
               暂无歌曲

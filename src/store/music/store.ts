@@ -140,6 +140,78 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
       currentTime: 0,
       duration: 0,
     }, false, 'music/clear'),
+
+  refreshTrackUrl: async (trackId: string) => {
+    const state = get();
+    const { currentTrack, playlist } = state;
+    
+    // 找到需要刷新的音轨
+    let trackToRefresh: MusicTrack | null = null;
+    if (currentTrack?.id === trackId) {
+      trackToRefresh = currentTrack;
+    } else {
+      trackToRefresh = playlist.find(t => t.id === trackId) || null;
+    }
+    
+    if (!trackToRefresh) return;
+    
+    try {
+      // 动态导入 server action
+      const { getSignedUrlAction } = await import('@/server/actions/resources/r2-action');
+      const result = await getSignedUrlAction(trackToRefresh.r2Key);
+      
+      if (result.success && result.signedUrl) {
+        const newUrl = result.signedUrl as string;
+        
+        // 更新当前音轨
+        if (currentTrack?.id === trackId) {
+          set({
+            currentTrack: {
+              ...currentTrack,
+              audioUrl: newUrl,
+            },
+          }, false, 'music/refreshTrackUrl/currentTrack');
+        }
+        
+        // 更新播放列表中的音轨
+        const newPlaylist = playlist.map(track =>
+          track.id === trackId ? { ...track, audioUrl: newUrl } : track
+        );
+        
+        set({
+          playlist: newPlaylist,
+        }, false, 'music/refreshTrackUrl/playlist');
+        
+        console.log(`音轨 ${trackId} URL 已刷新`);
+      }
+    } catch (error) {
+      console.error('刷新音轨 URL 失败:', error);
+    }
+  },
+
+  updateTrackUrl: (trackId: string, newUrl: string) => {
+    const state = get();
+    const { currentTrack, playlist } = state;
+    
+    // 更新当前音轨
+    if (currentTrack?.id === trackId) {
+      set({
+        currentTrack: {
+          ...currentTrack,
+          audioUrl: newUrl,
+        },
+      }, false, 'music/updateTrackUrl/currentTrack');
+    }
+    
+    // 更新播放列表中的音轨
+    const newPlaylist = playlist.map(track =>
+      track.id === trackId ? { ...track, audioUrl: newUrl } : track
+    );
+    
+    set({
+      playlist: newPlaylist,
+    }, false, 'music/updateTrackUrl/playlist');
+  },
 });
 
 /**
@@ -171,6 +243,8 @@ export const musicPlayerStore = createPersistStore<MusicPlayerState, MusicPlayer
       setIsPlaying: state.setIsPlaying,
       toggleLoopMode: state.toggleLoopMode,
       clear: state.clear,
+      refreshTrackUrl: state.refreshTrackUrl,
+      updateTrackUrl: state.updateTrackUrl,
     }),
     // 恢复时，将 isPlaying 设为 false，避免自动播放
     merge: (persistedState, currentState) => {

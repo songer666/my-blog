@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { Calendar, ImageIcon } from 'lucide-react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { BackToList } from '../../shared/back-to-list';
-import { ImageMasonryGrid } from './image-masonry-grid';
+import { ImageMasonryGridWithR2 } from './image-masonry-grid-r2';
 import type { ImageGallery } from '@/server/types/resources-type';
-import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
 interface GalleryDetailProps {
   gallery: ImageGallery;
@@ -40,51 +39,16 @@ function formatDate(date: Date | string): string {
 }
 
 export function GalleryDetail({ gallery }: GalleryDetailProps) {
-  const [imageUrls, setImageUrls] = useState<Array<{ 
-    id: string; 
-    url: string | null; 
-    name: string; 
-    alt?: string | null; 
-    width: number; 
-    height: number; 
-    fileSize: number 
-  }>>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchSignedUrls() {
-      if (!gallery.items || gallery.items.length === 0) {
-        setLoading(false);
-        return;
-      }
-
-      const r2Keys = gallery.items.map(item => item.r2Key);
-      
-      try {
-        const result = await getBatchSignedUrlsAction(r2Keys);
-        
-        if (result.success && result.signedUrls) {
-          const signedUrls = result.signedUrls as Record<string, string>;
-          const enrichedImages = gallery.items.map(item => ({
-            id: item.id,
-            url: signedUrls[item.r2Key] || null,
-            name: item.name,
-            alt: item.alt,
-            width: item.width,
-            height: item.height,
-            fileSize: item.fileSize,
-          }));
-          setImageUrls(enrichedImages);
-        }
-      } catch (error) {
-        console.error('获取签名URL失败:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchSignedUrls();
-  }, [gallery]);
+  // 准备图片数据，包含 r2Key
+  const images = gallery.items.map(item => ({
+    id: item.id,
+    r2Key: item.r2Key,
+    name: item.name,
+    alt: item.alt,
+    width: item.width,
+    height: item.height,
+    fileSize: item.fileSize,
+  }));
 
   return (
     <div className={styles.container}>
@@ -138,7 +102,7 @@ export function GalleryDetail({ gallery }: GalleryDetailProps) {
         </div>
 
         {/* Image Grid */}
-        <ImageMasonryGrid images={imageUrls} galleryTitle={gallery.title} />
+        <ImageMasonryGridWithR2 images={images} galleryTitle={gallery.title} />
       </div>
     </div>
   );
