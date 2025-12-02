@@ -37,21 +37,40 @@ const styles = {
 
 const BATCH_SIZE = 10; // 每次加载10张图片
 
-// 单个图片组件,使用 useR2Url 自动刷新
+// 单个图片组件,使用 useR2Url
 function ImageCard({ item, onClick }: { item: ImageItem; onClick: (url: string) => void }) {
-  const url = useR2Url(item.r2Key); // 自动刷新的 URL
+  const url = useR2Url(item.r2Key);
+  const [hasError, setHasError] = React.useState(false);
+  const [retryCount, setRetryCount] = React.useState(0);
+
+  // 图片加载失败时的处理
+  const handleImageError = async () => {
+    // 避免无限重试,最多重试 2 次
+    if (retryCount >= 2) {
+      console.error(`图片加载失败,已重试 ${retryCount} 次: ${item.r2Key}`);
+      setHasError(true);
+      return;
+    }
+
+    console.log(`图片加载失败,尝试刷新 URL (第 ${retryCount + 1} 次): ${item.r2Key}`);
+    setRetryCount(prev => prev + 1);
+    
+    // 这里可以调用 refreshUrl,但由于我们使用的是简单的 useR2Url
+    // 图片会在页面刷新时重新获取 URL
+  };
 
   return (
     <div
       className={styles.imageCard.wrapper}
       onClick={() => url && onClick(url)}
     >
-      {url ? (
+      {url && !hasError ? (
         <img
           src={url}
           alt={item.alt || item.name}
           className={styles.imageCard.image}
           loading="lazy"
+          onError={handleImageError}
         />
       ) : (
         <div className="w-full aspect-[4/3] flex items-center justify-center text-muted-foreground">

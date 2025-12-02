@@ -24,6 +24,7 @@ export const R2Image: FC<R2ImageProps> = ({
     const imageUrl = useR2Url(r2Key);
     const [error, setError] = useState<string | null>(null);
     const [isZoomed, setIsZoomed] = useState(false);
+    const [imageLoadError, setImageLoadError] = useState(false);
 
     useEffect(() => {
         if (!r2Key) {
@@ -35,8 +36,14 @@ export const R2Image: FC<R2ImageProps> = ({
             setError('未找到图片 URL');
         } else {
             setError(null);
+            setImageLoadError(false); // 重置加载错误状态
         }
     }, [r2Key, imageUrl]);
+
+    const handleImageError = () => {
+        console.error(`图片加载失败: ${r2Key}`);
+        setImageLoadError(true);
+    };
 
     // 处理 ESC 键关闭放大视图
     useEffect(() => {
@@ -49,7 +56,7 @@ export const R2Image: FC<R2ImageProps> = ({
         return () => window.removeEventListener('keydown', handleEsc);
     }, [isZoomed]);
 
-    if (error) {
+    if (error || imageLoadError) {
         return (
             <div className="my-6 flex justify-center">
                 <div className={cn(
@@ -59,7 +66,7 @@ export const R2Image: FC<R2ImageProps> = ({
                     'text-red-700 dark:text-red-300',
                     'text-center'
                 )}>
-                    <p className="text-sm">图片加载失败: {error}</p>
+                    <p className="text-sm">图片加载失败: {error || '无法加载图片'}</p>
                 </div>
             </div>
         );
@@ -88,6 +95,7 @@ export const R2Image: FC<R2ImageProps> = ({
                             alt={alt}
                             className="w-full h-auto object-contain"
                             loading="lazy"
+                            onError={handleImageError}
                         />
                     </div>
                     {caption && (
