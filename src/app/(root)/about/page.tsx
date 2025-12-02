@@ -9,7 +9,7 @@ import { FriendsSection } from '@/components/root/about/friends-section';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { generateAboutMetadata } from './metadata';
-import homeConfig from '@/components/root/home/home.json';
+import homeConfig from '@/../public/json/home.json';
 
 // 生成页面 metadata
 export async function generateMetadata(

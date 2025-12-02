@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/shadcn/ui/tooltip";
 import { cn } from '@/lib/utils';
-import homeConfig from './home.json';
+import homeConfig from '@/../public/json/home.json';
 
 // X (Twitter) 图标
 const XIcon = ({ className }: { className?: string }) => (

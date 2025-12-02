@@ -1,6 +1,6 @@
 "use server";
 
-import { getR2SignedUrl, uploadToR2 } from "@/lib/r2-utils";
+import { getR2SignedUrl, uploadToR2, R2_SIGNED_URL_EXPIRES } from "@/lib/r2-utils";
 import { caller } from "@/components/trpc/server";
 import { revalidatePath } from "next/cache";
 import JSZip from "jszip";
@@ -11,7 +11,7 @@ import JSZip from "jszip";
  */
 export async function getSignedUrlAction(r2Key: string) {
   try {
-    const signedUrl = await getR2SignedUrl(r2Key);
+    const signedUrl = await getR2SignedUrl(r2Key, R2_SIGNED_URL_EXPIRES);
     return { success: true, signedUrl };
   } catch (error: any) {
     console.error('获取签名 URL 失败:', error);
@@ -35,7 +35,7 @@ export async function getBatchSignedUrlsAction(r2Keys: string[]) {
 
     const results = await Promise.allSettled(
       r2Keys.map(async (key) => {
-        const url = await getR2SignedUrl(key, 1800); // 半小时有效期
+        const url = await getR2SignedUrl(key, R2_SIGNED_URL_EXPIRES); 
         return { key, url };
       })
     );

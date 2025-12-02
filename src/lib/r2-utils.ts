@@ -2,6 +2,38 @@ import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } fro
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 /**
+ * ==================== R2 缓存配置 ====================
+ * 
+ * R2_SIGNED_URL_EXPIRES: 签名 URL 的有效期(秒)
+ * - 默认: 12 小时 (43200 秒)
+ * - 说明: 这是 Cloudflare R2 生成的签名 URL 的过期时间
+ * - 修改建议: 
+ *   - 开发环境: 1 小时 (3600)
+ *   - 生产环境: 12 小时 (43200)
+ *   - 长期缓存: 7 天 (604800)
+ * 
+ * R2_CACHE_DURATION: Zustand 缓存的有效期(毫秒)
+ * - 默认: 11 小时 (39600000 毫秒)
+ * - 说明: 客户端 Zustand store 中缓存的过期时间
+ * - 原则: 应该比签名 URL 有效期短 1 小时左右,确保在 URL 过期前刷新
+ * - 计算公式: (R2_SIGNED_URL_EXPIRES - 3600) * 1000
+ * 
+ * 缓存刷新时机:
+ * 1. 首次访问页面时,如果缓存不存在或已过期,会自动请求新的签名 URL
+ * 2. 图片/音频加载失败时(onError),会自动刷新 URL(最多重试 2 次)
+ * 3. 音乐播放器检测到 URL 失效时,会自动调用 refreshTrackUrl()
+ * 4. 手动调用 useR2CacheStore().clearExpired() 清除过期缓存
+ * 5. 手动调用 useR2CacheStore().clearAll() 清空所有缓存
+ * 
+ * 查看缓存状态:
+ * - 浏览器 DevTools → Application → Local Storage → blog-r2-cache
+ * - 或在控制台执行: localStorage.getItem('blog-r2-cache')
+ */
+export const R2_SIGNED_URL_EXPIRES = 10800; // 三小时
+export const R2_CACHE_DURATION = 10000 * 1000; // 10000秒，大约三小时
+export const R2_CACHE_MAX_SIZE = 80; // 最大缓存数量,防止 localStorage 占用过多空间 
+
+/**
  * 创建 R2 客户端
  */
 export function createR2Client() {

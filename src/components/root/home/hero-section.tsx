@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { TypingAnimation } from '@/components/shadcn/ui/typing-animation';
 import { SocialLinks } from './social-links';
-import homeConfig from './home.json';
+import homeConfig from '@/../public/json/home.json';
 
 const styles = {
   // Hero 容器 - 占满屏幕高度减去 navbar

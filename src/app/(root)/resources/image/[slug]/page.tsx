@@ -4,7 +4,6 @@ import { getQueryClient, trpc } from '@/components/trpc/server';
 import { generateGalleryDetailMetadata, generateGalleryNotFoundMetadata } from '../metadata';
 import { GalleryDetail } from '@/components/root/resources/image/item/gallery-detail';
 import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
-import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -41,19 +40,9 @@ export default async function GalleryDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // 批量获取签名 URL
-  const r2Keys = gallery.items.map(item => item.r2Key);
-  let signedUrls: Record<string, string> = {};
-  
-  if (r2Keys.length > 0) {
-    const result = await getBatchSignedUrlsAction(r2Keys);
-    if (result.success && result.signedUrls) {
-      signedUrls = result.signedUrls as Record<string, string>;
-    }
-  }
-
+  // 不在服务端获取签名 URL,改为客户端按需从缓存获取
   return (
-    <R2UrlProvider signedUrls={signedUrls}>
+    <R2UrlProvider signedUrls={{}}>
       <GalleryDetail gallery={gallery} />
     </R2UrlProvider>
   );

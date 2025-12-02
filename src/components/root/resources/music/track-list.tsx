@@ -90,14 +90,14 @@ function TrackItem({
       duration: track.duration || undefined,
     };
 
-    // 构建完整播放列表（使用当前的 URL）
+    // 构建完整播放列表（audioUrl 会在播放器中根据 r2Key 动态获取）
     const playlist: MusicTrack[] = allTracks.map(t => ({
       id: t.id,
       title: t.name,
       albumTitle,
       albumSlug,
       r2Key: t.r2Key,
-      audioUrl: url, // 注意：这里会在播放器中自动刷新
+      audioUrl: '', // 占位符,会在播放器中根据 r2Key 动态获取
       coverUrl,
       duration: t.duration || undefined,
     }));

@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useMusicPlayerStore } from '@/store/music/store';
+import { useMusicPlayerStore, musicPlayerStore } from '@/store/music/store';
 import { Play, Pause, X, Volume2, VolumeX, SkipBack, SkipForward } from 'lucide-react';
 import { Slider } from '@/components/shadcn/ui/slider';
+import { useR2UrlWithRefresh } from '@/components/mdx/context/r2-url-context';
 
 export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -14,30 +15,76 @@ export function MusicPlayer() {
   const volume = useMusicPlayerStore(state => state.volume);
   const currentTime = useMusicPlayerStore(state => state.currentTime);
   const duration = useMusicPlayerStore(state => state.duration);
-  
+  const loopMode = useMusicPlayerStore(state => state.loopMode);
+  const playNext = useMusicPlayerStore(state => state.playNext);
+  const playPrevious = useMusicPlayerStore(state => state.playPrevious);
   const pause = useMusicPlayerStore(state => state.pause);
   const resume = useMusicPlayerStore(state => state.resume);
   const clear = useMusicPlayerStore(state => state.clear);
-  const playNext = useMusicPlayerStore(state => state.playNext);
-  const playPrevious = useMusicPlayerStore(state => state.playPrevious);
   const setVolume = useMusicPlayerStore(state => state.setVolume);
   const setCurrentTime = useMusicPlayerStore(state => state.setCurrentTime);
   const setDuration = useMusicPlayerStore(state => state.setDuration);
   const setIsPlaying = useMusicPlayerStore(state => state.setIsPlaying);
   const refreshTrackUrl = useMusicPlayerStore(state => state.refreshTrackUrl);
+  const updateTrackUrl = useMusicPlayerStore(state => state.updateTrackUrl);
+
+  // 动态获取当前 track 的 URL
+  const { url: dynamicUrl, refresh: refreshUrl } = useR2UrlWithRefresh(currentTrack?.r2Key || '');
+
+  // 使用动态 URL 或 fallback 到 track 中的 URL
+  const audioUrl = dynamicUrl || currentTrack?.audioUrl || '';
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // 当切换歌曲时，重置时间和 duration
+  // 当歌曲切换时，重置播放状态并加载音频
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !currentTrack) return;
 
+    // 如果 URL 还没加载,等待
+    if (!audioUrl) {
+      return;
+    }
+    
+    // 强制更新 audio src
+    if (audio.src !== audioUrl) {
+      audio.src = audioUrl;
+    }
+
+    // 先暂停当前播放
+    audio.pause();
+    
     // 重置时间和 duration
     setCurrentTime(0);
     setDuration(0);
+    
+    // 加载新音频
+    audio.load();
+    
+    // 等待音频可以播放后再开始播放
+    const handleCanPlay = () => {
+      // 获取最新的 isPlaying 状态
+      const currentIsPlaying = musicPlayerStore.getState().isPlaying;
+      if (currentIsPlaying) {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            setIsPlaying(false);
+          });
+        }
+      }
+    };
+    
+    // 监听加载错误
+    const handleLoadError = () => {
+      setIsPlaying(false);
+    };
+    
+    // 监听 canplay 事件
+    audio.addEventListener('canplay', handleCanPlay, { once: true });
+    audio.addEventListener('error', handleLoadError, { once: true });
     
     // 尝试获取 duration（多次尝试）
     const checkDuration = () => {
@@ -56,9 +103,18 @@ export function MusicPlayer() {
         timers.push(setTimeout(checkDuration, delay));
       });
       
-      return () => timers.forEach(timer => clearTimeout(timer));
+      return () => {
+        audio.removeEventListener('canplay', handleCanPlay);
+        audio.removeEventListener('error', handleLoadError);
+        timers.forEach(timer => clearTimeout(timer));
+      };
     }
-  }, [currentTrack, setCurrentTime, setDuration]);
+    
+    return () => {
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('error', handleLoadError);
+    };
+  }, [currentTrack, audioUrl, setCurrentTime, setDuration, setIsPlaying]); // audioUrl 变化时重新加载
 
   // 音频元素事件处理
   useEffect(() => {
@@ -72,7 +128,6 @@ export function MusicPlayer() {
     const handleLoadedMetadata = () => {
       if (audio.duration && !isNaN(audio.duration) && audio.duration !== Infinity) {
         setDuration(audio.duration);
-        console.log('Duration loaded from metadata:', audio.duration);
       }
     };
 
@@ -95,17 +150,14 @@ export function MusicPlayer() {
     };
 
     const handleError = async () => {
-      console.error('音频加载失败，可能是签名 URL 已过期');
       setIsPlaying(false);
       
       // 如果有当前音轨，尝试刷新 URL
       if (currentTrack) {
-        console.log(`尝试刷新音轨 ${currentTrack.id} 的 URL...`);
         try {
           await refreshTrackUrl(currentTrack.id);
-          console.log('URL 刷新成功，请重新播放');
         } catch (error) {
-          console.error('URL 刷新失败:', error);
+          // 静默处理错误
         }
       }
     };
@@ -142,14 +194,8 @@ export function MusicPlayer() {
       
       if (playPromise !== undefined) {
         playPromise.catch(err => {
-          // 自动播放被阻止，静默处理
-          if (err.name === 'NotAllowedError') {
-            console.log('自动播放被阻止，等待用户交互');
-            setIsPlaying(false);
-          } else {
-            console.error('播放失败:', err);
-            setIsPlaying(false);
-          }
+          // 自动播放被阻止或播放失败，静默处理
+          setIsPlaying(false);
         });
       }
     } else {
@@ -205,8 +251,9 @@ export function MusicPlayer() {
   return (
     <div className="fixed max-w-7xl mx-auto bottom-0 left-0 right-0 z-50 border-t border-border/60 bg-card/95 backdrop-blur-md shadow-lg">
       <audio
+        key={currentTrack.id}
         ref={audioRef}
-        src={currentTrack.audioUrl}
+        src={audioUrl}
         preload="metadata"
       />
       

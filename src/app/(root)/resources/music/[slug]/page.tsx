@@ -4,7 +4,6 @@ import { getQueryClient, trpc } from '@/components/trpc/server';
 import { generateMusicDetailMetadata, generateMusicNotFoundMetadata } from '../metadata';
 import { MusicAlbumDetail } from '@/components/root/resources/music/music-album-detail';
 import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
-import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -57,33 +56,9 @@ export default async function MusicAlbumPage({ params }: PageProps) {
     notFound();
   }
 
-  // 批量获取签名 URL（封面 + 音轨）
-  const r2Keys: string[] = [];
-  
-  // 收集封面key（如果没有base64封面）
-  if (!album.coverImage && album.items && album.items.length > 0) {
-    const itemWithCover = album.items.find(item => item.coverKey);
-    if (itemWithCover && itemWithCover.coverKey) {
-      r2Keys.push(itemWithCover.coverKey);
-    }
-  }
-  
-  // 收集所有音轨的key
-  album.items.forEach(track => {
-    r2Keys.push(track.r2Key);
-  });
-
-  let signedUrls: Record<string, string> = {};
-  
-  if (r2Keys.length > 0) {
-    const result = await getBatchSignedUrlsAction(r2Keys);
-    if (result.success && result.signedUrls) {
-      signedUrls = result.signedUrls as Record<string, string>;
-    }
-  }
-
+  // 不在服务端获取签名 URL,改为客户端按需从缓存获取
   return (
-    <R2UrlProvider signedUrls={signedUrls}>
+    <R2UrlProvider signedUrls={{}}>
       <MusicAlbumDetail album={album} />
     </R2UrlProvider>
   );

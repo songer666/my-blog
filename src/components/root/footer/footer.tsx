@@ -4,8 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Github, Mail } from 'lucide-react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
-import footerConfig from './footer.json';
-import homeConfig from '../home/home.json';
+import footerConfig from '@/../public/json/footer.json';
+import homeConfig from '@/../public/json/home.json';
 
 // X (Twitter) 图标
 const XIcon = ({ className }: { className?: string }) => (

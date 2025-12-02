@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { X } from 'lucide-react';
-import { useR2Url } from '../context/r2-url-context';
+import { useR2UrlWithRefresh } from '../context/r2-url-context';
 
 interface R2ImageProps {
     r2Key: string;
@@ -20,11 +20,12 @@ export const R2Image: FC<R2ImageProps> = ({
     className = '',
     caption = ''
 }) => {
-    // 从 Context 获取预签名 URL
-    const imageUrl = useR2Url(r2Key);
+    // 从 Context 获取预签名 URL 和刷新方法
+    const { url: imageUrl, refresh } = useR2UrlWithRefresh(r2Key);
     const [error, setError] = useState<string | null>(null);
     const [isZoomed, setIsZoomed] = useState(false);
     const [imageLoadError, setImageLoadError] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
 
     useEffect(() => {
         if (!r2Key) {
@@ -40,9 +41,17 @@ export const R2Image: FC<R2ImageProps> = ({
         }
     }, [r2Key, imageUrl]);
 
-    const handleImageError = () => {
-        console.error(`图片加载失败: ${r2Key}`);
-        setImageLoadError(true);
+    const handleImageError = async () => {
+        // 避免无限重试,最多重试 2 次
+        if (retryCount >= 2) {
+            setImageLoadError(true);
+            return;
+        }
+
+        setRetryCount(prev => prev + 1);
+        
+        // 自动刷新 URL
+        await refresh();
     };
 
     // 处理 ESC 键关闭放大视图

@@ -77,7 +77,7 @@ export function MusicAlbumList({ albums }: MusicAlbumListProps) {
           setCoverUrls(urlsByAlbumId);
         }
       } catch (error) {
-        console.error('获取签名URL失败:', error);
+        // 静默处理错误
       } finally {
         setLoading(false);
       }

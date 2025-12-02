@@ -21,8 +21,9 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
     const newPlaylist = playlist || state.playlist;
     const index = newPlaylist.findIndex(t => t.id === track.id);
     
+    // 创建新对象,确保 React 能检测到变化
     set({
-      currentTrack: track,
+      currentTrack: { ...track },
       playlist: newPlaylist,
       currentIndex: index,
       isPlaying: true,
@@ -48,11 +49,13 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
       duration: 0,
     }, false, 'music/stop'),
 
-  playNext: () => {
+  playNext: async () => {
     const state = get();
     const { playlist, currentIndex, loopMode } = state;
     
-    if (playlist.length === 0) return;
+    if (playlist.length === 0) {
+      return;
+    }
     
     let nextIndex = currentIndex + 1;
     
@@ -67,36 +70,70 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
     
     const nextTrack = playlist[nextIndex];
     if (nextTrack) {
-      set({
-        currentTrack: nextTrack,
-        currentIndex: nextIndex,
-        isPlaying: true,
-        currentTime: 0,
-      }, false, 'music/playNext');
+      // 如果没有 URL,先获取
+      if (!nextTrack.audioUrl) {
+        await get().refreshTrackUrl(nextTrack.id);
+        // 重新获取更新后的 track
+        const updatedState = get();
+        const updatedTrack = updatedState.playlist[nextIndex];
+        if (updatedTrack) {
+          set({
+            currentTrack: { ...updatedTrack },
+            currentIndex: nextIndex,
+            isPlaying: true,
+            currentTime: 0,
+          }, false, 'music/playNext');
+        }
+      } else {
+        // 创建新对象,确保 React 能检测到变化
+        set({
+          currentTrack: { ...nextTrack },
+          currentIndex: nextIndex,
+          isPlaying: true,
+          currentTime: 0,
+        }, false, 'music/playNext');
+      }
     }
   },
 
-  playPrevious: () => {
+  playPrevious: async () => {
     const state = get();
     const { playlist, currentIndex } = state;
     
-    if (playlist.length === 0) return;
+    if (playlist.length === 0) {
+      return;
+    }
     
     let prevIndex = currentIndex - 1;
-    
-    // 如果到开头，循环到末尾
     if (prevIndex < 0) {
       prevIndex = playlist.length - 1;
     }
     
     const prevTrack = playlist[prevIndex];
     if (prevTrack) {
-      set({
-        currentTrack: prevTrack,
-        currentIndex: prevIndex,
-        isPlaying: true,
-        currentTime: 0,
-      }, false, 'music/playPrevious');
+      // 如果没有 URL,先获取
+      if (!prevTrack.audioUrl) {
+        await get().refreshTrackUrl(prevTrack.id);
+        // 重新获取更新后的 track
+        const updatedState = get();
+        const updatedTrack = updatedState.playlist[prevIndex];
+        if (updatedTrack) {
+          set({
+            currentTrack: { ...updatedTrack },
+            currentIndex: prevIndex,
+            isPlaying: true,
+            currentTime: 0,
+          }, false, 'music/playPrevious');
+        }
+      } else {
+        // 创建新对象,确保 React 能检测到变化
+        set({
+          currentTrack: { ...prevTrack },
+          currentIndex: prevIndex,
+          isPlaying: true,
+          currentTime: 0,
+        }, false, 'music/playPrevious');
+      }
     }
   },
 
@@ -143,17 +180,21 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
 
   refreshTrackUrl: async (trackId: string) => {
     const state = get();
-    const { currentTrack, playlist } = state;
+    const { currentTrack, playlist, isPlaying } = state;
     
     // 找到需要刷新的音轨
     let trackToRefresh: MusicTrack | null = null;
-    if (currentTrack?.id === trackId) {
+    const isCurrentTrack = currentTrack?.id === trackId;
+    
+    if (isCurrentTrack) {
       trackToRefresh = currentTrack;
     } else {
       trackToRefresh = playlist.find(t => t.id === trackId) || null;
     }
     
-    if (!trackToRefresh) return;
+    if (!trackToRefresh) {
+      return;
+    }
     
     try {
       // 动态导入 server action
@@ -164,12 +205,14 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
         const newUrl = result.signedUrl as string;
         
         // 更新当前音轨
-        if (currentTrack?.id === trackId) {
+        if (isCurrentTrack) {
           set({
             currentTrack: {
               ...currentTrack,
               audioUrl: newUrl,
             },
+            // 如果之前在播放,刷新后继续播放
+            isPlaying: true,
           }, false, 'music/refreshTrackUrl/currentTrack');
         }
         
@@ -181,11 +224,9 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
         set({
           playlist: newPlaylist,
         }, false, 'music/refreshTrackUrl/playlist');
-        
-        console.log(`音轨 ${trackId} URL 已刷新`);
       }
     } catch (error) {
-      console.error('刷新音轨 URL 失败:', error);
+      // 静默处理错误
     }
   },
 
