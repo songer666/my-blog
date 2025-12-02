@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { GalleryCard } from './gallery-card';
-import { getGalleryCoverUrlsAction } from '@/server/actions/resources/r2-client-action';
 
 interface Gallery {
   id: string;
@@ -33,25 +32,8 @@ const pageStyles = {
 };
 
 export function GalleryList({ galleries }: GalleryListProps) {
-  const [coverUrls, setCoverUrls] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchCoverUrls() {
-      try {
-        const result = await getGalleryCoverUrlsAction(galleries);
-        if (result.success && result.coverUrls) {
-          setCoverUrls(result.coverUrls);
-        }
-      } catch (error) {
-        console.error('获取封面 URL 失败:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchCoverUrls();
-  }, [galleries]);
+  // 直接从环境变量获取 R2 公开 URL
+  const R2_PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '';
 
   return (
     <BlurFade delay={0.3} inView>
@@ -63,20 +45,27 @@ export function GalleryList({ galleries }: GalleryListProps) {
           </div>
         ) : (
           <div className={pageStyles.grid}>
-            {galleries.map((gallery, index) => (
-              <BlurFade key={gallery.id} delay={0.15 + index * 0.05} inView>
-                <GalleryCard
-                  id={gallery.id}
-                  title={gallery.title}
-                  slug={gallery.slug}
-                  description={gallery.description}
-                  itemCount={gallery.itemCount}
-                  coverUrl={loading ? undefined : coverUrls[gallery.id]}
-                  createdAt={gallery.createdAt}
-                  index={index}
-                />
-              </BlurFade>
-            ))}
+            {galleries.map((gallery, index) => {
+              // 客户端直接拼接完整的封面 URL
+              const coverUrl = R2_PUBLIC_URL && gallery.items[0]?.r2Key
+                ? `${R2_PUBLIC_URL}${gallery.items[0].r2Key}`
+                : undefined;
+              
+              return (
+                <BlurFade key={gallery.id} delay={0.15 + index * 0.05} inView>
+                  <GalleryCard
+                    id={gallery.id}
+                    title={gallery.title}
+                    slug={gallery.slug}
+                    description={gallery.description}
+                    itemCount={gallery.itemCount}
+                    coverUrl={coverUrl}
+                    createdAt={gallery.createdAt}
+                    index={index}
+                  />
+                </BlurFade>
+              );
+            })}
           </div>
         )}
       </div>

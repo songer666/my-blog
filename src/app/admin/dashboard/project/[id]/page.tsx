@@ -12,6 +12,8 @@ import { RevalidateButton } from '@/components/isr';
 import { notFound } from 'next/navigation';
 import { serializeMdx } from '@/components/mdx/utils';
 import styles from './page.module.css';
+import { extractR2KeysFromMDX } from '@/lib/mdx-r2-utils';
+import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
 // Admin 页面需要认证，保持动态渲染
 
@@ -33,6 +35,17 @@ export default async function ProjectIdPage({
   
   // 序列化 MDX 内容
   const serializedContent = await serializeMdx(project.content);
+
+  // 提取 MDX 中的所有 R2 keys 并批量获取预签名 URL
+  const r2Keys = extractR2KeysFromMDX(project.content);
+  let signedUrls: Record<string, string> = {};
+  
+  if (r2Keys.length > 0) {
+    const urlResult = await getBatchSignedUrlsAction(r2Keys);
+    if (urlResult.success && urlResult.signedUrls) {
+      signedUrls = urlResult.signedUrls as Record<string, string>;
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -58,7 +71,7 @@ export default async function ProjectIdPage({
       {/* 项目内容 */}
       <Card className={styles.contentCard}>
         <CardContent className={styles.contentWrapper}>
-          <ProjectContent project={project} serializedContent={serializedContent} />
+          <ProjectContent project={project} serializedContent={serializedContent} signedUrls={signedUrls} />
         </CardContent>
       </Card>
     </div>

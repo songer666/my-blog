@@ -11,14 +11,16 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { MdxHydrate } from '@/components/mdx/hydrate';
 import type { MdxHydrateProps } from '@/components/mdx/type';
+import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
 import styles from './project-content.module.css';
 
 interface ProjectContentProps {
   project: ProjectType;
   serializedContent: MdxHydrateProps['serialized'];
+  signedUrls?: Record<string, string>;
 }
 
-export function ProjectContent({ project, serializedContent }: ProjectContentProps) {
+export function ProjectContent({ project, serializedContent, signedUrls = {} }: ProjectContentProps) {
   const pathname = usePathname();
   const { setCrumbs } = useBreadCrumbStore(state => ({
     setCrumbs: state.setCrumbs
@@ -127,9 +129,11 @@ export function ProjectContent({ project, serializedContent }: ProjectContentPro
       
       {/* MDX 内容 */}
       <div className={styles.contentWrapper}>
-        <div className={styles.mdxContent}>
-          <MdxHydrate serialized={serializedContent} toc={false} />
-        </div>
+        <R2UrlProvider signedUrls={signedUrls}>
+          <div className={styles.mdxContent}>
+            <MdxHydrate serialized={serializedContent} toc={false} />
+          </div>
+        </R2UrlProvider>
       </div>
     </div>
   );

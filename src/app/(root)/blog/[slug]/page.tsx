@@ -9,6 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shadcn/ui
 import { CodeBrowser } from '@/components/admin/resources/code/browser/code-browser';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { DownloadCodeButton } from "@/components/root/blog/download-code-button";
+import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
+import { extractR2KeysFromMDX } from '@/lib/mdx-r2-utils';
+import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
@@ -81,6 +84,17 @@ export default async function BlogPostPageSlug({ params }: BlogPostPageProps) {
     }
   }
 
+  // 提取 MDX 中的所有 R2 keys 并批量获取预签名 URL
+  const r2Keys = extractR2KeysFromMDX(post.content);
+  let signedUrls: Record<string, string> = {};
+  
+  if (r2Keys.length > 0) {
+    const result = await getBatchSignedUrlsAction(r2Keys);
+    if (result.success && result.signedUrls) {
+      signedUrls = result.signedUrls as Record<string, string>;
+    }
+  }
+
   return (
     <div className={pageStyles.container}>
       {/* 文章头部 */}
@@ -119,7 +133,7 @@ export default async function BlogPostPageSlug({ params }: BlogPostPageProps) {
 
         {/* Tab 内容 */}
         <TabsContent value="content" className={pageStyles.tabs.content}>
-          <BlogContent content={post.content} />
+          <BlogContent content={post.content} signedUrls={signedUrls} />
         </TabsContent>
         
         {codeRepository && codeRepository.items && codeRepository.items.length > 0 && (

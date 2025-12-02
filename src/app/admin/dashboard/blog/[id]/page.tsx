@@ -18,6 +18,9 @@ import Link from 'next/link';
 import { formatDateTime, cn } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 import styles from './page.module.css';
+import { extractR2KeysFromMDX } from '@/lib/mdx-r2-utils';
+import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
+import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
 
 // Admin 页面需要认证，保持动态渲染
 
@@ -33,6 +36,17 @@ export default async function BlogIdPage({ params }: { params: Promise<{ id: str
   }
   
   const post = result.data;
+
+  // 提取 MDX 中的所有 R2 keys 并批量获取预签名 URL
+  const r2Keys = extractR2KeysFromMDX(post.content);
+  let signedUrls: Record<string, string> = {};
+  
+  if (r2Keys.length > 0) {
+    const urlResult = await getBatchSignedUrlsAction(r2Keys);
+    if (urlResult.success && urlResult.signedUrls) {
+      signedUrls = urlResult.signedUrls as Record<string, string>;
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -149,21 +163,23 @@ export default async function BlogIdPage({ params }: { params: Promise<{ id: str
 
       {/* 文章内容 */}
       <div className={styles.contentCard}>
-        <div className={cn(
-          styles.articleContent,
-          "prose prose-gray dark:prose-invert",
-          "prose-headings:scroll-mt-20",
-          "prose-pre:bg-muted prose-pre:border",
-          "prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm",
-          "prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-1"
-        )}>
-          <MdxRender 
-            source={post.content}
-            hydrate={{
-              toc: true
-            }}
-          />
-        </div>
+        <R2UrlProvider signedUrls={signedUrls}>
+          <div className={cn(
+            styles.articleContent,
+            "prose prose-gray dark:prose-invert",
+            "prose-headings:scroll-mt-20",
+            "prose-pre:bg-muted prose-pre:border",
+            "prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm",
+            "prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-1"
+          )}>
+            <MdxRender 
+              source={post.content}
+              hydrate={{
+                toc: true
+              }}
+            />
+          </div>
+        </R2UrlProvider>
       </div>
     </div>
   );

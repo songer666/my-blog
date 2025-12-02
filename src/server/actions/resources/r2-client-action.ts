@@ -52,23 +52,21 @@ export async function getR2ImageAction(r2Key: string) {
 }
 
 /**
- * Server Action: 获取图库封面图的公开 URL
+ * Server Action: 获取 R2 公开 URL 前缀
+ * 返回 R2_PUBLIC_URL 供客户端拼接完整 URL
  */
-export async function getGalleryCoverUrlsAction(galleries: Array<{ id: string; items: Array<{ r2Key: string }> }>) {
+export async function getR2PublicUrlAction() {
   try {
     const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL || '';
     
-    const coverUrls: Record<string, string> = {};
-    galleries.forEach((gallery) => {
-      if (gallery.items && gallery.items.length > 0) {
-        const firstImageKey = gallery.items[0].r2Key;
-        coverUrls[gallery.id] = `${R2_PUBLIC_URL}${firstImageKey}`;
-      }
-    });
+    if (!R2_PUBLIC_URL) {
+      console.error('R2_PUBLIC_URL 环境变量未设置');
+      return { success: false, error: 'R2_PUBLIC_URL 未配置' };
+    }
 
-    return { success: true, coverUrls };
+    return { success: true, publicUrl: R2_PUBLIC_URL };
   } catch (error: any) {
-    console.error('获取图库封面 URL 失败:', error);
-    return { success: false, error: error.message || '获取封面 URL 失败' };
+    console.error('获取 R2 公开 URL 失败:', error);
+    return { success: false, error: error.message || '获取 R2 公开 URL 失败' };
   }
 }

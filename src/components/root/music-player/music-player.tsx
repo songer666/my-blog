@@ -111,7 +111,7 @@ export function MusicPlayer() {
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [setCurrentTime, setDuration, setIsPlaying]);
+  }, [currentTrack, setCurrentTime, setDuration, setIsPlaying]);
 
   // 控制播放/暂停
   useEffect(() => {

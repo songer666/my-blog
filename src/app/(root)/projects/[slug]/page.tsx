@@ -6,6 +6,8 @@ import { ProjectHeader } from '@/components/root/projects/item/project-header';
 import { ProjectContent } from '@/components/root/projects/item/project-content';
 import { generateProjectSlugMetadata } from './metadata';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
+import { extractR2KeysFromMDX } from '@/lib/mdx-r2-utils';
+import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
 // 页面样式（增加 padding-top 避免与固定 navbar 重叠）
 const pageStyles = {
@@ -46,6 +48,17 @@ export default async function ProjectSlugPage({ params }: ProjectSlugPageProps) 
 
   const project = projectResponse.data;
 
+  // 提取 MDX 中的所有 R2 keys 并批量获取预签名 URL
+  const r2Keys = extractR2KeysFromMDX(project.content);
+  let signedUrls: Record<string, string> = {};
+  
+  if (r2Keys.length > 0) {
+    const result = await getBatchSignedUrlsAction(r2Keys);
+    if (result.success && result.signedUrls) {
+      signedUrls = result.signedUrls as Record<string, string>;
+    }
+  }
+
   return (
     <div className={pageStyles.container}>
       {/* 返回列表按钮 */}
@@ -78,7 +91,7 @@ export default async function ProjectSlugPage({ params }: ProjectSlugPageProps) 
       </div>
 
       {/* 项目内容 */}
-      <ProjectContent content={project.content} />
+      <ProjectContent content={project.content} signedUrls={signedUrls} />
 
       {/* 底部返回按钮 */}
       <BackToList />

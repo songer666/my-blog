@@ -3,9 +3,9 @@
 import type { FC } from 'react';
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { getSignedUrlAction } from '@/server/actions/resources/r2-action';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { X } from 'lucide-react';
+import { useR2Url } from '../context/r2-url-context';
 
 interface R2ImageProps {
     r2Key: string;
@@ -20,36 +20,23 @@ export const R2Image: FC<R2ImageProps> = ({
     className = '',
     caption = ''
 }) => {
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    // 从 Context 获取预签名 URL
+    const imageUrl = useR2Url(r2Key);
     const [error, setError] = useState<string | null>(null);
     const [isZoomed, setIsZoomed] = useState(false);
 
     useEffect(() => {
         if (!r2Key) {
             setError('缺少 r2Key 参数');
-            setIsLoading(false);
             return;
         }
 
-        setIsLoading(true);
-        setError(null);
-
-        getSignedUrlAction(r2Key)
-            .then((result) => {
-                if (result.success && result.signedUrl) {
-                    setImageUrl(result.signedUrl);
-                } else {
-                    setError(result.error || '获取图片失败');
-                }
-            })
-            .catch((err) => {
-                setError('获取图片失败: ' + err.message);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, [r2Key]);
+        if (!imageUrl) {
+            setError('未找到图片 URL');
+        } else {
+            setError(null);
+        }
+    }, [r2Key, imageUrl]);
 
     // 处理 ESC 键关闭放大视图
     useEffect(() => {
@@ -73,21 +60,6 @@ export const R2Image: FC<R2ImageProps> = ({
                     'text-center'
                 )}>
                     <p className="text-sm">图片加载失败: {error}</p>
-                </div>
-            </div>
-        );
-    }
-
-    if (isLoading) {
-        return (
-            <div className="my-4 flex justify-center">
-                <div className={cn(
-                    'w-full aspect-video rounded-lg',
-                    'bg-gray-200 dark:bg-gray-700',
-                    'animate-pulse',
-                    'flex items-center justify-center'
-                )}>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">加载中...</p>
                 </div>
             </div>
         );
