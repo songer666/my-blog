@@ -50,3 +50,25 @@ export async function getR2ImageAction(r2Key: string) {
     return { success: false, error: error.message || '获取图片失败' };
   }
 }
+
+/**
+ * Server Action: 获取图库封面图的公开 URL
+ */
+export async function getGalleryCoverUrlsAction(galleries: Array<{ id: string; items: Array<{ r2Key: string }> }>) {
+  try {
+    const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL || '';
+    
+    const coverUrls: Record<string, string> = {};
+    galleries.forEach((gallery) => {
+      if (gallery.items && gallery.items.length > 0) {
+        const firstImageKey = gallery.items[0].r2Key;
+        coverUrls[gallery.id] = `${R2_PUBLIC_URL}${firstImageKey}`;
+      }
+    });
+
+    return { success: true, coverUrls };
+  } catch (error: any) {
+    console.error('获取图库封面 URL 失败:', error);
+    return { success: false, error: error.message || '获取封面 URL 失败' };
+  }
+}

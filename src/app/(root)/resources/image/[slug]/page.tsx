@@ -11,6 +11,18 @@ interface PageProps {
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
 
+// 生成所有图库的静态路径
+export async function generateStaticParams() {
+  const queryClient = getQueryClient();
+  const galleries = await queryClient.fetchQuery(
+    trpc.imageGallery.allPublic.queryOptions()
+  );
+
+  return galleries.map((gallery) => ({
+    slug: gallery.slug,
+  }));
+}
+
 export async function generateMetadata(
   { params }: PageProps,
   parent: any

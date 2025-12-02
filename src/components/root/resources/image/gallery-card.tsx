@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ImageIcon, Eye } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -46,11 +47,14 @@ export function GalleryCard({
       <div className={styles.container}>
         {/* 背景图片 */}
         {coverUrl ? (
-          <img
+          <Image
             src={coverUrl}
             alt={title}
+            fill
             className={styles.image}
             loading="lazy"
+            quality={85}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-muted text-muted-foreground">

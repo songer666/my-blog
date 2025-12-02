@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useMusicPlayerStore } from '@/store/music/store';
-import { Play, Pause, X, Volume2, VolumeX, SkipBack, SkipForward, Repeat, Repeat1 } from 'lucide-react';
+import { Play, Pause, X, Volume2, VolumeX, SkipBack, SkipForward } from 'lucide-react';
 import { Slider } from '@/components/shadcn/ui/slider';
 
 export function MusicPlayer() {
@@ -14,7 +14,6 @@ export function MusicPlayer() {
   const volume = useMusicPlayerStore(state => state.volume);
   const currentTime = useMusicPlayerStore(state => state.currentTime);
   const duration = useMusicPlayerStore(state => state.duration);
-  const loopMode = useMusicPlayerStore(state => state.loopMode);
   
   const pause = useMusicPlayerStore(state => state.pause);
   const resume = useMusicPlayerStore(state => state.resume);
@@ -25,7 +24,6 @@ export function MusicPlayer() {
   const setCurrentTime = useMusicPlayerStore(state => state.setCurrentTime);
   const setDuration = useMusicPlayerStore(state => state.setDuration);
   const setIsPlaying = useMusicPlayerStore(state => state.setIsPlaying);
-  const toggleLoopMode = useMusicPlayerStore(state => state.toggleLoopMode);
 
   useEffect(() => {
     setIsMounted(true);
@@ -90,19 +88,9 @@ export function MusicPlayer() {
     };
 
     const handleEnded = () => {
-      // 根据循环模式处理
-      if (loopMode === 'one') {
-        // 单曲循环
-        audio.currentTime = 0;
-        audio.play();
-      } else if (loopMode === 'list') {
-        // 列表循环，播放下一首
-        playNext();
-      } else {
-        // 不循环
-        setIsPlaying(false);
-        setCurrentTime(0);
-      }
+      // 单曲循环：自动重播当前歌曲
+      audio.currentTime = 0;
+      audio.play();
     };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
@@ -123,7 +111,7 @@ export function MusicPlayer() {
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [setCurrentTime, setDuration, setIsPlaying, loopMode, playNext]);
+  }, [setCurrentTime, setDuration, setIsPlaying]);
 
   // 控制播放/暂停
   useEffect(() => {
@@ -192,15 +180,6 @@ export function MusicPlayer() {
     }
   };
 
-  // 循环模式图标
-  const getLoopIcon = () => {
-    if (loopMode === 'one') {
-      return <Repeat1 className="w-4 h-4" />;
-    } else if (loopMode === 'list') {
-      return <Repeat className="w-4 h-4 text-violet-600 dark:text-violet-400" />;
-    }
-    return <Repeat className="w-4 h-4" />;
-  };
 
   if (!isMounted || !currentTrack) return null;
 
@@ -271,15 +250,8 @@ export function MusicPlayer() {
             </button>
           </div>
 
-          {/* 右侧：音量和循环模式 */}
+          {/* 右侧：音量控制 */}
           <div className="flex items-center gap-3 flex-1 justify-end">
-            <button
-              onClick={toggleLoopMode}
-              className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-              title={loopMode === 'one' ? '单曲循环' : loopMode === 'list' ? '列表循环' : '不循环'}
-            >
-              {getLoopIcon()}
-            </button>
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleMute}

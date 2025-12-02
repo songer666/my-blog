@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { GalleryCard } from './gallery-card';
-import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
+import { getGalleryCoverUrlsAction } from '@/server/actions/resources/r2-client-action';
 
 interface Gallery {
   id: string;
@@ -37,46 +37,20 @@ export function GalleryList({ galleries }: GalleryListProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchSignedUrls() {
-      // 收集所有需要签名的R2 keys（每个图库的第一张图片）
-      const r2Keys: string[] = [];
-      const keyToGalleryMap: Record<string, string> = {};
-
-      galleries.forEach((gallery) => {
-        if (gallery.items && gallery.items.length > 0) {
-          const firstImageKey = gallery.items[0].r2Key;
-          r2Keys.push(firstImageKey);
-          keyToGalleryMap[firstImageKey] = gallery.id;
-        }
-      });
-
-      if (r2Keys.length === 0) {
-        setLoading(false);
-        return;
-      }
-
+    async function fetchCoverUrls() {
       try {
-        const result = await getBatchSignedUrlsAction(r2Keys);
-        
-        if (result.success && result.signedUrls) {
-          // 将R2 key映射转换为gallery id映射
-          const urlsByGalleryId: Record<string, string> = {};
-          Object.entries(result.signedUrls).forEach(([key, url]) => {
-            const galleryId = keyToGalleryMap[key];
-            if (galleryId) {
-              urlsByGalleryId[galleryId] = url;
-            }
-          });
-          setCoverUrls(urlsByGalleryId);
+        const result = await getGalleryCoverUrlsAction(galleries);
+        if (result.success && result.coverUrls) {
+          setCoverUrls(result.coverUrls);
         }
       } catch (error) {
-        console.error('获取签名URL失败:', error);
+        console.error('获取封面 URL 失败:', error);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchSignedUrls();
+    fetchCoverUrls();
   }, [galleries]);
 
   return (

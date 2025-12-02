@@ -14,7 +14,7 @@ const musicPlayerCreator: StateCreator<MusicPlayerState, PersistMiddlewares, [],
   volume: 0.7,
   currentTime: 0,
   duration: 0,
-  loopMode: 'list',
+  loopMode: 'one',
 
   playTrack: (track: MusicTrack, playlist?: MusicTrack[]) => {
     const state = get();
