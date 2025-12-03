@@ -30,6 +30,7 @@ export function EditAlbumDialog({ album, open, onOpenChange }: EditAlbumDialogPr
     coverImage: string;
     tags: string;
     isPublic: boolean;
+    createdAt?: Date;
   }) => {
     await updateMutation.mutateAsync({
       id: album.id,
@@ -41,6 +42,7 @@ export function EditAlbumDialog({ album, open, onOpenChange }: EditAlbumDialogPr
         ? data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
         : undefined,
       isPublic: data.isPublic,
+      createdAt: data.createdAt,
     });
     onOpenChange(false);
     router.refresh();
@@ -73,6 +75,7 @@ export function EditAlbumDialog({ album, open, onOpenChange }: EditAlbumDialogPr
             coverImage: album.coverImage || '',
             tags: album.tags?.join(', ') || '',
             isPublic: album.isPublic,
+            createdAt: album.createdAt ? new Date(album.createdAt) : undefined,
           }}
           onSubmit={handleSubmit}
           onCancel={() => onOpenChange(false)}

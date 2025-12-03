@@ -69,6 +69,7 @@ export async function createGallery(data: {
   keywords?: string[];
   isPublic?: boolean;
   sort?: number;
+  createdAt?: Date;
 }) {
   // 检查 slug 是否已存在
   const existing = await getGalleryBySlug(data.slug);
@@ -88,6 +89,7 @@ export async function createGallery(data: {
       totalSize: 0,
       isPublic: data.isPublic ?? true,
       sort: data.sort ?? 0,
+      createdAt: data.createdAt || new Date(),
     })
     .returning();
   
@@ -110,6 +112,7 @@ export async function updateGallery(
     keywords?: string[] | null;
     isPublic?: boolean;
     sort?: number;
+    createdAt?: Date;
   }
 ) {
   // 如果更新 slug，检查是否已存在

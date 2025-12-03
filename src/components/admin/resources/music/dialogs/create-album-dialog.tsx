@@ -30,6 +30,7 @@ export function CreateAlbumDialog() {
     coverImage: string;
     tags: string;
     isPublic: boolean;
+    createdAt?: Date;
   }) => {
     await createMutation.mutateAsync({
       title: data.title,
@@ -40,6 +41,7 @@ export function CreateAlbumDialog() {
         ? data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
         : undefined,
       isPublic: data.isPublic,
+      createdAt: data.createdAt,
     });
     setOpen(false);
     router.refresh();

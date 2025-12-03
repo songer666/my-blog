@@ -42,6 +42,7 @@ export function EditGalleryDialog({ gallery, open, onOpenChange }: EditGalleryDi
     description: string;
     tags: string;
     isPublic: boolean;
+    createdAt?: Date;
   }) => {
     updateMutation.mutate({
       id: gallery.id,
@@ -52,6 +53,7 @@ export function EditGalleryDialog({ gallery, open, onOpenChange }: EditGalleryDi
         ? data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
         : undefined,
       isPublic: data.isPublic,
+      createdAt: data.createdAt,
     });
   };
 
@@ -81,6 +83,7 @@ export function EditGalleryDialog({ gallery, open, onOpenChange }: EditGalleryDi
             description: gallery.description || '',
             tags: gallery.tags?.join(', ') || '',
             isPublic: gallery.isPublic,
+            createdAt: gallery.createdAt ? new Date(gallery.createdAt) : undefined,
           }}
           onSubmit={handleSubmit}
           onCancel={() => onOpenChange(false)}

@@ -20,6 +20,7 @@ export function CreateRepositoryDialog() {
     description: string;
     keywords: string;
     isPublic: boolean;
+    createdAt?: Date;
   }) => {
     const keywordsArray = data.keywords
       .split(",")
@@ -33,6 +34,7 @@ export function CreateRepositoryDialog() {
       keywords: keywordsArray.length > 0 ? keywordsArray : undefined,
       isPublic: data.isPublic,
       sort: 0,
+      createdAt: data.createdAt,
     });
 
     setOpen(false);

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Badge } from '@/components/shadcn/ui/badge';
-import { Layers, ImageIcon } from 'lucide-react';
+import { Layers, ImageIcon, Calendar } from 'lucide-react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { BackToList } from '../../shared/back-to-list';
@@ -116,6 +116,12 @@ export function CodeDetail({ repository }: CodeDetailProps) {
                 <Layers className="w-4 h-4" />
                 <span>{repository.itemCount} 个文件</span>
               </div>
+              {repository.createdAt && (
+                <div className={styles.header.metaItem}>
+                  <Calendar className="w-4 h-4" />
+                  <span>{formatDate(repository.createdAt)}</span>
+                </div>
+              )}
             </div>
 
             {repository.description && (

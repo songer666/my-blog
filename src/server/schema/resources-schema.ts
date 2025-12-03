@@ -39,6 +39,7 @@ export const createImageGallerySchema = z.object({
   tags: z.array(z.string()).optional(),
   isPublic: z.boolean().default(true),
   sort: z.number().default(0),
+  createdAt: z.date().optional(),
 });
 
 export const updateImageGallerySchema = z.object({
@@ -50,6 +51,7 @@ export const updateImageGallerySchema = z.object({
   tags: z.array(z.string()).nullable().optional(),
   isPublic: z.boolean().optional(),
   sort: z.number().optional(),
+  createdAt: z.date().optional(),
 });
 
 export const imageGalleryListSchema = z.array(imageGallerySchema);
@@ -122,6 +124,7 @@ export const createMusicAlbumSchema = z.object({
   tags: z.array(z.string()).optional(),
   isPublic: z.boolean().default(true),
   sort: z.number().default(0),
+  createdAt: z.date().optional(),
 });
 
 export const updateMusicAlbumSchema = z.object({
@@ -134,6 +137,7 @@ export const updateMusicAlbumSchema = z.object({
   tags: z.array(z.string()).nullable().optional(),
   isPublic: z.boolean().optional(),
   sort: z.number().optional(),
+  createdAt: z.date().optional(),
 });
 
 export const musicAlbumListSchema = z.array(musicAlbumSchema);
@@ -301,6 +305,7 @@ export const createCodeRepositorySchema = z.object({
   relatedPostId: z.string().optional(),
   isPublic: z.boolean().default(true),
   sort: z.number().default(0),
+  createdAt: z.date().optional(),
 });
 
 export const updateCodeRepositorySchema = z.object({
@@ -312,6 +317,7 @@ export const updateCodeRepositorySchema = z.object({
   relatedPostId: z.string().nullable().optional(),
   isPublic: z.boolean().optional(),
   sort: z.number().optional(),
+  createdAt: z.date().optional(),
 });
 
 export const codeRepositoryListSchema = z.array(codeRepositorySchema);

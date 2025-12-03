@@ -1,13 +1,15 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/shadcn/ui/button';
 import { Input } from '@/components/shadcn/ui/input';
 import { Label } from '@/components/shadcn/ui/label';
 import { Textarea } from '@/components/shadcn/ui/textarea';
 import { Switch } from '@/components/shadcn/ui/switch';
+import { Calendar } from '@/components/shadcn/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/shadcn/ui/popover';
 import { useForm } from '@tanstack/react-form';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ChevronDownIcon } from 'lucide-react';
 
 const styles = {
   form: `space-y-4`.trim(),
@@ -25,6 +27,7 @@ interface GalleryFormData {
   description: string;
   tags: string;
   isPublic: boolean;
+  createdAt?: Date;
 }
 
 interface GalleryFormProps {
@@ -36,6 +39,8 @@ interface GalleryFormProps {
 }
 
 export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmitting = false }: GalleryFormProps) {
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+
   const form = useForm({
     defaultValues: {
       title: initialData?.title || '',
@@ -43,6 +48,7 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
       description: initialData?.description || '',
       tags: initialData?.tags || '',
       isPublic: initialData?.isPublic ?? true,
+      createdAt: initialData?.createdAt,
     },
     onSubmit: async ({ value }) => {
       await onSubmit(value as GalleryFormData);
@@ -195,6 +201,110 @@ export function GalleryForm({ mode, initialData, onSubmit, onCancel, isSubmittin
             />
           </div>
         )}
+      />
+
+      <form.Field
+        name="createdAt"
+        children={(field) => {
+          const selectedDate = field.state.value ? (typeof field.state.value === 'string' ? new Date(field.state.value) : field.state.value) : undefined;
+          
+          const handleDateSelect = (date: Date | undefined) => {
+            if (date) {
+              const newDate = new Date(date);
+              if (selectedDate) {
+                newDate.setHours(selectedDate.getHours());
+                newDate.setMinutes(selectedDate.getMinutes());
+                newDate.setSeconds(selectedDate.getSeconds());
+              } else {
+                const now = new Date();
+                newDate.setHours(now.getHours());
+                newDate.setMinutes(now.getMinutes());
+                newDate.setSeconds(now.getSeconds());
+              }
+              field.handleChange(newDate);
+              setDatePickerOpen(false);
+            } else {
+              field.handleChange(undefined);
+              setDatePickerOpen(false);
+            }
+          };
+
+          const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const timeValue = e.target.value;
+            if (!timeValue) return;
+            const [hours, minutes, seconds] = timeValue.split(':');
+            const newDate = selectedDate ? new Date(selectedDate) : new Date();
+            newDate.setHours(parseInt(hours));
+            newDate.setMinutes(parseInt(minutes));
+            newDate.setSeconds(seconds ? parseInt(seconds) : 0);
+            field.handleChange(newDate);
+          };
+
+          const formatTime = (date: Date) => {
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+          };
+
+          return (
+            <div className={styles.fieldContainer}>
+              <Label>创建时间（可选）</Label>
+              <div className="flex gap-4">
+                <div className="flex flex-col gap-2 flex-1">
+                  <Label htmlFor="date-picker" className="text-sm text-muted-foreground">日期</Label>
+                  <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        id="date-picker"
+                        className="justify-between font-normal"
+                        disabled={isSubmitting}
+                      >
+                        {selectedDate ? selectedDate.toLocaleDateString('zh-CN') : '选择日期'}
+                        <ChevronDownIcon className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        captionLayout="dropdown"
+                        onSelect={handleDateSelect}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <div className="flex flex-col gap-2 flex-1">
+                  <Label htmlFor="time-picker" className="text-sm text-muted-foreground">时间</Label>
+                  <Input
+                    type="time"
+                    id="time-picker"
+                    step="1"
+                    value={selectedDate ? formatTime(selectedDate) : ''}
+                    onChange={handleTimeChange}
+                    disabled={isSubmitting || !selectedDate}
+                    className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                  />
+                </div>
+                {selectedDate && (
+                  <div className="flex items-end">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.handleChange(undefined)}
+                      disabled={isSubmitting}
+                    >
+                      清除
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <p className={styles.hintText}>留空则自动使用当前时间</p>
+            </div>
+          );
+        }}
       />
 
       <div className={styles.actionsContainer}>

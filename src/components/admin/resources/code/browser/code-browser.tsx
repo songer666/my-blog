@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { FileTree } from "./file-tree";
 import { CodeViewer } from "./code-viewer";
 import { Button } from "@/components/shadcn/ui/button";
@@ -27,9 +28,11 @@ const styles = {
   emptyIcon: `w-12 h-12 sm:w-16 sm:h-16 mb-4 opacity-50`.trim(),
   emptyTitle: `text-base sm:text-lg font-medium`.trim(),
   emptyDescription: `text-xs sm:text-sm mt-2`.trim(),
-  // 浮动按钮：手机端显示在右下角
-  floatingButton: `fixed bottom-24 right-6 sm:hidden z-50 shadow-lg rounded-full w-14 h-14 p-0`.trim(),
-  popoverContent: `w-[280px] max-h-[400px] overflow-y-auto p-0`.trim(),
+  // 浮动按钮容器：手机端固定在右下角
+  floatingContainer: `fixed bottom-28 right-6 sm:hidden z-50`.trim(),
+  // 浮动按钮样式
+  floatingButton: `shadow-lg rounded-full w-14 h-14 p-0`.trim(),
+  popoverContent: `w-[280px] max-h-[60vh] overflow-y-auto p-0`.trim(),
 };
 
 interface CodeBrowserProps {
@@ -161,38 +164,43 @@ export function CodeBrowser({ files }: CodeBrowserProps) {
       </div>
       </div>
 
-      {/* 手机端浮动文件树按钮 */}
-      <Popover open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            size="icon"
-            className={styles.floatingButton}
-            title="文件列表"
-          >
-            <FolderTree className="h-5 w-5" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent 
-          side="top" 
-          align="end" 
-          className={styles.popoverContent}
-          sideOffset={8}
-        >
-          <div className="px-3 py-2 border-b font-semibold text-sm">
-            文件列表
-          </div>
-          <div className="max-h-[350px] overflow-y-auto">
-            <FileTree
-              files={files}
-              selectedFile={selectedFile}
-              onSelectFile={(file) => {
-                setSelectedFile(file);
-                setMobileMenuOpen(false);
-              }}
-            />
-          </div>
-        </PopoverContent>
-      </Popover>
+      {/* 手机端浮动文件树按钮 - 使用 Portal 渲染到 body，避免被父容器 transform 影响 */}
+      {typeof document !== 'undefined' && createPortal(
+        <div className={styles.floatingContainer}>
+          <Popover open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                size="icon"
+                className={styles.floatingButton}
+                title="文件列表"
+              >
+                <FolderTree className="h-5 w-5" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent 
+              side="top" 
+              align="end" 
+              className={styles.popoverContent}
+              sideOffset={8}
+            >
+              <div className="px-3 py-2 border-b font-semibold text-sm">
+                文件列表
+              </div>
+              <div className="max-h-[50vh] overflow-y-auto">
+                <FileTree
+                  files={files}
+                  selectedFile={selectedFile}
+                  onSelectFile={(file) => {
+                    setSelectedFile(file);
+                    setMobileMenuOpen(false);
+                  }}
+                />
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>,
+        document.body
+      )}
     </>
   );
 }

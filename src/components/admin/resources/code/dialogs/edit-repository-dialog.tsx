@@ -23,6 +23,7 @@ export function EditRepositoryDialog({ repository, open, onOpenChange }: EditRep
     description: string;
     keywords: string;
     isPublic: boolean;
+    createdAt?: Date;
   }) => {
     const keywordsArray = data.keywords
       .split(",")
@@ -36,6 +37,7 @@ export function EditRepositoryDialog({ repository, open, onOpenChange }: EditRep
       description: data.description.trim() || null,
       keywords: keywordsArray.length > 0 ? keywordsArray : null,
       isPublic: data.isPublic,
+      createdAt: data.createdAt,
     });
 
     onOpenChange(false);
@@ -58,6 +60,7 @@ export function EditRepositoryDialog({ repository, open, onOpenChange }: EditRep
             description: repository.description || '',
             keywords: repository.keywords?.join(", ") || '',
             isPublic: repository.isPublic,
+            createdAt: repository.createdAt ? new Date(repository.createdAt) : undefined,
           }}
           onSubmit={handleSubmit}
           onCancel={() => onOpenChange(false)}

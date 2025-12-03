@@ -72,6 +72,7 @@ export async function createRepository(data: {
   relatedPostId?: string;
   isPublic?: boolean;
   sort?: number;
+  createdAt?: Date;
 }) {
   // 检查 slug 是否已存在
   const existing = await getRepositoryBySlug(data.slug);
@@ -93,6 +94,7 @@ export async function createRepository(data: {
       totalSize: 0,
       isPublic: data.isPublic ?? true,
       sort: data.sort ?? 0,
+      createdAt: data.createdAt || new Date(),
     })
     .returning();
   
@@ -116,6 +118,7 @@ export async function updateRepository(
     relatedPostId?: string | null;
     isPublic?: boolean;
     sort?: number;
+    createdAt?: Date;
   }
 ) {
   // 如果更新 slug，检查是否已存在
