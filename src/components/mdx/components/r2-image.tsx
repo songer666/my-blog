@@ -33,9 +33,8 @@ export const R2Image: FC<R2ImageProps> = ({
             return;
         }
 
-        if (!imageUrl) {
-            setError('未找到图片 URL');
-        } else {
+        // 当 imageUrl 存在时，重置错误状态
+        if (imageUrl) {
             setError(null);
             setImageLoadError(false); // 重置加载错误状态
         }
@@ -81,8 +80,23 @@ export const R2Image: FC<R2ImageProps> = ({
         );
     }
 
+    // 加载中状态
     if (!imageUrl) {
-        return null;
+        return (
+            <div className="my-6 flex justify-center">
+                <div className={cn(
+                    'w-full max-w-3xl p-8 rounded-lg',
+                    'border border-gray-200 dark:border-gray-700',
+                    'bg-gray-50 dark:bg-gray-800/50',
+                    'text-center'
+                )}>
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-8 h-8 border-4 border-gray-300 dark:border-gray-600 border-t-blue-500 rounded-full animate-spin"></div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">图片加载中...</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (
