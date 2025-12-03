@@ -2,17 +2,19 @@
 @import './rehype-code-window.css';
 
 .mdx-preview {
-    /* 链接样式 */
+    /* 链接样式 - 气质猫咪紫色主题 */
     a {
-        color: #374151;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        text-decoration-color: #9ca3af;
-        transition: color 0.2s ease;
+        color: #7c3aed;
+        font-family: "MaoKenZhu", "LXGW WenKai", ui-sans-serif, system-ui, sans-serif;
+        text-decoration: none;
+        border-bottom: 2px solid #a78bfa;
+        padding-bottom: 1px;
+        transition: all 0.2s ease;
     }
 
     a:hover {
-        color: #6b7280;
+        color: #8b5cf6;
+        border-bottom-color: #8b5cf6;
     }
 
     /* 内联代码样式 */
@@ -25,7 +27,7 @@
         padding-bottom: 0.125rem;
         border-radius: 0.25rem;
         font-size: 0.875rem;
-        font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+        font-family: "FiraCode", ui-monospace, monospace;
         border: 1px solid #e5e7eb;
         font-size: 0.875em;
     }
@@ -243,12 +245,13 @@ stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='roun
 
 /* Dark mode styles */
 .dark .mdx-preview a {
-    color: #d1d5db;
-    text-decoration-color: #6b7280;
+    color: #a78bfa;
+    border-bottom-color: #7c3aed;
 }
 
 .dark .mdx-preview a:hover {
-    color: #9ca3af;
+    color: #c4b5fd;
+    border-bottom-color: #a78bfa;
 }
 
 .dark .mdx-preview code:not([class*='language-']) {
