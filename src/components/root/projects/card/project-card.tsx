@@ -37,7 +37,7 @@ const styles = {
     flex-shrink-0 overflow-hidden
     ${isEven ? 'sm:order-1' : 'sm:order-2'}
   `.trim(),
-  image: 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105',
+  image: 'object-cover transition-transform duration-300 group-hover:scale-105',
   contentWrapper: (isEven: boolean) => `
     flex flex-col p-6 lg:p-8 w-full sm:w-3/5
     ${isEven ? 'sm:order-2' : 'sm:order-1'}
@@ -69,10 +69,6 @@ function formatDate(date: Date): string {
   });
 }
 
-function isBase64Image(src: string): boolean {
-  return src.startsWith('data:image/');
-}
-
 export function ProjectCard({ 
   id, 
   title, 
@@ -101,23 +97,13 @@ export function ProjectCard({
         {/* 图片部分 */}
         <Link href={`/projects/${slug}`} className={styles.imageWrapper(isEven)}>
           {image && (
-            <>
-              {isBase64Image(image) ? (
-                <img
-                  src={image}
-                  alt={title}
-                  className={styles.image}
-                />
-              ) : (
-                <Image
-                  src={image}
-                  alt={title}
-                  fill
-                  className={styles.image}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 40vw, 40vw"
-                />
-              )}
-            </>
+            <Image
+              src={image}
+              alt={title}
+              fill
+              className={styles.image}
+              sizes="(max-width: 640px) 100vw, 40vw"
+            />
           )}
         </Link>
         

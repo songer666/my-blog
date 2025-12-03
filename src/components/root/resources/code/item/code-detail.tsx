@@ -2,17 +2,17 @@
 
 import React, { useState } from 'react';
 import { Badge } from '@/components/shadcn/ui/badge';
-import { Calendar, Layers } from 'lucide-react';
+import { Layers, ImageIcon } from 'lucide-react';
 import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { BackToList } from '../../shared/back-to-list';
 import { CodeBrowser } from '@/components/admin/resources/code/browser/code-browser';
 import { ImageLightbox } from './image-lightbox';
+import { useR2UrlWithRefresh } from '@/components/mdx/context/r2-url-context';
 import type { CodeRepository } from '@/server/types/resources-type';
 
 interface CodeDetailProps {
   repository: CodeRepository;
-  demoImageUrls: string[];
 }
 
 const styles = {
@@ -49,8 +49,56 @@ function formatDate(date: Date | string): string {
   });
 }
 
-export function CodeDetail({ repository, demoImageUrls }: CodeDetailProps) {
+// 单个演示图片组件，使用 useR2UrlWithRefresh 自动刷新
+function DemoImageCard({ 
+  r2Key, 
+  alt, 
+  onClick 
+}: { 
+  r2Key: string; 
+  alt: string; 
+  onClick: (url: string) => void;
+}) {
+  const { url, refresh } = useR2UrlWithRefresh(r2Key);
+  const [hasError, setHasError] = React.useState(false);
+  const [retryCount, setRetryCount] = React.useState(0);
+
+  const handleImageError = async () => {
+    if (retryCount >= 2) {
+      setHasError(true);
+      return;
+    }
+    setRetryCount(prev => prev + 1);
+    await refresh();
+  };
+
+  return (
+    <div
+      className={styles.demoImages.imageWrapper}
+      onClick={() => url && onClick(url)}
+    >
+      {url && !hasError ? (
+        <img
+          src={url}
+          alt={alt}
+          className={styles.demoImages.image}
+          loading="lazy"
+          onError={handleImageError}
+        />
+      ) : (
+        <div className="w-full aspect-video flex items-center justify-center text-muted-foreground">
+          <ImageIcon className="w-10 h-10 opacity-20" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function CodeDetail({ repository }: CodeDetailProps) {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+
+  // 准备演示图片数据
+  const demoImages = repository.demoImages?.filter(img => img.r2Key) || [];
 
   return (
     <div className={styles.container}>
@@ -64,10 +112,6 @@ export function CodeDetail({ repository, demoImageUrls }: CodeDetailProps) {
             <h1 className={styles.header.title}>{repository.title}</h1>
             
             <div className={styles.header.metaRow}>
-              <div className={styles.header.metaItem}>
-                <Calendar className="w-4 h-4" />
-                <time>{formatDate(repository.createdAt)}</time>
-              </div>
               <div className={styles.header.metaItem}>
                 <Layers className="w-4 h-4" />
                 <span>{repository.itemCount} 个文件</span>
@@ -114,24 +158,18 @@ export function CodeDetail({ repository, demoImageUrls }: CodeDetailProps) {
         )}
 
         {/* Demo Images Section */}
-        {demoImageUrls.length > 0 && (
+        {demoImages.length > 0 && (
           <BlurFade delay={0.3} inView>
             <div className={styles.section.wrapper}>
               <h2 className={styles.section.title}>演示图片</h2>
               <div className={styles.demoImages.container}>
-                {demoImageUrls.map((url, idx) => (
-                  <div
-                    key={idx}
-                    className={styles.demoImages.imageWrapper}
-                    onClick={() => setLightboxImage(url)}
-                  >
-                    <img
-                      src={url}
-                      alt={`${repository.title} 演示图 ${idx + 1}`}
-                      className={styles.demoImages.image}
-                      loading="lazy"
-                    />
-                  </div>
+                {demoImages.map((image, idx) => (
+                  <DemoImageCard
+                    key={image.id || idx}
+                    r2Key={image.r2Key!}
+                    alt={`${repository.title} 演示图 ${idx + 1}`}
+                    onClick={setLightboxImage}
+                  />
                 ))}
               </div>
             </div>

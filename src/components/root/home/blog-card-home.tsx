@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Calendar } from 'lucide-react';
 
 interface BlogCardHomeProps {
@@ -23,7 +22,7 @@ const styles = {
   
   // 图片区域（在上面）
   imageContainer: 'relative w-full h-48 overflow-hidden bg-muted',
-  image: 'object-cover transition-transform duration-500 group-hover:scale-110',
+  image: 'absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110',
   imagePlaceholder: 'w-full h-full flex items-center justify-center text-muted-foreground',
   
   // 内容区域
@@ -58,12 +57,11 @@ export function BlogCardHome({
         {/* 图片区域 */}
         <div className={styles.imageContainer}>
           {image ? (
-            <Image
+            <img
               src={image}
               alt={title}
-              fill
               className={styles.image}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              loading="lazy"
             />
           ) : (
             <div className={styles.imagePlaceholder}>

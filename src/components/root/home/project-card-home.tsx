@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Calendar, Github, ExternalLink } from 'lucide-react';
 
 interface ProjectCardHomeProps {
@@ -45,13 +44,9 @@ const styles = {
   
   // 图片区域（在下面）
   imageContainer: 'relative w-full h-48 overflow-hidden bg-muted border-t border-border/50',
-  image: 'object-cover transition-transform duration-500 group-hover:scale-110',
+  image: 'absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110',
   imagePlaceholder: 'w-full h-full flex items-center justify-center text-muted-foreground',
 };
-
-function isBase64Image(src: string): boolean {
-  return src.startsWith('data:image/');
-}
 
 export function ProjectCardHome({ 
   id, 
@@ -122,23 +117,12 @@ export function ProjectCardHome({
       <Link href={`/projects/${slug}`} className="block group">
         <div className={styles.imageContainer}>
           {image ? (
-            <>
-              {isBase64Image(image) ? (
-                <img
-                  src={image}
-                  alt={title}
-                  className={styles.image}
-                />
-              ) : (
-                <Image
-                  src={image}
-                  alt={title}
-                  fill
-                  className={styles.image}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-                />
-              )}
-            </>
+            <img
+              src={image}
+              alt={title}
+              className={styles.image}
+              loading="lazy"
+            />
           ) : (
             <div className={styles.imagePlaceholder}>
               <span className="text-4xl">🚀</span>

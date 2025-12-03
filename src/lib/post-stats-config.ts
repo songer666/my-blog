@@ -1,3 +1,4 @@
+// src/lib/post-stats-config.ts
 /**
  * 博客访问统计配置
  * 

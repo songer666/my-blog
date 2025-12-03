@@ -81,7 +81,7 @@
         background: #f8f9fa !important;
         resize: none !important; /* 禁用调整大小功能 */
         overflow: auto;
-        max-height: 420px;
+        max-height: 520px;
         border-radius: 0.75rem; /* 所有四个角都圆角 */
 
         & pre {
