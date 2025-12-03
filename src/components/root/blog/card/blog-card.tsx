@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Badge } from '@/components/shadcn/ui/badge';
 
 interface BlogCardProps {
@@ -19,7 +20,7 @@ const styles = {
     hover:bg-purple-50/20 dark:hover:bg-purple-950/5 
     transition-all duration-300`.trim(),
   imageContainer: 'relative w-full h-48 overflow-hidden',
-  image: 'absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105',
+  image: 'object-cover transition-transform duration-300 group-hover:scale-105',
   keywordsWrapper: `absolute top-2 right-2 flex flex-wrap gap-1.5 
     max-w-[calc(100%-1rem)] justify-end`.trim(),
   keyword: `text-[10px] font-sans 
@@ -45,11 +46,12 @@ export function BlogCard({ id, title, description, slug, image, keyWords, create
       <div className={styles.container}>
         {image && (
           <div className={styles.imageContainer}>
-            <img
+            <Image
               src={image}
               alt={title}
+              fill
               className={styles.image}
-              loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             
             {/* Keywords badges 显示在图片右上角 */}
