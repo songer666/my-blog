@@ -42,12 +42,26 @@ export const postTags = pgTable("post_tags", {
     }),
 );
 
+// === 博客访问统计表 ===
+export const postView = pgTable("post_view", {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    postId: text("post_id").notNull().references(() => post.id, { onDelete: "cascade" }),
+    ip: text("ip").notNull(),
+    userAgent: text("user_agent"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (t) => ({
+    // 同一篇文章+同一IP的唯一约束（防止短时间内重复记录）
+    uq: unique().on(t.postId, t.ip),
+}));
+
+// === Relations ===
 export const postRelations = relations(post, ({ many, one }) => ({
     postTags: many(postTags),
     relatedCodeRepository: one(codeRepository, {
         fields: [post.relatedCodeRepositoryId],
         references: [codeRepository.id],
     }),
+    views: many(postView),
 }));
 
 export const tagRelations = relations(tag, ({ many }) => ({
@@ -57,4 +71,8 @@ export const tagRelations = relations(tag, ({ many }) => ({
 export const postTagsRelations = relations(postTags, ({ one }) => ({
     post: one(post, { fields: [postTags.postId], references: [post.id] }),
     tag: one(tag, { fields: [postTags.tagId], references: [tag.id] }),
+}));
+
+export const postViewRelations = relations(postView, ({ one }) => ({
+    post: one(post, { fields: [postView.postId], references: [post.id] }),
 }));

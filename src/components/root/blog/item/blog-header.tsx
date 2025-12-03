@@ -11,6 +11,8 @@ interface BlogHeaderProps {
   createdAt: Date;
   updatedAt: Date;
   showDivider?: boolean;
+  /** 统计组件插槽 */
+  statsSlot?: React.ReactNode;
 }
 
 const styles = {
@@ -37,7 +39,7 @@ const styles = {
   divider: 'mt-8 border-t border-border',
 };
 
-export function BlogHeader({ title, description, image, keyWords, createdAt, updatedAt, showDivider = true }: BlogHeaderProps) {
+export function BlogHeader({ title, description, image, keyWords, createdAt, updatedAt, showDivider = true, statsSlot }: BlogHeaderProps) {
   // 将 keyWords 字符串分割成数组
   const keywordArray = keyWords ? keyWords.split(',').map(k => k.trim()).filter(k => k.length > 0) : [];
   return (
@@ -83,6 +85,8 @@ export function BlogHeader({ title, description, image, keyWords, createdAt, upd
             day: 'numeric' 
           })}</span>
         </div>
+        {/* 统计信息插槽 */}
+        {statsSlot}
       </div>
 
       {/* 分割线 */}

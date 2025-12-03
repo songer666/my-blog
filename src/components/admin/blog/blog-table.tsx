@@ -30,6 +30,7 @@ import { ToggleVisible } from './toggle/toggle-visible';
 import { formatDateTime, cn } from '@/lib/utils';
 import styles from './blog-table.module.css';
 import { RevalidateButton } from '@/components/isr';
+import { ViewStatsDialog } from './view-stats-dialog';
 
 interface BlogTableProps {
   posts: PostWithTagsType[];
@@ -255,6 +256,7 @@ export function BlogTable({ posts, onPostDeleted }: BlogTableProps) {
                           size="icon"
                           variant="ghost"
                         />
+                        <ViewStatsDialog postId={post.id} postTitle={post.title} />
                         <Link href={`/admin/dashboard/blog/${post.id}`}>
                           <Button
                             variant="outline"

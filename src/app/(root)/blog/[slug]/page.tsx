@@ -10,6 +10,7 @@ import { CodeBrowser } from '@/components/admin/resources/code/browser/code-brow
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { DownloadCodeButton } from "@/components/root/blog/download-code-button";
 import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
+import { BlogStats } from '@/components/root/blog/item/blog-stats';
 
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
@@ -82,7 +83,7 @@ export default async function BlogPostPageSlug({ params }: BlogPostPageProps) {
     }
   }
 
-  // 不在服务端获取签名 URL,改为客户端按需从缓存获取
+  // 不在服务端获取签名 URL,客户端按需从缓存获取
   const signedUrls: Record<string, string> = {};
 
   return (
@@ -96,6 +97,7 @@ export default async function BlogPostPageSlug({ params }: BlogPostPageProps) {
         createdAt={post.createdAt}
         updatedAt={post.updatedAt}
         showDivider={false}
+        statsSlot={<BlogStats postId={post.id} />}
       />
 
       {/* Tabs: 内容和代码 */}

@@ -36,3 +36,18 @@ export type PostList = PostWithTagsType[];
 
 // PostTags Types
 export type PostTagsType = z.infer<typeof postTagsSchema>;
+
+// Post View Types (访问统计)
+export type PostViewType = {
+  id: string;
+  postId: string;
+  ip: string;
+  userAgent: string | null;
+  createdAt: Date;
+};
+
+// Post Stats Type (统计数据)
+export type PostStatsType = {
+  postId: string;
+  viewCount: number;
+};

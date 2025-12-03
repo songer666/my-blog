@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-import { tag, post, postTags } from "@/db/schema/blog";
+import { tag, post, postTags, postView } from "@/db/schema/blog";
 
 // Tag Schemas
 export const tagSchema = createSelectSchema(tag);
@@ -78,3 +78,31 @@ export const postListResponseSchema = z.object({
 // PostTags Schemas
 export const postTagsSchema = createSelectSchema(postTags);
 export const insertPostTagsSchema = createInsertSchema(postTags);
+
+// PostView Schemas (访问统计)
+export const postViewSchema = createSelectSchema(postView);
+export const insertPostViewSchema = createInsertSchema(postView, {
+  postId: z.string().min(1, "文章ID不能为空"),
+  ip: z.string().min(1, "IP不能为空"),
+  userAgent: z.string().optional(),
+});
+
+// 获取统计的响应 Schema
+export const postStatsResponseSchema = z.object({
+  success: z.boolean(),
+  data: z.object({
+    postId: z.string(),
+    viewCount: z.number(),
+  }).optional(),
+  message: z.string().optional(),
+});
+
+// 批量获取统计的响应 Schema
+export const postStatsBatchResponseSchema = z.object({
+  success: z.boolean(),
+  data: z.array(z.object({
+    postId: z.string(),
+    viewCount: z.number(),
+  })).optional(),
+  message: z.string().optional(),
+});

@@ -7,6 +7,7 @@ import {skillRoute} from "@/server/routes/profile/skill-route";
 import {friendRoute} from "@/server/routes/profile/friend-route";
 import {tagRoute} from "@/server/routes/blog/tag-route";
 import {postRoute} from "@/server/routes/blog/post-route";
+import {postStatsRoute} from "@/server/routes/blog/post-stats-route";
 import {projectRoute} from "@/server/routes/project-route";
 import {messageRoute} from "@/server/routes/message-route";
 import {galleryRoute} from "@/server/routes/resources/gallery-route";
@@ -23,6 +24,7 @@ export const appRouter = createTRPCRouter({
     friend: friendRoute,
     tag: tagRoute,
     post: postRoute,
+    postStats: postStatsRoute,
     project: projectRoute,
     message: messageRoute,
     imageGallery: galleryRoute,
