@@ -8,7 +8,6 @@ import { generateBlogDetailMetadata } from './metadata';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shadcn/ui/tabs';
 import { CodeBrowser } from '@/components/admin/resources/code/browser/code-browser';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
-import { DownloadCodeButton } from "@/components/root/blog/download-code-button";
 import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
 import { BlogStats } from '@/components/root/blog/item/blog-stats';
 
@@ -130,17 +129,7 @@ export default async function BlogPostPageSlug({ params }: BlogPostPageProps) {
         
         {codeRepository && codeRepository.items && codeRepository.items.length > 0 && (
           <TabsContent value="code" className={pageStyles.tabs.content}>
-            <div className="space-y-4">
-              <div className="flex justify-end">
-                <DownloadCodeButton 
-                  repositoryId={codeRepository.id}
-                  repositoryName={codeRepository.slug || codeRepository.title}
-                  variant="default"
-                  size="sm"
-                />
-              </div>
-              <CodeBrowser files={codeRepository.items} />
-            </div>
+            <CodeBrowser files={codeRepository.items} />
           </TabsContent>
         )}
       </Tabs>

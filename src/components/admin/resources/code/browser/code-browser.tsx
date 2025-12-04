@@ -12,7 +12,7 @@ import type { RepositoryCodeItem } from "@/server/types/resources-type";
 
 const styles = {
   // 响应式容器：手机端隐藏侧边栏，平板端缩小侧边栏，电脑端正常显示
-  container: `flex flex-col sm:flex-row h-[calc(100vh-20rem)] sm:h-[calc(100vh-18rem)] lg:h-[calc(100vh-20rem)] border rounded-lg overflow-hidden relative max-w-full bg-background`.trim(),
+  container: `flex flex-col sm:flex-row h-[calc(100vh-12rem)] sm:h-[calc(100vh-18rem)] lg:h-[calc(100vh-20rem)] border rounded-lg overflow-hidden relative max-w-full bg-background`.trim(),
   // 侧边栏：手机端隐藏，平板端缩小，电脑端正常
   sidebar: `hidden sm:block sm:w-48 lg:w-64 border-r overflow-y-auto flex-shrink-0 bg-background`.trim(),
   // 头部：响应式padding和字体
