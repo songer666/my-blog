@@ -4,7 +4,7 @@ import { StatsCard } from "@/components/admin/main/stats-card";
 import { ActivityChart, ResourceDistribution } from "@/components/admin/main/activity-chart";
 import { RecentPosts } from "@/components/admin/main/recent-posts";
 import { RecentMessages } from "@/components/admin/main/recent-messages";
-import { RevalidateButton } from "@/components/isr/revalidate-button";
+import { RevalidateButton, RevalidatePathDialog } from "@/components/isr";
 import {
   FileText,
   MessageSquare,
@@ -97,7 +97,10 @@ export default async function DashboardPage() {
             欢迎回来，这是你的系统概览
           </p>
         </div>
-        <RevalidateButton type="home" label="重置主页" />
+        <div className="flex items-center gap-2">
+          <RevalidateButton type="home" label="重置主页" />
+          <RevalidatePathDialog label="重置页面" />
+        </div>
       </div>
 
       {/* 统计卡片网格 */}

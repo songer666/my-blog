@@ -29,9 +29,9 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
  * - 浏览器 DevTools → Application → Local Storage → blog-r2-cache
  * - 或在控制台执行: localStorage.getItem('blog-r2-cache')
  */
-export const R2_SIGNED_URL_EXPIRES = 15000; 
-export const R2_CACHE_DURATION = 14000 * 1000; 
-export const R2_CACHE_MAX_SIZE = 100; // 最大缓存数量,防止 localStorage 占用过多空间 
+export const R2_SIGNED_URL_EXPIRES = 37000; 
+export const R2_CACHE_DURATION = 36000 * 1000; 
+export const R2_CACHE_MAX_SIZE = 125; // 最大缓存数量,防止 localStorage 占用过多空间 
 
 /**
  * 创建 R2 客户端
