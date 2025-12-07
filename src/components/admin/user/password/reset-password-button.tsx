@@ -20,8 +20,9 @@ export function ResetPasswordButton({ user }: ResetPasswordButtonProps) {
   const handleResetPassword = async () => {
     try {
       setIsLoading(true);
-      
-      const { data } = await authClient.forgetPassword({
+
+      // 请求重置密码,better-auth把 forgetPassword 换成了 requestPasswordReset
+      const { data } = await authClient.requestPasswordReset({
         email: user.email,
       });
       
