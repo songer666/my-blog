@@ -6,7 +6,6 @@ import { FriendCard } from "@/components/admin/profile/friend/friend-card";
 import { caller } from "@/components/trpc/server";
 import { serializeMdx } from "@/components/mdx/utils";
 import styles from "./profile-main.module.css";
-import {auth} from "@/lib/auth";
 import { RevalidateButton } from "@/components/isr";
 
 export async function ProfileMain() {
@@ -16,7 +15,6 @@ export async function ProfileMain() {
     const educationData = await caller.educate.list();
     const skillData = await caller.skill.list();
     const friendData = await caller.friend.list();
-    auth.api.forgetPassword
     
     // 序列化个人简介的 MDX 内容
     const serializedBio = profileData?.data?.bio 
