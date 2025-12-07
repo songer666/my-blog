@@ -27,7 +27,7 @@
     {
       "title": "技术栈",
       "items": [
-        { "text": "Next.js 15", "href": "https://nextjs.org" },
+        { "text": "Next.js 16", "href": "https://nextjs.org" },
         { "text": "React 19", "href": "https://react.dev" },
         { "text": "TypeScript", "href": "https://www.typescriptlang.org" },
         { "text": "tRPC", "href": "https://trpc.io" }

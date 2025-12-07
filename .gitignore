@@ -11,6 +11,7 @@
 !.yarn/versions
 /.idea
 /.vscode
+/my-blog.zip
 # testing
 /coverage
 
