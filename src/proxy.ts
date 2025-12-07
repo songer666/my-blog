@@ -1,7 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {auth} from "@/lib/auth";
 import {isNil} from "lodash";
-import {notFound} from "next/navigation";
 
 const ADMIN_HOST = process.env.ADMIN_HOST || 'localhost:3000';
 const authConfig = {
@@ -9,13 +8,13 @@ const authConfig = {
 };
 
 export const config = {
-    runtime: 'nodejs',
+    // runtime: 'nodejs',
     matcher: [
         '/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|bmp|tiff|woff|woff2|ttf|eot|otf|css|scss|sass|less|js|mjs|pdf|doc|docx|txt|md|zip|rar|7z|tar|gz|mp3|mp4|avi|mov|wav|flac)$|sitemap\\.xml|robots\\.txt|manifest\\.json|sw\\.js|workbox-.*\\.js).*)',
     ],
 };
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const hostname = request.headers.get('host') || '';
     const { pathname } = request.nextUrl;
 
@@ -57,7 +56,7 @@ const authPageProtectedHandler = async (request: NextRequest) => {
         // 用户已认证，继续处理请求
         return NextResponse.next();
     } catch (error) {
-        console.error('Auth middleware error:', error);
+        console.error('Auth proxy error:', error);
         // 发生错误时也重定向到登录页面，同样添加回调参数
         const loginUrl = new URL('/admin', request.url);
         loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search);
@@ -83,7 +82,7 @@ const authSignInHandler = async (request: NextRequest) => {
         // 用户已认证，继续处理请求
         return NextResponse.next();
     } catch (error) {
-        console.error('Auth middleware error:', error);
+        console.error('Auth proxy error:', error);
         return NextResponse.next();
     }
 };

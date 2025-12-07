@@ -9,9 +9,9 @@ const nextConfig: NextConfig = {
   /* config options here */
     reactStrictMode: true,
     serverExternalPackages: externals,
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
+    // eslint: {
+    //     ignoreDuringBuilds: true,
+    // },
     // 增加请求体大小限制到 1GB（支持大文件上传）
     experimental: {
         serverActions: {
