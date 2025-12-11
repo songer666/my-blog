@@ -1,9 +1,6 @@
-"use client";
-
 import React from 'react';
 import Link from 'next/link';
 import { Github, Mail } from 'lucide-react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import footerConfig from '@/../public/json/footer.json';
 import homeConfig from '@/../public/json/home.json';
 
@@ -98,8 +95,7 @@ export function Footer() {
       <div className={styles.container}>
         <div className={styles.mainContent}>
           {/* 品牌和社交区域 - 移动端和平板占满宽度 */}
-          <BlurFade delay={0.1} inView className={styles.brandSection}>
-            <div>
+          <div className={styles.brandSection}>
               <h3 className={styles.brandName}>
                 {footerConfig.site.name}
               </h3>
@@ -126,18 +122,11 @@ export function Footer() {
                   );
                 })}
               </div>
-            </div>
-          </BlurFade>
+          </div>
           
           {/* 链接列 */}
-          {footerConfig.links.map((section, index) => (
-            <BlurFade 
-              key={section.title} 
-              delay={0.2 + index * 0.1} 
-              inView 
-              className={styles.linksSection}
-            >
-              <div>
+          {footerConfig.links.map((section) => (
+            <div key={section.title} className={styles.linksSection}>
                 <h4 className={styles.linkTitle}>{section.title}</h4>
                 <ul className={styles.linkList}>
                   {section.items.map((item) => (
@@ -153,13 +142,11 @@ export function Footer() {
                     </li>
                   ))}
                 </ul>
-              </div>
-            </BlurFade>
+            </div>
           ))}
         </div>
         
         {/* 底部版权信息 */}
-        <BlurFade delay={0.5} inView>
           <div className={styles.bottomSection}>
             <p className={styles.copyright}>
               {footerConfig.site.copyright}
@@ -183,7 +170,6 @@ export function Footer() {
               </a>
             </div>
           </div>
-        </BlurFade>
       </div>
     </footer>
   );
