@@ -3,16 +3,18 @@
 import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PaginationProps } from './type';
-import {
-  Pagination as ShadcnPagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-} from '@/components/shadcn/ui/pagination';
+import { Button } from '@/components/shadcn/ui/button';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const styles = {
-  container: 'my-8',
+  container: 'my-8 flex justify-center gap-4',
+  button: `gap-2 font-sans cursor-pointer
+    text-purple-600 hover:text-purple-700 
+    dark:text-purple-400 dark:hover:text-purple-300 
+    border-purple-300/50 dark:border-purple-600/30 
+    hover:bg-purple-50/30 dark:hover:bg-purple-950/10 
+    transition-all duration-200`,
+  icon: 'w-4 h-4',
 };
 
 export function Pagination({ currentPage, totalPages, baseUrl }: Omit<PaginationProps, 'searchParams'>) {
@@ -45,26 +47,28 @@ export function Pagination({ currentPage, totalPages, baseUrl }: Omit<Pagination
   const showNext = currentPage < totalPages;
 
   return (
-    <ShadcnPagination className={styles.container}>
-      <PaginationContent>
-        {showPrevious && (
-          <PaginationItem>
-            <PaginationPrevious 
-              onClick={() => handlePageChange(currentPage - 1)}
-              className="cursor-pointer"
-            />
-          </PaginationItem>
-        )}
-        
-        {showNext && (
-          <PaginationItem>
-            <PaginationNext 
-              onClick={() => handlePageChange(currentPage + 1)}
-              className="cursor-pointer"
-            />
-          </PaginationItem>
-        )}
-      </PaginationContent>
-    </ShadcnPagination>
+    <nav className={styles.container}>
+      {showPrevious && (
+        <Button 
+          variant="ghost" 
+          className={styles.button}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          <ArrowLeft className={styles.icon} />
+          新鲜的博客
+        </Button>
+      )}
+      
+      {showNext && (
+        <Button 
+          variant="ghost" 
+          className={styles.button}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          老旧的博客
+          <ArrowRight className={styles.icon} />
+        </Button>
+      )}
+    </nav>
   );
 }

@@ -15,6 +15,7 @@ interface ProjectCardHomeProps {
   demoUrl?: string | null;
   createdAt: Date;
   index?: number; // 用于判断是否优先加载
+  className?: string; // 用于响应式隐藏
 }
 
 const styles = {
@@ -59,7 +60,8 @@ export function ProjectCardHome({
   githubUrl,
   demoUrl,
   createdAt,
-  index = 0
+  index = 0,
+  className = ''
 }: ProjectCardHomeProps) {
   const formattedDate = new Date(createdAt).toLocaleDateString('zh-CN', {
     year: 'numeric',
@@ -68,7 +70,7 @@ export function ProjectCardHome({
   });
 
   return (
-    <article className={styles.container}>
+    <article className={`${styles.container} ${className}`}>
       {/* 内容区域 */}
       <div className={styles.content}>
         <Link href={`/projects/${slug}`} className={styles.titleLink}>

@@ -11,6 +11,7 @@ interface BlogCardHomeProps {
   image?: string | null;
   createdAt: Date;
   index?: number; // 用于判断是否优先加载
+  className?: string; // 用于响应式隐藏
 }
 
 const styles = {
@@ -46,7 +47,8 @@ export function BlogCardHome({
   slug, 
   image, 
   createdAt,
-  index = 0
+  index = 0,
+  className = ''
 }: BlogCardHomeProps) {
   const formattedDate = new Date(createdAt).toLocaleDateString('zh-CN', {
     year: 'numeric',
@@ -55,7 +57,7 @@ export function BlogCardHome({
   });
 
   return (
-    <Link href={`/blog/${slug}`} className={styles.link}>
+    <Link href={`/blog/${slug}`} className={`${styles.link} ${className}`}>
       <article className={styles.container}>
         {/* 图片区域 */}
         <div className={styles.imageContainer}>

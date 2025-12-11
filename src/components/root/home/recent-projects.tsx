@@ -18,7 +18,7 @@ interface RecentProjectsProps {
 }
 
 const styles = {
-  // 响应式网格：手机1列，平板2列，电脑3列
+  // 响应式网格：手机1列，平板2列，电脑3列（始终显示1行）
   grid: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8',
   
   // 空状态
@@ -37,6 +37,8 @@ export function RecentProjects({ projects }: RecentProjectsProps) {
     );
   }
 
+  // 根据屏幕尺寸显示不同数量的卡片（始终1行）
+  // lg以上: 3个(1行×3列), sm-lg: 2个(1行×2列), sm以下: 1个(1行×1列)
   return (
     <div className={styles.grid}>
       {projects.map((project, index) => (
@@ -51,6 +53,8 @@ export function RecentProjects({ projects }: RecentProjectsProps) {
             demoUrl={project.demoUrl}
             createdAt={project.createdAt}
             index={index}
+            // 响应式隐藏：sm以下只显示前1个，sm-lg显示前2个，lg以上显示全部3个
+            className={index >= 3 ? 'hidden' : index >= 2 ? 'hidden lg:block' : index >= 1 ? 'hidden sm:block' : ''}
           />
       ))}
     </div>
