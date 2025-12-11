@@ -98,11 +98,11 @@
 
 /* ===== 右侧图片区域 ===== */
 .imageArea {
-  @apply lg:flex-shrink-0;
+  @apply lg:flex-shrink-0 lg:max-w-xs xl:max-w-sm;
 }
 
 .coverImage {
-  @apply h-48 lg:h-full object-cover rounded-lg border;
+  @apply w-full h-48 lg:h-full max-h-64 object-cover rounded-lg border;
 }
 
 /* ===== 文章内容卡片 ===== */

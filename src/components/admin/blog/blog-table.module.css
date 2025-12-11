@@ -82,7 +82,7 @@
 
 /* ===== 表格 ===== */
 .tableContainer {
-  @apply border rounded-lg;
+  @apply border rounded-lg overflow-x-auto;
 }
 
 .tableHeader {
@@ -91,19 +91,19 @@
 
 /* ===== 表格内容 ===== */
 .titleCell {
-  @apply space-y-1;
+  @apply space-y-1 max-w-xs lg:max-w-md;
 }
 
 .titleText {
-  @apply font-medium;
+  @apply font-medium truncate;
 }
 
 .descriptionText {
-  @apply text-sm;
+  @apply text-sm line-clamp-2;
 }
 
 .slugText {
-  @apply text-xs;
+  @apply text-xs truncate;
 }
 
 .statusBadge {
