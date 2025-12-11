@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { GalleryCard } from './gallery-card';
 
 interface Gallery {
@@ -36,7 +35,6 @@ export function GalleryList({ galleries }: GalleryListProps) {
   const R2_PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '';
 
   return (
-    <BlurFade delay={0.3} inView>
       <div className={pageStyles.innerContainer} style={{ marginTop: '3rem' }}>
         {galleries.length === 0 ? (
           <div className={pageStyles.empty.container}>
@@ -52,8 +50,8 @@ export function GalleryList({ galleries }: GalleryListProps) {
                 : undefined;
               
               return (
-                <BlurFade key={gallery.id} delay={0.15 + index * 0.05} inView>
                   <GalleryCard
+                    key={gallery.id}
                     id={gallery.id}
                     title={gallery.title}
                     slug={gallery.slug}
@@ -63,12 +61,10 @@ export function GalleryList({ galleries }: GalleryListProps) {
                     createdAt={gallery.createdAt}
                     index={index}
                   />
-                </BlurFade>
               );
             })}
           </div>
         )}
       </div>
-    </BlurFade>
   );
 }

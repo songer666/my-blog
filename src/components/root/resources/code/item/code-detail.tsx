@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { Layers, ImageIcon, Calendar } from 'lucide-react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { BackToList } from '../../shared/back-to-list';
 import { CodeBrowser } from '@/components/admin/resources/code/browser/code-browser';
@@ -107,7 +106,6 @@ export function CodeDetail({ repository }: CodeDetailProps) {
         <BackToList href="/resources/code" label="返回代码库列表" />
 
         {/* Header Section */}
-        <BlurFade delay={0.1} inView>
           <div className={styles.header.wrapper}>
             <h1 className={styles.header.title}>{repository.title}</h1>
             
@@ -138,7 +136,6 @@ export function CodeDetail({ repository }: CodeDetailProps) {
               </div>
             )}
           </div>
-        </BlurFade>
 
         {/* BorderBeam 分隔线 */}
         <div className={styles.dividerContainer}>
@@ -155,17 +152,14 @@ export function CodeDetail({ repository }: CodeDetailProps) {
 
         {/* Code Browser Section */}
         {repository.items && repository.items.length > 0 && (
-          <BlurFade delay={0.2} inView>
             <div className={styles.section.wrapper}>
               <h2 className={styles.section.title}>代码文件</h2>
               <CodeBrowser files={repository.items} />
             </div>
-          </BlurFade>
         )}
 
         {/* Demo Images Section */}
         {demoImages.length > 0 && (
-          <BlurFade delay={0.3} inView>
             <div className={styles.section.wrapper}>
               <h2 className={styles.section.title}>演示图片</h2>
               <div className={styles.demoImages.container}>
@@ -179,7 +173,6 @@ export function CodeDetail({ repository }: CodeDetailProps) {
                 ))}
               </div>
             </div>
-          </BlurFade>
         )}
       </div>
 

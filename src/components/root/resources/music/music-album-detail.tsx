@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { BackToList } from '../shared/back-to-list';
 import { Calendar, Music, Disc } from 'lucide-react';
@@ -83,7 +82,6 @@ export function MusicAlbumDetail({ album }: MusicAlbumDetailProps) {
         <BackToList href="/resources/music" label="返回音乐列表" />
 
         {/* Header Section */}
-        <BlurFade delay={0.1} inView>
           <div className={styles.header.wrapper}>
             <AlbumCover 
               coverImage={album.coverImage} 
@@ -122,7 +120,6 @@ export function MusicAlbumDetail({ album }: MusicAlbumDetailProps) {
               )}
             </div>
           </div>
-        </BlurFade>
 
         {/* Track List */}
         <TrackList 

@@ -3,7 +3,6 @@
 import React from 'react';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { Calendar, ImageIcon } from 'lucide-react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { BackToList } from '../../shared/back-to-list';
 import { ImageMasonryGridWithR2 } from './image-masonry-grid-r2';
@@ -57,7 +56,6 @@ export function GalleryDetail({ gallery }: GalleryDetailProps) {
         <BackToList href="/resources/image" label="返回图库列表" />
 
         {/* Header Section */}
-        <BlurFade delay={0.1} inView>
           <div className={styles.header.wrapper}>
             <h1 className={styles.header.title}>{gallery.title}</h1>
             
@@ -86,7 +84,6 @@ export function GalleryDetail({ gallery }: GalleryDetailProps) {
               </div>
             )}
           </div>
-        </BlurFade>
 
         {/* BorderBeam 分隔线 */}
         <div className={styles.dividerContainer}>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProjectCard } from './project-card';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 
 interface Project {
   id: string;
@@ -40,9 +39,7 @@ export function ProjectList({ projects }: ProjectListProps) {
   return (
     <div className={styles.container}>
       {projects.map((project, index) => (
-        <BlurFade key={project.id} delay={0.15 + index * 0.1} inView>
-          <ProjectCard {...project} index={index} />
-        </BlurFade>
+          <ProjectCard key={project.id} {...project} index={index} />
       ))}
     </div>
   );

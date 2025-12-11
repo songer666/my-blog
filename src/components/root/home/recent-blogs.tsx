@@ -1,6 +1,5 @@
 import React from 'react';
 import { BlogCardHome } from './blog-card-home';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 
 interface Post {
   id: string;
@@ -39,16 +38,16 @@ export function RecentBlogs({ posts }: RecentBlogsProps) {
   return (
     <div className={styles.grid}>
       {posts.map((post, index) => (
-        <BlurFade key={post.id} delay={0.2 + index * 0.1} inView>
           <BlogCardHome
+            key={post.id}
             id={post.id}
             title={post.title}
             description={post.description}
             slug={post.slug}
             image={post.image}
             createdAt={post.createdAt}
+            index={index}
           />
-        </BlurFade>
       ))}
     </div>
   );

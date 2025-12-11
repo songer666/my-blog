@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProjectCardHome } from './project-card-home';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 
 interface Project {
   id: string;
@@ -41,8 +40,8 @@ export function RecentProjects({ projects }: RecentProjectsProps) {
   return (
     <div className={styles.grid}>
       {projects.map((project, index) => (
-        <BlurFade key={project.id} delay={0.2 + index * 0.1} inView>
           <ProjectCardHome
+            key={project.id}
             id={project.id}
             title={project.title}
             description={project.description}
@@ -51,8 +50,8 @@ export function RecentProjects({ projects }: RecentProjectsProps) {
             githubUrl={project.githubUrl}
             demoUrl={project.demoUrl}
             createdAt={project.createdAt}
+            index={index}
           />
-        </BlurFade>
       ))}
     </div>
   );

@@ -2,7 +2,6 @@ import React from 'react';
 import { getQueryClient, trpc } from '@/components/trpc/server';
 import { ProjectList } from '@/components/root/projects/card/project-list';
 import { generateProjectsListMetadata } from './metadata';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
@@ -44,7 +43,6 @@ export default async function ProjectsPage() {
   return (
     <div className={pageStyles.container}>
       {/* 页面标题和过滤器 */}
-      <BlurFade delay={0.1} inView>
         <div className={pageStyles.subContainer}>
           <div className={pageStyles.header.container}>
             <h1 className={pageStyles.header.title}>项目</h1>
@@ -53,14 +51,11 @@ export default async function ProjectsPage() {
             </p>
           </div>
         </div>
-      </BlurFade>
 
       {/* 项目列表 */}
-      <BlurFade delay={0.3} inView>
         <div className={pageStyles.innerContainer} style={{ marginTop: '3rem' }}>
           <ProjectList projects={projects} />
         </div>
-      </BlurFade>
 
     </div>
   );

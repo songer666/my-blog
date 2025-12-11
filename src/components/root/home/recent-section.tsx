@@ -1,9 +1,6 @@
-"use client";
-
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 
 interface RecentSectionProps {
   title: string;
@@ -38,7 +35,6 @@ export function RecentSection({ title, moreText, moreLink, children }: RecentSec
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
-        <BlurFade delay={0.1} inView>
           <div className={styles.header.container}>
             {/* 左侧标题 */}
             <h2 className={styles.header.title}>
@@ -51,7 +47,6 @@ export function RecentSection({ title, moreText, moreLink, children }: RecentSec
               <ArrowRight className={styles.header.arrow} />
             </Link>
           </div>
-        </BlurFade>
         
         {/* 内容区域 */}
         <div className={styles.content}>

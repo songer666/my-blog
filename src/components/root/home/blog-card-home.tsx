@@ -10,6 +10,7 @@ interface BlogCardHomeProps {
   slug: string;
   image?: string | null;
   createdAt: Date;
+  index?: number; // 用于判断是否优先加载
 }
 
 const styles = {
@@ -44,7 +45,8 @@ export function BlogCardHome({
   description, 
   slug, 
   image, 
-  createdAt 
+  createdAt,
+  index = 0
 }: BlogCardHomeProps) {
   const formattedDate = new Date(createdAt).toLocaleDateString('zh-CN', {
     year: 'numeric',
@@ -64,7 +66,7 @@ export function BlogCardHome({
               fill
               className={styles.image}
               sizes="(max-width: 640px) 100vw, 33vw"
-              priority
+              priority={index < 2} // 只有前2张图片优先加载
             />
           ) : (
             <div className={styles.imagePlaceholder}>

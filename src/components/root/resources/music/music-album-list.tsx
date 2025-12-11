@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { MusicCard } from './music-card';
 import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
@@ -87,7 +86,6 @@ export function MusicAlbumList({ albums }: MusicAlbumListProps) {
   }, [albums]);
 
   return (
-    <BlurFade delay={0.3} inView>
       <div className={pageStyles.innerContainer} style={{ marginTop: '3rem' }}>
         {albums.length === 0 ? (
           <div className={pageStyles.empty.container}>
@@ -101,8 +99,8 @@ export function MusicAlbumList({ albums }: MusicAlbumListProps) {
               const coverUrl = album.coverImage || (loading ? undefined : coverUrls[album.id]);
               
               return (
-                <BlurFade key={album.id} delay={0.15 + index * 0.05} inView>
                   <MusicCard
+                    key={album.id}
                     id={album.id}
                     title={album.title}
                     slug={album.slug}
@@ -114,12 +112,10 @@ export function MusicAlbumList({ albums }: MusicAlbumListProps) {
                     createdAt={album.createdAt}
                     index={index}
                   />
-                </BlurFade>
               );
             })}
           </div>
         )}
       </div>
-    </BlurFade>
   );
 }

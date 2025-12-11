@@ -7,7 +7,6 @@ import { SkillsSection } from '@/components/root/about/skills-section';
 import { EducationSection } from '@/components/root/about/education-section';
 import { FriendsSection } from '@/components/root/about/friends-section';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { generateAboutMetadata } from './metadata';
 import homeConfig from '@/../public/json/home.json';
 
@@ -78,13 +77,11 @@ export default async function AboutRootPage() {
           {/* 左侧（桌面端为右侧）：个人简介 */}
           <div className={pageStyles.leftColumn}>
             <div className={pageStyles.leftColumnInner}>
-              <BlurFade delay={0.1} inView>
                 <BioSection 
                   profile={profile} 
                   serializedBio={serializedBio}
                   socialLinks={socialLinks}
                 />
-              </BlurFade>
             </div>
           </div>
 
@@ -92,16 +89,14 @@ export default async function AboutRootPage() {
           <div className={pageStyles.rightColumn}>
             {/* 技能 - 放在最前面显示 */}
             {profile.skillCategories && profile.skillCategories.length > 0 && (
-              <BlurFade delay={0.2} inView>
                 <div className={pageStyles.section}>
                   <SkillsSection skillCategories={profile.skillCategories} />
                 </div>
-              </BlurFade>
             )}
 
             {/* 教育背景 */}
             {profile.education && profile.education.length > 0 && (
-              <BlurFade delay={0.3} inView>
+              <>
                 <div className={`${pageStyles.dividerContainer} mb-16`}>
                   <div className={pageStyles.divider} />
                   <BorderBeam 
@@ -116,12 +111,12 @@ export default async function AboutRootPage() {
                 <div className={pageStyles.section}>
                   <EducationSection education={profile.education} />
                 </div>
-              </BlurFade>
+              </>
             )}
 
             {/* 友链 */}
             {profile.friends && profile.friends.length > 0 && (
-              <BlurFade delay={0.4} inView>
+              <>
                 <div className={`${pageStyles.dividerContainer} mb-16`}>
                   <div className={pageStyles.divider} />
                   <BorderBeam 
@@ -136,11 +131,10 @@ export default async function AboutRootPage() {
                 <div className={pageStyles.section}>
                   <FriendsSection friends={profile.friends} />
                 </div>
-              </BlurFade>
+              </>
             )}
 
             {/* 联系表单 - 放在最后面 */}
-            <BlurFade delay={0.5} inView>
               <div className={`${pageStyles.dividerContainer} mb-16`}>
                 <div className={pageStyles.divider} />
                 <BorderBeam 
@@ -160,7 +154,6 @@ export default async function AboutRootPage() {
                 </div>
                 <ContactForm />
               </div>
-            </BlurFade>
           </div>
         </div>
       </div>

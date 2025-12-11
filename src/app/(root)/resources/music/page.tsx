@@ -1,7 +1,6 @@
 import React from 'react';
 import { getQueryClient, trpc } from '@/components/trpc/server';
 import { MusicAlbumList } from '@/components/root/resources/music/music-album-list';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { generateMusicListMetadata } from './metadata';
 
@@ -48,7 +47,6 @@ export default async function MusicResourcesPage() {
   return (
     <div className={pageStyles.container}>
       {/* Header */}
-      <BlurFade delay={0.1} inView>
         <div className={pageStyles.subContainer}>
           <div className={pageStyles.header.container}>
             <h1 className={pageStyles.header.title}>曲库</h1>
@@ -57,7 +55,6 @@ export default async function MusicResourcesPage() {
             </p>
           </div>
         </div>
-      </BlurFade>
 
       {/* BorderBeam 分隔线 */}
       <div className={pageStyles.dividerContainer}>

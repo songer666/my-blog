@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { ImageIcon, Loader2 } from 'lucide-react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { Button } from '@/components/shadcn/ui/button';
 import { ImageLightbox } from '../../code/item/image-lightbox';
 import { useR2UrlWithRefresh } from '@/components/mdx/context/r2-url-context';
@@ -121,7 +120,6 @@ export function ImageMasonryGridWithR2({ images, galleryTitle }: ImageMasonryGri
   return (
     <>
       {/* Masonry Image Grid */}
-      <BlurFade delay={0.2} inView>
         <div className={styles.masonry}>
           {displayedImages.map((item) => (
             <ImageCard 
@@ -131,7 +129,6 @@ export function ImageMasonryGridWithR2({ images, galleryTitle }: ImageMasonryGri
             />
           ))}
         </div>
-      </BlurFade>
 
       {/* 加载更多按钮 */}
       {hasMore && (

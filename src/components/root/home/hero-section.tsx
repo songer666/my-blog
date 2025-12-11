@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
+import React, { useState, useRef, useCallback } from 'react';
 import { TypingAnimation } from '@/components/shadcn/ui/typing-animation';
 import { SocialLinks } from './social-links';
 import homeConfig from '@/../public/json/home.json';
@@ -72,14 +71,18 @@ export function HeroSection() {
   const [isHovering, setIsHovering] = useState(false);
   const catRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  // 使用 useCallback 缓存事件处理函数，避免每次渲染创建新函数
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!catRef.current) return;
     const rect = catRef.current.getBoundingClientRect();
     setMousePosition({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     });
-  };
+  }, []);
+
+  const handleMouseEnter = useCallback(() => setIsHovering(true), []);
+  const handleMouseLeave = useCallback(() => setIsHovering(false), []);
 
   return (
     <section className={styles.container}>
@@ -90,7 +93,6 @@ export function HeroSection() {
       <div className={styles.wrapper}>
         <div className={styles.grid}>
           {/* 左侧文字区域 */}
-          <BlurFade delay={0.2} inView>
             <div className={styles.textArea.container}>
               <p className={styles.textArea.greeting}>
                 {homeConfig.hero.greeting}
@@ -134,10 +136,8 @@ export function HeroSection() {
                 ))}
               </div>
             </div>
-          </BlurFade>
           
           {/* 右侧猫咪区域 */}
-          <BlurFade delay={0.4} inView>
             <div className={styles.catArea.container}>
               <div className={styles.catArea.wrapper}>
                 {/* 发光效果 */}
@@ -150,8 +150,8 @@ export function HeroSection() {
                   role="img"
                   aria-label="气质猫咪"
                   onMouseMove={handleMouseMove}
-                  onMouseEnter={() => setIsHovering(true)}
-                  onMouseLeave={() => setIsHovering(false)}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {/* 鼠标光团 */}
                   <div
@@ -166,7 +166,6 @@ export function HeroSection() {
                 </div>
               </div>
             </div>
-          </BlurFade>
         </div>
       </div>
     </section>

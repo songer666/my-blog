@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { BlurFade } from '@/components/shadcn/ui/blur-fade';
 import { Button } from '@/components/shadcn/ui/button';
 import { Disc, Play, Pause } from 'lucide-react';
 import { useMusicPlayerStore } from '@/store/music/store';
@@ -155,7 +154,6 @@ function TrackItem({
 export function TrackList({ tracks, albumTitle, albumSlug, coverImage, coverKey }: TrackListProps) {
 
   return (
-    <BlurFade delay={0.2} inView>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>
@@ -183,6 +181,5 @@ export function TrackList({ tracks, albumTitle, albumSlug, coverImage, coverKey 
           )}
         </div>
       </div>
-    </BlurFade>
   );
 }
