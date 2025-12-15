@@ -1,5 +1,6 @@
 import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/neon-serverless';
+import { drizzle } from 'drizzle-orm/node-postgres';
+// import { drizzle } from 'drizzle-orm/neon-serverless';
 import * as schema from "@/db/schema";
 
 export const db = drizzle(process.env.DATABASE_URL!, { schema });

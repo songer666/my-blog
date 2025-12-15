@@ -54,7 +54,10 @@ export const updateImageGallerySchema = z.object({
   createdAt: z.date().optional(),
 });
 
-export const imageGalleryListSchema = z.array(imageGallerySchema);
+// 图库列表项 Schema（不包含 items，用于列表页面）
+export const imageGalleryListItemSchema = imageGallerySchema.omit({ items: true });
+
+export const imageGalleryListSchema = z.array(imageGalleryListItemSchema);
 
 // 添加图片到图库
 export const addImageToGallerySchema = z.object({
@@ -140,7 +143,10 @@ export const updateMusicAlbumSchema = z.object({
   createdAt: z.date().optional(),
 });
 
-export const musicAlbumListSchema = z.array(musicAlbumSchema);
+// 曲库列表项 Schema（不包含 items，用于列表页面）
+export const musicAlbumListItemSchema = musicAlbumSchema.omit({ items: true });
+
+export const musicAlbumListSchema = z.array(musicAlbumListItemSchema);
 
 // 添加音乐到专辑
 export const addMusicToAlbumSchema = z.object({
@@ -320,7 +326,10 @@ export const updateCodeRepositorySchema = z.object({
   createdAt: z.date().optional(),
 });
 
-export const codeRepositoryListSchema = z.array(codeRepositorySchema);
+// 代码库列表项 Schema（不包含 items 和 demoImages，用于列表页面）
+export const codeRepositoryListItemSchema = codeRepositorySchema.omit({ items: true, demoImages: true });
+
+export const codeRepositoryListSchema = z.array(codeRepositoryListItemSchema);
 
 // 向代码库添加代码文件
 export const addCodeToRepositorySchema = z.object({

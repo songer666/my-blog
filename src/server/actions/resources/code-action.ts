@@ -13,6 +13,22 @@ import JSZip from "jszip";
 export async function getAllRepositories() {
   const repositories = await db.query.codeRepository.findMany({
     orderBy: (repo, { desc }) => [desc(repo.createdAt)],
+    columns: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      keywords: true,
+      relatedPostId: true,
+      itemCount: true,
+      totalSize: true,
+      isPublic: true,
+      sort: true,
+      createdAt: true,
+      updatedAt: true,
+      items: false,
+      demoImages: false,
+    },
   });
   return repositories;
 }
@@ -24,6 +40,22 @@ export async function getAllPublicRepositories() {
   const repositories = await db.query.codeRepository.findMany({
     where: eq(codeRepository.isPublic, true),
     orderBy: (repo, { desc }) => [desc(repo.createdAt)],
+    columns: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      keywords: true,
+      relatedPostId: true,
+      itemCount: true,
+      totalSize: true,
+      isPublic: true,
+      sort: true,
+      createdAt: true,
+      updatedAt: true,
+      items: false,
+      demoImages: false,
+    },
   });
   return repositories;
 }

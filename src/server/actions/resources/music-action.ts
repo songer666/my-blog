@@ -11,6 +11,22 @@ import type { AlbumMusicItem } from "@/server/types/resources-type";
 export async function getAllAlbums() {
   const albums = await db.query.musicAlbum.findMany({
     orderBy: (album, { desc }) => [desc(album.createdAt)],
+    columns: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      coverImage: true,
+      keywords: true,
+      tags: true,
+      itemCount: true,
+      totalSize: true,
+      isPublic: true,
+      sort: true,
+      createdAt: true,
+      updatedAt: true,
+      items: false,
+    },
   });
   return albums;
 }
@@ -22,6 +38,22 @@ export async function getAllPublicAlbums() {
   const albums = await db.query.musicAlbum.findMany({
     where: eq(musicAlbum.isPublic, true),
     orderBy: (album, { desc }) => [desc(album.createdAt)],
+    columns: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      coverImage: true,
+      keywords: true,
+      tags: true,
+      itemCount: true,
+      totalSize: true,
+      isPublic: true,
+      sort: true,
+      createdAt: true,
+      updatedAt: true,
+      items: false,
+    },
   });
   return albums;
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Badge } from '@/components/shadcn/ui/badge';
-import { Calendar, Code2, FileCode, Layers } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Calendar } from 'lucide-react';
 
 interface CodeCardProps {
   id: string;
@@ -49,7 +48,6 @@ export function CodeCard({
   slug,
   description,
   keywords,
-  itemCount,
   createdAt,
 }: CodeCardProps) {
   return (

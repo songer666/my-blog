@@ -8,8 +8,8 @@ import { generateBlogDetailMetadata } from './metadata';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shadcn/ui/tabs';
 import { CodeBrowser } from '@/components/admin/resources/code/browser/code-browser';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
-import { R2UrlProvider } from '@/components/mdx/context/r2-url-context';
 import { BlogStats } from '@/components/root/blog/item/blog-stats';
+import { Metadata } from 'next';
 
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
@@ -46,7 +46,7 @@ interface BlogPostPageProps {
 export async function generateMetadata(
   { params }: BlogPostPageProps,
   parent: any
-) {
+): Promise<Metadata> {
   const { slug } = await params;
   return await generateBlogDetailMetadata(slug, parent);
 }

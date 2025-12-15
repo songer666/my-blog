@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/shadcn/ui/dialog";
-import type { CodeRepository } from "@/server/types/resources-type";
+import type { CodeRepositoryListItem } from "@/server/types/resources-type";
 import { useCodeRepositoryAPI } from "@/client/resources/code-api";
 import { RepositoryForm } from "../form/repository-form";
 
 interface EditRepositoryDialogProps {
-  repository: CodeRepository;
+  repository: CodeRepositoryListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }

@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { project } from "@/db/schema/project";
 import { eq, and, desc, count } from "drizzle-orm";
-import { ProjectCreateType, ProjectUpdateType, ProjectType } from "@/server/types/project-type";
+import { ProjectCreateType, ProjectUpdateType, ProjectType, ProjectListItemType } from "@/server/types/project-type";
 
 /**
  * 获取所有项目
@@ -264,12 +264,27 @@ export async function linkCodeRepository(projectId: string, codeRepositoryId: st
 /**
  * 获取所有公开项目（不分页）
  */
-export async function getAllPublicProjects(): Promise<ProjectType[]> {
+export async function getAllPublicProjects(): Promise<ProjectListItemType[]> {
   try {
-    // 获取所有可见项目
+    // 获取所有可见项目，不查询 content 字段以减少体积
     const projects = await db.query.project.findMany({
       where: eq(project.visible, true),
       orderBy: [desc(project.createdAt)],
+      columns: {
+        id: true,
+        title: true,
+        description: true,
+        slug: true,
+        content: false,
+        image: true,
+        githubUrl: true,
+        demoUrl: true,
+        visible: true,
+        keyWords: true,
+        codeRepositoryId: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
 
     return projects;

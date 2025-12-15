@@ -3,6 +3,7 @@ import { getQueryClient, trpc } from '@/components/trpc/server';
 import { CodeCard } from '@/components/root/resources/code/code-card';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { generateCodeListMetadata } from './metadata';
+import { Metadata } from "next";
 
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
@@ -11,7 +12,7 @@ export const dynamic = 'force-static';
 export async function generateMetadata(
   props: any,
   parent: any
-) {
+): Promise<Metadata> {
   return await generateCodeListMetadata(parent);
 }
 
@@ -41,7 +42,7 @@ const pageStyles = {
 
 export default async function CodeResourcesPage() {
   const queryClient = getQueryClient();
-  const repositories = await queryClient.fetchQuery(
+  const repositories =  await queryClient.fetchQuery(
     trpc.codeRepository.allPublic.queryOptions()
   );
 

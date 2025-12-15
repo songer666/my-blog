@@ -20,8 +20,19 @@ export type PostType = z.infer<typeof postSchema>;
 export type PostUpdateType = z.infer<typeof postUpdateSchema>;
 export type PostCreateType = z.infer<typeof postCreateSchema>;
 
-// Post with Tags Type (用于列表显示)
+// Post with Tags Type (用于详情页显示，包含 content)
 export type PostWithTagsType = PostType & {
+  tags?: TagType[];
+  relatedCodeRepository?: {
+    id: string;
+    title: string;
+    slug: string;
+    description: string | null;
+  };
+};
+
+// Post List Item Type (用于列表页显示，不包含 content)
+export type PostListItemType = Omit<PostType, 'content'> & {
   tags?: TagType[];
   relatedCodeRepository?: {
     id: string;

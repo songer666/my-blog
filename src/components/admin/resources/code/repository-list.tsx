@@ -1,6 +1,6 @@
 "use client";
 
-import type { CodeRepository } from "@/server/types/resources-type";
+import type { CodeRepositoryListItem } from "@/server/types/resources-type";
 import { RepositoryCard } from "./components/repository-card";
 
 const styles = {
@@ -9,7 +9,7 @@ const styles = {
 };
 
 interface RepositoryListProps {
-  repositories: CodeRepository[];
+  repositories: CodeRepositoryListItem[];
 }
 
 export function RepositoryList({ repositories }: RepositoryListProps) {

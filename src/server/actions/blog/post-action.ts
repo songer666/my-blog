@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { post, postTags, tag } from "@/db/schema/blog";
 import { eq, and, desc, or, like, sql, count, inArray } from "drizzle-orm";
-import { PostCreateType, PostUpdateType, PostType, PostWithTagsType } from "@/server/types/blog-type";
+import { PostCreateType, PostUpdateType, PostType, PostWithTagsType, PostListItemType } from "@/server/types/blog-type";
 
 /**
  * 获取所有文章（包含标签）
@@ -280,7 +280,7 @@ export async function getPublicPosts(params: {
   keyword?: string;
   tagName?: string;
 }): Promise<{
-  posts: PostWithTagsType[];
+  posts: PostListItemType[];
   total: number;
   page: number;
   limit: number;
@@ -329,9 +329,22 @@ export async function getPublicPosts(params: {
       whereConditions.push(inArray(post.id, postIds));
     }
 
-    // 获取文章列表
+    // 获取文章列表（不包含 content 字段，减少查询流量）
     const posts = await db.query.post.findMany({
       where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
+      columns: {
+        id: true,
+        title: true,
+        description: true,
+        slug: true,
+        image: true,
+        visible: true,
+        keyWords: true,
+        relatedCodeRepositoryId: true,
+        createdAt: true,
+        updatedAt: true,
+        content: false, // 列表页面不需要 content
+      },
       with: {
         postTags: {
           with: {
@@ -355,7 +368,7 @@ export async function getPublicPosts(params: {
     const totalPages = Math.ceil(total / limit);
 
     // 转换数据结构
-    const postsWithTags = posts.map(p => ({
+    const postsWithTags: PostListItemType[] = posts.map(p => ({
       ...p,
       tags: p.postTags?.map(pt => pt.tag).filter(Boolean) || [],
       relatedCodeRepository: p.relatedCodeRepository || undefined,

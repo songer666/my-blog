@@ -13,7 +13,7 @@ import {
 } from "@/components/shadcn/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 import { useMusicAlbumAPI } from "@/client/resources/music-api";
-import type { MusicAlbum } from "@/server/types/resources-type";
+import type { MusicAlbumList } from "@/server/types/resources-type";
 
 const styles = {
   errorText: `text-destructive`.trim(),
@@ -22,7 +22,7 @@ const styles = {
 };
 
 interface DeleteAlbumDialogProps {
-  album: MusicAlbum;
+  album: MusicAlbumList[number];
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }

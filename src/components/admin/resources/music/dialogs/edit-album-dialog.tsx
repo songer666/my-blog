@@ -9,11 +9,11 @@ import {
   DialogTitle,
 } from "@/components/shadcn/ui/dialog";
 import { useMusicAlbumAPI } from "@/client/resources/music-api";
-import type { MusicAlbum } from "@/server/types/resources-type";
+import type { MusicAlbumList } from "@/server/types/resources-type";
 import { AlbumForm } from "../form/album-form";
 
 interface EditAlbumDialogProps {
-  album: MusicAlbum;
+  album: MusicAlbumList[number];
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }

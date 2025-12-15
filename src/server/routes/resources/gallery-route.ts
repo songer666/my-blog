@@ -43,7 +43,7 @@ export const galleryRoute = createTRPCRouter({
 
   // 获取所有公开的图库（前台用）
   allPublic: baseProcedure
-    .output(imageGalleryListSchema)
+    .output(z.array(imageGallerySchema))
     .query(async () => {
       try {
         const galleries = await getAllPublicGalleries();

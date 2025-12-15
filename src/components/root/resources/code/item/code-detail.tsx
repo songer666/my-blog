@@ -9,7 +9,6 @@ import { CodeBrowser } from '@/components/admin/resources/code/browser/code-brow
 import { ImageLightbox } from './image-lightbox';
 import { useR2UrlWithRefresh } from '@/components/mdx/context/r2-url-context';
 import type { CodeRepository } from '@/server/types/resources-type';
-
 interface CodeDetailProps {
   repository: CodeRepository;
 }
@@ -93,7 +92,7 @@ function DemoImageCard({
   );
 }
 
-export function CodeDetail({ repository }: CodeDetailProps) {
+export function CodeDetail({repository}: CodeDetailProps) {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   // 准备演示图片数据
@@ -108,7 +107,7 @@ export function CodeDetail({ repository }: CodeDetailProps) {
         {/* Header Section */}
           <div className={styles.header.wrapper}>
             <h1 className={styles.header.title}>{repository.title}</h1>
-            
+
             <div className={styles.header.metaRow}>
               <div className={styles.header.metaItem}>
                 <Layers className="w-4 h-4" />
@@ -140,7 +139,7 @@ export function CodeDetail({ repository }: CodeDetailProps) {
         {/* BorderBeam 分隔线 */}
         <div className={styles.dividerContainer}>
           <div className={styles.divider} />
-          <BorderBeam 
+          <BorderBeam
             size={200}
             duration={8}
             delay={0}

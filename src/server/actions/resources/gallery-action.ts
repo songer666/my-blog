@@ -11,6 +11,21 @@ import type { GalleryImageItem } from "@/server/types/resources-type";
 export async function getAllGalleries() {
   const galleries = await db.query.imageGallery.findMany({
     orderBy: (gallery, { desc }) => [desc(gallery.createdAt)],
+    columns: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      keywords: true,
+      tags: true,
+      itemCount: true,
+      totalSize: true,
+      isPublic: true,
+      sort: true,
+      createdAt: true,
+      updatedAt: true,
+      items: false,
+    },
   });
   return galleries;
 }

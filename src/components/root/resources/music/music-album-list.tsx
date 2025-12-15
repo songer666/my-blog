@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MusicCard } from './music-card';
-import { getBatchSignedUrlsAction } from '@/server/actions/resources/r2-action';
 
 interface Album {
   id: string;
@@ -14,7 +13,7 @@ interface Album {
   keywords: string[] | null;
   tags: string[] | null;
   createdAt: Date;
-  items: Array<{
+  items?: Array<{
     id: string;
     coverKey?: string;
   }>;
@@ -35,56 +34,6 @@ const pageStyles = {
 };
 
 export function MusicAlbumList({ albums }: MusicAlbumListProps) {
-  const [coverUrls, setCoverUrls] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchSignedUrls() {
-      // 收集需要签名的R2 keys
-      const r2Keys: string[] = [];
-      const keyToAlbumMap: Record<string, string> = {};
-
-      albums.forEach((album) => {
-        // 如果没有base64封面，尝试从歌曲中找封面
-        if (!album.coverImage && album.items && album.items.length > 0) {
-          const itemWithCover = album.items.find(item => item.coverKey);
-          if (itemWithCover && itemWithCover.coverKey) {
-            r2Keys.push(itemWithCover.coverKey);
-            keyToAlbumMap[itemWithCover.coverKey] = album.id;
-          }
-        }
-      });
-
-      if (r2Keys.length === 0) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const result = await getBatchSignedUrlsAction(r2Keys);
-        
-        if (result.success && result.signedUrls) {
-          const signedUrls = result.signedUrls as Record<string, string>;
-          // 将R2 key映射转换为album id映射
-          const urlsByAlbumId: Record<string, string> = {};
-          Object.entries(signedUrls).forEach(([key, url]) => {
-            const albumId = keyToAlbumMap[key];
-            if (albumId) {
-              urlsByAlbumId[albumId] = url;
-            }
-          });
-          setCoverUrls(urlsByAlbumId);
-        }
-      } catch (error) {
-        // 静默处理错误
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchSignedUrls();
-  }, [albums]);
-
   return (
       <div className={pageStyles.innerContainer} style={{ marginTop: '3rem' }}>
         {albums.length === 0 ? (
@@ -94,26 +43,21 @@ export function MusicAlbumList({ albums }: MusicAlbumListProps) {
           </div>
         ) : (
           <div className={pageStyles.grid}>
-            {albums.map((album, index) => {
-              // 优先使用base64封面，否则使用签名URL
-              const coverUrl = album.coverImage || (loading ? undefined : coverUrls[album.id]);
-              
-              return (
-                  <MusicCard
-                    key={album.id}
-                    id={album.id}
-                    title={album.title}
-                    slug={album.slug}
-                    description={album.description}
-                    itemCount={album.itemCount}
-                    coverUrl={coverUrl}
-                    keywords={album.keywords}
-                    tags={album.tags}
-                    createdAt={album.createdAt}
-                    index={index}
-                  />
-              );
-            })}
+            {albums.map((album, index) => (
+              <MusicCard
+                key={album.id}
+                id={album.id}
+                title={album.title}
+                slug={album.slug}
+                description={album.description}
+                itemCount={album.itemCount}
+                coverUrl={album.coverImage}
+                keywords={album.keywords}
+                tags={album.tags}
+                createdAt={album.createdAt}
+                index={index}
+              />
+            ))}
           </div>
         )}
       </div>

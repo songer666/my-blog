@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { Music2, HardDrive, Eye, Pencil, Trash2, ImageOff } from "lucide-react";
-import type { MusicAlbum } from "@/server/types/resources-type";
+import type { MusicAlbumList } from "@/server/types/resources-type";
 import { EditAlbumDialog } from "../dialogs/edit-album-dialog";
 import { DeleteAlbumDialog } from "../dialogs/delete-album-dialog";
 
@@ -38,7 +38,7 @@ const styles = {
 };
 
 interface AlbumCardProps {
-  album: MusicAlbum;
+  album: MusicAlbumList[number];
 }
 
 export function AlbumCard({ album }: AlbumCardProps) {
@@ -63,9 +63,6 @@ export function AlbumCard({ album }: AlbumCardProps) {
     }
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
-
-  // 计算专辑总时长
-  const totalDuration = album.items?.reduce((sum, item) => sum + (item.duration || 0), 0) || 0;
 
   return (
     <>
@@ -136,12 +133,6 @@ export function AlbumCard({ album }: AlbumCardProps) {
               </span>
             </div>
           </div>
-
-          {totalDuration > 0 && (
-            <div className={styles.durationInfo}>
-              总时长: {formatDuration(Math.floor(totalDuration))}
-            </div>
-          )}
 
           {album.keywords && album.keywords.length > 0 && (
             <div className={styles.keywordsContainer}>

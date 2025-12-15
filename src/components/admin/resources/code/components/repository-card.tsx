@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { Code2, HardDrive, Eye, Pencil, Trash2 } from "lucide-react";
-import type { CodeRepository } from "@/server/types/resources-type";
+import type { CodeRepositoryListItem } from "@/server/types/resources-type";
 import { EditRepositoryDialog } from "../dialogs/edit-repository-dialog";
 import { DeleteRepositoryDialog } from "../dialogs/delete-repository-dialog";
 
@@ -30,7 +30,7 @@ const styles = {
 };
 
 interface RepositoryCardProps {
-  repository: CodeRepository;
+  repository: CodeRepositoryListItem;
 }
 
 export function RepositoryCard({ repository }: RepositoryCardProps) {

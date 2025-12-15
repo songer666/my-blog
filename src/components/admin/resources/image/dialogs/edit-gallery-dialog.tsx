@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ImageGallery } from "@/server/types/resources-type";
+import { z } from "zod";
+import { imageGalleryListItemSchema } from "@/server/schema/resources-schema";
 import {
   Dialog,
   DialogContent,
@@ -14,8 +15,10 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { GalleryForm } from "../form/gallery-form";
 
+type ImageGalleryListItem = z.infer<typeof imageGalleryListItemSchema>;
+
 interface EditGalleryDialogProps {
-  gallery: ImageGallery;
+  gallery: ImageGalleryListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }

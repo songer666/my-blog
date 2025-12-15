@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/shadcn/ui/dialog";
 import { Button } from "@/components/shadcn/ui/button";
 import { AlertCircle } from "lucide-react";
-import type { CodeRepository } from "@/server/types/resources-type";
+import type { CodeRepositoryListItem } from "@/server/types/resources-type";
 import { useCodeRepositoryAPI } from "@/client/resources/code-api";
 
 const styles = {
@@ -15,7 +15,7 @@ const styles = {
 };
 
 interface DeleteRepositoryDialogProps {
-  repository: CodeRepository;
+  repository: CodeRepositoryListItem;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }

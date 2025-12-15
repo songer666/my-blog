@@ -13,3 +13,6 @@ export type ProjectCreateType = z.infer<typeof projectCreateSchema>;
 // Project List Type
 export type ProjectList = ProjectType[];
 
+// Project List Item Type (without content field for list queries)
+export type ProjectListItemType = Omit<ProjectType, 'content'>;
+

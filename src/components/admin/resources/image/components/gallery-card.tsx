@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ImageGallery } from "@/server/types/resources-type";
+import { z } from "zod";
+import { imageGalleryListItemSchema } from "@/server/schema/resources-schema";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
 import { Button } from "@/components/shadcn/ui/button";
 import { Badge } from "@/components/shadcn/ui/badge";
@@ -11,7 +12,6 @@ import { FolderOpen, Image as ImageIcon, HardDrive, Eye, Pencil, Trash2 } from "
 import { useTRPC } from "@/components/trpc/client";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { getSignedUrlAction } from "@/server/actions/resources/r2-action";
 import { EditGalleryDialog } from "../dialogs/edit-gallery-dialog";
 import {
   AlertDialog,
@@ -52,8 +52,10 @@ const styles = {
   deleteButton: `bg-destructive text-destructive-foreground hover:bg-destructive/90`.trim(),
 };
 
+type ImageGalleryListItem = z.infer<typeof imageGalleryListItemSchema>;
+
 interface GalleryCardProps {
-  gallery: ImageGallery;
+  gallery: ImageGalleryListItem;
 }
 
 export function GalleryCard({ gallery }: GalleryCardProps) {
@@ -61,8 +63,6 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
   const trpc = useTRPC();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
-
   const formatSize = (bytes: number) => {
     if (bytes === 0) return '0 B';
     const k = 1024;
@@ -87,41 +87,14 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
     deleteMutation.mutate({ id: gallery.id });
   };
 
-  // 获取第一张图片的签名 URL
-  useEffect(() => {
-    const fetchCoverImage = async () => {
-      if (gallery.items && gallery.items.length > 0) {
-        const firstImage = gallery.items[0];
-        const result = await getSignedUrlAction(firstImage.r2Key);
-        if (result.success && result.signedUrl) {
-          setCoverImageUrl(result.signedUrl);
-        }
-      }
-    };
-    fetchCoverImage();
-  }, [gallery.items]);
-
   return (
     <>
       <Card className={styles.card}>
         {/* 封面图片 */}
         <div className={styles.coverContainer}>
-          {coverImageUrl ? (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={coverImageUrl}
-                alt={gallery.title}
-                className={styles.coverImage}
-              />
-              {/* 从下到上的渐变遮罩 */}
-              <div className={styles.coverGradient} />
-            </>
-          ) : (
-            <div className={styles.emptyCover}>
-              <FolderOpen className={styles.emptyIcon} />
-            </div>
-          )}
+          <div className={styles.emptyCover}>
+            <FolderOpen className={styles.emptyIcon} />
+          </div>
         </div>
         
         <CardHeader className={styles.headerContainer}>

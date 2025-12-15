@@ -3,6 +3,7 @@ import { getQueryClient, trpc } from '@/components/trpc/server';
 import { GalleryList } from '@/components/root/resources/image/gallery-list';
 import { BorderBeam } from '@/components/shadcn/ui/border-beam';
 import { generateGalleryListMetadata } from './metadata';
+import { Metadata } from "next";
 
 // 强制静态生成（SSG）
 export const dynamic = 'force-static';
@@ -11,7 +12,7 @@ export const dynamic = 'force-static';
 export async function generateMetadata(
   props: any,
   parent: any
-) {
+): Promise<Metadata> {
   return await generateGalleryListMetadata(parent);
 }
 
