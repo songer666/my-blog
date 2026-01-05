@@ -9,13 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/shadcn/ui/tooltip";
 import { cn } from '@/lib/utils';
-
-// X (Twitter) 图标
-const XIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
+import {TikTokOutlined} from "@ant-design/icons";
 
 // Bilibili 图标
 const BilibiliIcon = ({ className }: { className?: string }) => (
@@ -32,7 +26,7 @@ const BilibiliIcon = ({ className }: { className?: string }) => (
 // 图标映射
 const iconMap = {
   Github,
-  X: XIcon,
+  douyin: TikTokOutlined,
   Mail,
   Bilibili: BilibiliIcon,
 };
@@ -160,7 +154,7 @@ export function BioSection({ profile, serializedBio, socialLinks }: BioSectionPr
               case 'Github':
                 color = 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400';
                 break;
-              case 'X':
+              case 'douyin':
                 color = 'text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300';
                 break;
               case 'Bilibili':

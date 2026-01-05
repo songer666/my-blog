@@ -3,7 +3,7 @@
     "greeting": "<你好，我是/>",
     "name": "气质猫咪",
     "titles": [
-      "TS全栈个人练习生",
+      "TS开发个人练习生",
       "会唱、跳、rap、写代码"
     ],
     "description": "热爱编程,专注于 Web 开发和用户体验设计。在这里分享技术文章、项目经验和生活感悟。欢迎一起探索代码的优雅与美学。",
@@ -28,9 +28,9 @@
       "color": "text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
     },
     {
-      "name": "X",
-      "href": "https://x.com/songer666666",
-      "icon": "X",
+      "name": "抖音",
+      "href": "https://www.douyin.com/user/MS4wLjABAAAAkOznWyvJAGgbXiJDZAzuvOty1JdpPnosrmkL4idFlIg",
+      "icon": "douyin",
       "color": "text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300"
     },
     {
